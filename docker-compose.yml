@@ -65,19 +65,19 @@ services:
       - video-network
 
   video-ui:
-    image: nginx:stable-alpine
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: video-ui
     restart: unless-stopped
     volumes:
-      - ./nginx.docker.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html:ro
       - video_data:/data/videos:ro
     ports:
       - "80:80"
     depends_on:
       - video-api
     healthcheck:
-      test: ["CMD", "nginx", "-t"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
       interval: 30s
       timeout: 10s
       retries: 3

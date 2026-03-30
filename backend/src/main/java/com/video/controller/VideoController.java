@@ -294,4 +294,19 @@ public class VideoController {
             return ResponseEntity.status(500).body(error);
         }
     }
+    
+    @PostMapping("/{uuid}/rescrap")
+    public ResponseEntity<?> rescrapVideo(@PathVariable String uuid) {
+        try {
+            videoService.rescrapVideo(uuid);
+            Map<String, String> result = new HashMap<>();
+            result.put("status", "rescrap initiated");
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Rescrap failed: {}", uuid, e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
 }

@@ -89,4 +89,49 @@ CREATE TABLE IF NOT EXISTS import_tasks (
 INSERT INTO system_config (config_key, config_value, description) VALUES 
 ('alist.storage_password', '', 'AList 存储密码'),
 ('tmdb.api_key', '', 'TMDB API Key'),
-('tmdb.language', 'zh-CN', 'TMDB API Language');
+('tmdb.language', 'zh-CN', 'TMDB API Language'),
+('aliyundrive.refresh_token', '', '阿里云盘 Refresh Token'),
+('aliyundrive.root_folder_id', 'root', '阿里云盘根目录 ID'),
+('transcode_max_concurrent', '2', '最大并发转码数'),
+('transcode_quality', '23', '视频质量 CRF 值');
+
+-- Category table
+CREATE TABLE IF NOT EXISTS category (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL COMMENT '分类名称',
+    slug VARCHAR(100) NOT NULL UNIQUE COMMENT '分类别名',
+    description VARCHAR(500) COMMENT '分类描述',
+    parent_id BIGINT DEFAULT NULL COMMENT '父分类ID',
+    sort_order INT DEFAULT 0 COMMENT '排序',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_slug (slug),
+    INDEX idx_parent_id (parent_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- User table
+CREATE TABLE IF NOT EXISTS user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名',
+    password VARCHAR(255) NOT NULL COMMENT '密码',
+    nickname VARCHAR(100) COMMENT '昵称',
+    avatar VARCHAR(500) COMMENT '头像URL',
+    role VARCHAR(20) NOT NULL DEFAULT 'user' COMMENT '角色: admin, user',
+    status VARCHAR(20) NOT NULL DEFAULT 'active' COMMENT '状态: active, disabled',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_username (username),
+    INDEX idx_role (role)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insert default categories
+INSERT INTO category (name, slug, description, sort_order) VALUES
+('电影', 'movies', '电影分类', 1),
+('电视剧', 'tv', '电视剧分类', 2),
+('动漫', 'anime', '动漫分类', 3),
+('纪录片', 'documentary', '纪录片分类', 4),
+('综艺', 'variety', '综艺分类', 5);
+
+-- Insert default admin (password: admin123)
+INSERT INTO user (username, password, nickname, role) VALUES 
+('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '管理员', 'admin');

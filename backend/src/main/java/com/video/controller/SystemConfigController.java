@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/config")
+@RequestMapping("/api/admin/config")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class SystemConfigController {

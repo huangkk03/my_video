@@ -30,6 +30,7 @@ public class VideoService {
     private final VideoRepository videoRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
     private final TranscodeService transcodeService;
+    private final ScrapingAggregationService scrapingService;
     
     @Value("${video.base-url:http://localhost:8080}")
     private String baseUrl;
@@ -107,6 +108,38 @@ public class VideoService {
     
     public TranscodeTask getTranscodeTask(String uuid) {
         return transcodeTaskRepository.findByVideoUuid(uuid).orElse(null);
+    }
+    
+    public void rescrapVideo(String uuid) {
+        Video video = videoRepository.findByUuid(uuid).orElse(null);
+        if (video == null) {
+            throw new RuntimeException("Video not found: " + uuid);
+        }
+        
+        try {
+            ScrapingAggregationService.MetadataResult result = 
+                scrapingService.searchMetadata(video.getTitle()).get();
+            
+            if (result != null) {
+                if (result.getTitle() != null) video.setTitle(result.getTitle());
+                if (result.getOverview() != null) video.setOverview(result.getOverview());
+                if (result.getPosterUrl() != null) video.setPosterPath(result.getPosterUrl());
+                if (result.getRating() != null) video.setRating(result.getRating());
+                if (result.getReleaseDate() != null && result.getReleaseDate().length() >= 4) {
+                    try {
+                        video.setReleaseYear(Integer.parseInt(result.getReleaseDate().substring(0, 4)));
+                    } catch (Exception ignored) {}
+                }
+                video.setScrapingStatus("success");
+            } else {
+                video.setScrapingStatus("failed");
+            }
+        } catch (Exception e) {
+            log.error("Scraping failed for video: {}", uuid, e);
+            video.setScrapingStatus("failed");
+        }
+        
+        videoRepository.save(video);
     }
     
     public UploadResult processVideoFile(java.io.File videoFile, String title) {

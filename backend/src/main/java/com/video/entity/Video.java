@@ -54,6 +54,45 @@ public class Video {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    @Column(name = "category_id")
+    private Long categoryId;
+    
+    @Column(columnDefinition = "TEXT")
+    private String overview;
+    
+    @Column(name = "poster_path", length = 1000)
+    private String posterPath;
+    
+    @Column(name = "backdrop_path", length = 1000)
+    private String backdropPath;
+    
+    @Column(name = "tmdb_id")
+    private Long tmdbId;
+    
+    @Column(name = "imdb_id", length = 20)
+    private String imdbId;
+    
+    @Column(name = "douban_id", length = 20)
+    private String doubanId;
+    
+    @Column
+    private Double rating;
+    
+    @Column(name = "release_year")
+    private Integer releaseYear;
+    
+    @Column(length = 500)
+    private String genres;
+    
+    @Column(columnDefinition = "TEXT")
+    private String actors;
+    
+    @Column(name = "director", length = 200)
+    private String director;
+    
+    @Column(name = "scraping_status", length = 20)
+    private String scrapingStatus = "pending";
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
