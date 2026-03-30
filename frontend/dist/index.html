@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MKV 视频平台</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #F1F2F3; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: white; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        h1 { color: #00AEEC; font-size: 24px; }
+        .btn { background: #00AEEC; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; font-size: 14px; }
+        .btn:hover { opacity: 0.9; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer; }
+        .card:hover { transform: scale(1.02); }
+        .card-thumb { aspect-ratio: 16/9; background: #e5e7eb; display: flex; align-items: center; justify-content: center; position: relative; }
+        .card-thumb svg { width: 48px; height: 48px; color: #9ca3af; }
+        .card-thumb .play-icon { position: absolute; width: 40px; height: 40px; background: rgba(0,174,236,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .card-thumb .play-icon svg { width: 20px; height: 20px; color: white; }
+        .card-thumb .delete-btn { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: rgba(239,68,68,0.9); border: none; border-radius: 50%; color: white; font-size: 16px; cursor: pointer; display: none; }
+        .card:hover .delete-btn { display: flex; align-items: center; justify-content: center; }
+        .transcoding-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #00AEEC; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .transcoding-progress { height: 4px; background: #e5e7eb; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+        .transcoding-progress-bar { height: 100%; background: linear-gradient(90deg, #f59e0b, #00AEEC); transition: width 0.3s; width: 0%; }
+        .card-body { padding: 16px; }
+        .card-title { font-weight: 600; color: #1f2937; margin-bottom: 8px; }
+        .card-meta { font-size: 12px; color: #6b7280; display: flex; justify-content: space-between; }
+        .empty { text-align: center; padding: 60px 20px; }
+        .empty svg { width: 80px; height: 80px; color: #d1d5db; margin-bottom: 16px; }
+        .empty p { color: #6b7280; margin-bottom: 16px; }
+        .upload-area { border: 2px dashed #d1d5db; border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 20px; background: white; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; color: white; }
+        .status-pending { background: #6b7280; }
+        .status-transcoding { background: #f59e0b; }
+        .status-completed { background: #10b981; }
+        .status-failed { background: #ef4444; }
+        .progress-bar { height: 4px; background: #e5e7eb; border-radius: 2px; margin-top: 8px; }
+        .progress-bar .progress { height: 100%; background: #00AEEC; border-radius: 2px; }
+        
+        .player-section { display: none; margin-bottom: 20px; }
+        .player-section.active { display: block; }
+        .player-container { background: #000; border-radius: 12px; overflow: hidden; position: relative; width: 100%; max-width: 900px; margin: 0 auto; }
+        .player-container video { width: 100%; display: block; aspect-ratio: 16/9; }
+        .player-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #1f2937; color: white; }
+        .player-title { font-weight: 600; }
+        .player-close { background: none; border: none; color: #9ca3af; font-size: 20px; cursor: pointer; }
+        .player-close:hover { color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📺 MKV 视频平台</h1>
+            <button class="btn" onclick="showUpload()">上传视频</button>
+        </header>
+
+        <div id="playerSection" class="player-section">
+            <div class="player-container">
+                <div class="player-header">
+                    <span id="playerTitle" class="player-title">视频播放</span>
+                    <button class="player-close" onclick="closePlayer()">× 关闭</button>
+                </div>
+                <video id="videoPlayer" controls playsinline></video>
+            </div>
+        </div>
+
+        <div id="uploadArea" class="upload-area" style="display:none;">
+            <p>拖拽视频文件到此处，或</p>
+            <input type="file" id="fileInput" accept="video/*" style="display:none">
+            <button class="btn" onclick="document.getElementById('fileInput').click()">选择文件</button>
+            <p style="margin-top:10px;font-size:12px;color:#6b7280">支持 MKV, MP4, AVI, MOV 格式</p>
+            <input type="text" id="titleInput" placeholder="视频标题（可选）" style="margin-top:10px;padding:8px;border:1px solid #d1d5db;border-radius:6px;width:300px">
+            <div id="uploadProgress" style="margin-top:15px;display:none;">
+                <div class="progress-bar"><div class="progress" id="progressBar" style="width:0%"></div></div>
+                <p id="uploadStatus" style="margin-top:8px;font-size:12px;color:#6b7280"></p>
+            </div>
+        </div>
+
+        <div id="videoList" class="grid"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        let hls = null;
+        
+        async function fetchVideos() {
+            try {
+                const res = await fetch(`${API_BASE}/videos`);
+                const data = await res.json();
+                renderVideos(data.content || []);
+            } catch (e) {
+                document.getElementById('videoList').innerHTML = `<div class="empty"><p>无法连接到服务器</p></div>`;
+            }
+        }
+
+        function renderVideos(videos) {
+            const container = document.getElementById('videoList');
+            if (!videos.length) {
+                container.innerHTML = `
+                    <div class="empty" style="grid-column: 1/-1">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2l8 4-8 4V8z"/></svg>
+                        <p>暂无视频</p>
+                        <button class="btn" onclick="showUpload()">上传第一个视频</button>
+                    </div>`;
+                return;
+            }
+            container.innerHTML = videos.map(v => `
+                <div class="card" onclick="playVideo('${v.uuid}', '${v.title}', '${v.status}')">
+                    <div class="card-thumb">
+                        ${v.thumbnailPath ? `<img src="${v.thumbnailPath}" alt="${v.title}" style="width:100%;height:100%;object-fit:cover" />` : `<svg fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2l8 4-8 4V8z"/></svg>`}
+                        ${v.status === 'completed' ? `<div class="play-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>` : ''}
+                        ${v.status === 'transcoding' ? `<div class="transcoding-overlay"><div class="spinner"></div></div>` : ''}
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteVideo('${v.uuid}', '${v.title}')">×</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">${v.title}</div>
+                        <div class="card-meta">
+                            <span class="status-badge status-${v.status}">${getStatusText(v.status)}</span>
+                            <span>${formatSize(v.fileSize)}</span>
+                        </div>
+                        ${v.status === 'transcoding' ? `<div class="transcoding-progress"><div class="transcoding-progress-bar" id="progress-${v.uuid}"></div></div>` : ''}
+                        ${v.currentPosition && v.duration ? `<div class="progress-bar"><div class="progress" style="width:${Math.round(v.currentPosition/v.duration*100)}%"></div></div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Fetch transcoding progress for videos in progress
+            videos.filter(v => v.status === 'transcoding').forEach(v => {
+                fetchTranscodeProgress(v.uuid);
+            });
+        }
+
+        function getStatusText(status) {
+            const map = { pending: '待处理', transcoding: '转码中', completed: '已完成', failed: '失败' };
+            return map[status] || status;
+        }
+
+        function formatSize(bytes) {
+            if (!bytes) return '0 B';
+            const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
+            return parseFloat((bytes / Math.pow(k, Math.floor(bytes.toString().length / 3)))).toFixed(1) + ' ' + sizes[Math.floor(Math.log(bytes) / Math.log(k))];
+        }
+
+        async function fetchVideoDetails(uuid) {
+            try {
+                const res = await fetch(`${API_BASE}/videos/${uuid}`);
+                return await res.json();
+            } catch (e) {
+                console.error('Failed to fetch video details:', e);
+                return null;
+            }
+        }
+
+        async function fetchTranscodeProgress(uuid) {
+            try {
+                const res = await fetch(`${API_BASE}/videos/${uuid}/transcode-progress`);
+                const data = await res.json();
+                const progressBar = document.getElementById(`progress-${uuid}`);
+                if (progressBar && data.progress !== undefined) {
+                    progressBar.style.width = data.progress + '%';
+                }
+                // Refresh if still transcoding
+                if (data.status === 'transcoding' || data.status === 'queued') {
+                    setTimeout(() => fetchTranscodeProgress(uuid), 3000);
+                } else if (data.status === 'completed') {
+                    fetchVideos();
+                }
+            } catch (e) {
+                console.error('Failed to fetch transcode progress:', e);
+            }
+        }
+
+        function showUpload() {
+            const area = document.getElementById('uploadArea');
+            area.style.display = area.style.display === 'none' ? 'block' : 'block';
+        }
+
+        function playVideo(uuid, title, status) {
+            if (status !== 'completed') {
+                alert('视频正在转码中，请稍后再试');
+                return;
+            }
+            
+            // Use direct path to HLS files
+            const streamUrl = `/data/videos/${uuid}/index.m3u8`;
+            document.getElementById('playerTitle').textContent = title;
+            const video = document.getElementById('videoPlayer');
+            
+            if (Hls.isSupported()) {
+                if (hls) {
+                    hls.destroy();
+                }
+                hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = streamUrl;
+                video.addEventListener('loadedmetadata', () => {
+                    video.play();
+                });
+            }
+            
+            // Fetch video details to get saved position
+            fetchVideoDetails(uuid).then(videoData => {
+                if (videoData && videoData.currentPosition > 0) {
+                    const startTime = videoData.currentPosition / 1000;
+                    video.addEventListener('canplay', () => {
+                        video.currentTime = startTime;
+                    }, { once: true });
+                }
+            });
+            
+            // Save progress every 5 seconds
+            let lastSaveTime = 0;
+            video.addEventListener('timeupdate', () => {
+                const now = Date.now();
+                if (now - lastSaveTime >= 5000) {
+                    lastSaveTime = now;
+                    const position = Math.floor(video.currentTime * 1000);
+                    saveProgress(uuid, position);
+                }
+            });
+            
+            // Save progress when video ends
+            video.addEventListener('ended', () => {
+                saveProgress(uuid, 0);
+            });
+            
+            // Save progress when closing player
+            video.addEventListener('pause', () => {
+                const position = Math.floor(video.currentTime * 1000);
+                saveProgress(uuid, position);
+            });
+            
+            document.getElementById('playerSection').classList.add('active');
+            document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        async function saveProgress(uuid, position) {
+            try {
+                await fetch(`${API_BASE}/videos/${uuid}/progress`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ position })
+                });
+            } catch (e) {
+                console.error('Failed to save progress:', e);
+            }
+        }
+
+        async function deleteVideo(uuid, title) {
+            if (!confirm(`确定要删除视频 "${title}" 吗？此操作不可恢复。`)) {
+                return;
+            }
+            try {
+                await fetch(`${API_BASE}/videos/${uuid}`, {
+                    method: 'DELETE'
+                });
+                fetchVideos();
+            } catch (e) {
+                alert('删除失败: ' + e.message);
+            }
+        }
+
+        function closePlayer() {
+            const video = document.getElementById('videoPlayer');
+            video.pause();
+            video.src = '';
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+            document.getElementById('playerSection').classList.remove('active');
+        }
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const title = document.getElementById('titleInput').value || file.name.replace(/\.[^/.]+$/, '');
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('title', title);
+            
+            document.getElementById('uploadProgress').style.display = 'block';
+            document.getElementById('uploadStatus').textContent = '上传中...';
+            
+            try {
+                const res = await fetch(`${API_BASE}/videos/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.uuid) {
+                    document.getElementById('uploadStatus').textContent = '上传成功！视频正在转码中...';
+                    setTimeout(fetchVideos, 2000);
+                } else {
+                    document.getElementById('uploadStatus').textContent = '上传失败: ' + data.message;
+                }
+            } catch (err) {
+                document.getElementById('uploadStatus').textContent = '上传失败: ' + err.message;
+            }
+        });
+
+        fetchVideos();
+    </script>
+</body>
+</html>

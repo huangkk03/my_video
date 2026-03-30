@@ -1,0 +1,110 @@
+services:
+  video-db:
+    image: mysql:8.0
+    container_name: video-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-video_platform}
+      MYSQL_USER: ${MYSQL_USER:-videouser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-videopass}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - video-network
+
+  video-redis:
+    image: redis:7-alpine
+    container_name: video-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - video-network
+
+  video-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: video-api
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpass
+      VIDEO_STORAGE_PATH: /data/videos
+    volumes:
+      - video_data:/data/videos
+    ports:
+      - "8080:8080"
+    depends_on:
+      video-db:
+        condition: service_healthy
+      video-redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - video-network
+
+  video-ui:
+    image: nginx:stable-alpine
+    container_name: video-ui
+    restart: unless-stopped
+    volumes:
+      - ./nginx.docker.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/dist:/usr/share/nginx/html:ro
+      - video_data:/data/videos:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - video-api
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - video-network
+
+  alist:
+    image: xhofe/alist:latest
+    container_name: video-alist
+    hostname: alist
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=022
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./alist:/opt/alist/data
+    ports:
+      - "5244:5244"
+    networks:
+      - video-network
+
+volumes:
+  mysql_data:
+  video_data:
+
+networks:
+  video-network:
+    driver: bridge
