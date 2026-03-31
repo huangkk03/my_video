@@ -248,4 +248,26 @@ public class TranscodeService {
     public String getVideoStoragePath(String uuid) {
         return Paths.get(VIDEO_STORAGE_PATH, uuid).toString();
     }
+    
+    @Async
+    public void startTranscode(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            String fileName = path.getFileName().toString();
+            String uuid = UUID.randomUUID().toString();
+            
+            Video video = new Video();
+            video.setUuid(uuid);
+            video.setTitle(fileName);
+            video.setOriginalPath(filePath);
+            video.setStatus("transcoding");
+            video.setCreatedAt(LocalDateTime.now());
+            video = videoRepository.save(video);
+            
+            transcodeVideo(video.getUuid()).get();
+            
+        } catch (Exception e) {
+            log.error("Failed to start transcode for: {}", filePath, e);
+        }
+    }
 }

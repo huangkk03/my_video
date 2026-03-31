@@ -3,7 +3,7 @@ package com.video.controller;
 import com.video.dto.VideoProgressRequest;
 import com.video.dto.VideoUploadResponse;
 import com.video.entity.Video;
-import com.video.service.AliyunDriveService;
+import com.video.service.CloudStorageService;
 import com.video.service.TranscodeService;
 import com.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class VideoController {
     
     private final VideoService videoService;
     private final TranscodeService transcodeService;
-    private final AliyunDriveService aliyunDriveService;
+    private final CloudStorageService cloudStorageService;
     
     @PostMapping("/upload")
     public ResponseEntity<VideoUploadResponse> uploadVideo(
@@ -245,10 +245,10 @@ public class VideoController {
     @GetMapping("/aliyun/search")
     public ResponseEntity<?> searchAliyunFiles(@RequestParam String query) {
         try {
-            List<AliyunDriveService.AliyunFile> files = aliyunDriveService.searchFiles(query);
+            List<CloudStorageService.CloudFile> files = cloudStorageService.searchFiles(query);
             return ResponseEntity.ok(files);
         } catch (Exception e) {
-            log.error("Aliyun search failed: {}", query, e);
+            log.error("Cloud search failed: {}", query, e);
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return ResponseEntity.status(500).body(error);
@@ -257,16 +257,15 @@ public class VideoController {
     
     @PostMapping("/aliyun/download")
     public ResponseEntity<?> downloadAliyunFile(
-            @RequestParam String fileId,
+            @RequestParam String path,
             @RequestParam(required = false) String title) {
         try {
-            String videoUuid = aliyunDriveService.downloadAndTranscode(fileId, title).get();
+            cloudStorageService.downloadAndProcess(path);
             Map<String, String> result = new HashMap<>();
-            result.put("uuid", videoUuid);
-            result.put("status", "transcoding");
+            result.put("status", "downloading");
             return ResponseEntity.ok(result);
         } catch (Exception e) {
-            log.error("Aliyun download failed: {}", fileId, e);
+            log.error("Cloud download failed: {}", path, e);
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return ResponseEntity.status(500).body(error);
@@ -275,19 +274,18 @@ public class VideoController {
     
     @PostMapping("/aliyun/refresh-token")
     public ResponseEntity<?> refreshAliyunToken() {
-        aliyunDriveService.refreshAccessToken();
         Map<String, String> result = new HashMap<>();
-        result.put("status", "refreshed");
+        result.put("status", "not needed - using AList");
         return ResponseEntity.ok(result);
     }
     
     @GetMapping("/aliyun/test")
     public ResponseEntity<?> testAliyunConnection() {
         try {
-            Map<String, Object> result = aliyunDriveService.testConnection();
+            Map<String, Object> result = cloudStorageService.testConnection();
             return ResponseEntity.ok(result);
         } catch (Exception e) {
-            log.error("Aliyun test failed", e);
+            log.error("Cloud test failed", e);
             Map<String, Object> error = new HashMap<>();
             error.put("success", false);
             error.put("message", e.getMessage());

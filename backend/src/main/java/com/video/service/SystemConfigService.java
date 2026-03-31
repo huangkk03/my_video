@@ -19,11 +19,11 @@ public class SystemConfigService {
     
     private final SystemConfigRepository systemConfigRepository;
     
-    public static final String ALIYUN_REFRESH_TOKEN = "aliyundrive.refresh_token";
-    public static final String ALIYUN_ROOT_FOLDER = "aliyundrive.root_folder_id";
     public static final String TMDB_API_KEY = "tmdb.api_key";
     public static final String TMDB_LANGUAGE = "tmdb.language";
-    public static final String ALIST_ADMIN_TOKEN = "alist.admin_token";
+    public static final String ALIST_URL = "alist_url";
+    public static final String ALIST_USERNAME = "alist_username";
+    public static final String ALIST_PASSWORD = "alist_password";
     
     public String getConfig(String key) {
         return systemConfigRepository.findByConfigKey(key)

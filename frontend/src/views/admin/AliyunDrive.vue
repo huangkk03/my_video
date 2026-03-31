@@ -1,7 +1,7 @@
 <template>
   <div class="p-6">
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-gray-800">阿里云盘</h1>
+      <h1 class="text-2xl font-semibold text-gray-800">AList 存储</h1>
       <div class="flex items-center gap-4">
         <button 
           @click="testConnection" 
@@ -24,19 +24,19 @@
       </div>
     </div>
     
-    <div v-if="!aliyunConfigured" class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
+    <div v-if="!alistConnected" class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex justify-between items-center">
       <div class="flex items-center gap-3">
         <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
         <div>
-          <p class="font-medium text-yellow-800">阿里云盘未配置</p>
-          <p class="text-sm text-yellow-600">请在系统设置中配置 Refresh Token</p>
+          <p class="font-medium text-yellow-800">AList 未连接</p>
+          <p class="text-sm text-yellow-600">请确保 AList 服务正常运行，并在系统设置中配置正确的地址和凭证</p>
         </div>
-        <router-link to="/admin/settings" class="ml-auto text-primary hover:underline">
-          去设置
-        </router-link>
       </div>
+      <router-link to="/admin/settings" class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition-colors text-sm font-medium">
+        去设置
+      </router-link>
     </div>
     
     <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
@@ -50,7 +50,7 @@
         />
         <button 
           @click="searchFiles" 
-          :disabled="!aliyunConfigured || searching"
+          :disabled="!alistConnected || searching"
           class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
         >
           {{ searching ? '搜索中...' : '搜索' }}
@@ -82,7 +82,60 @@
       </div>
     </div>
     
-    <div v-if="files.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div v-if="activeTasks.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+      <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+        <h2 class="font-medium text-gray-800">当前导入与转码任务</h2>
+        <router-link to="/admin/media" class="text-sm text-primary hover:underline">去媒体库查看</router-link>
+      </div>
+      <table class="w-full">
+        <tbody class="divide-y divide-gray-200">
+          <tr v-for="task in activeTasks" :key="task.taskId" class="hover:bg-gray-50">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-800">{{ task.sourceName }}</div>
+              <div class="text-xs text-gray-500 mt-1">{{ task.message || '处理中...' }}</div>
+            </td>
+            <td class="px-6 py-4 w-1/3">
+              <div class="flex items-center gap-3">
+                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-500 transition-all" :style="{ width: (task.progress || 0) + '%' }"></div>
+                </div>
+                <span class="text-xs text-gray-500 w-10">{{ task.progress || 0 }}%</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">
+                  {{ getTaskStatusText(task.status) }}
+                </span>
+                <button 
+                  @click="cancelTask(task.taskId)"
+                  class="text-xs text-red-500 hover:text-red-700 hover:underline"
+                >
+                  取消
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex items-center gap-2 mb-4 text-sm text-gray-600" v-if="alistConnected">
+      <button @click="loadFiles('/')" class="hover:text-primary cursor-pointer">根目录</button>
+      <template v-if="currentPath !== '/'">
+        <span class="text-gray-400">/</span>
+        <span class="text-gray-800">{{ currentPath }}</span>
+        <button @click="goUp" class="ml-4 px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded border">返回上级</button>
+      </template>
+    </div>
+
+    <div v-if="loading" class="flex justify-center py-12">
+      <svg class="w-8 h-8 text-primary animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+    </div>
+    
+    <div v-else-if="files.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden">
       <table class="w-full">
         <thead class="bg-gray-50">
           <tr>
@@ -93,11 +146,11 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="file in files" :key="file.id" class="hover:bg-gray-50">
+          <tr v-for="file in files" :key="file.path" class="hover:bg-gray-50">
             <td class="px-6 py-4">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 cursor-pointer" @click="file.isFolder ? loadFiles(file.path) : null">
                 <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center">
-                  <svg v-if="file.type === 'folder'" class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                  <svg v-if="file.isFolder" class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
                   </svg>
                   <svg v-else class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,12 +163,12 @@
             <td class="px-6 py-4 text-gray-600">{{ formatSize(file.size) }}</td>
             <td class="px-6 py-4">
               <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-600">
-                {{ file.category || file.type }}
+                {{ file.isFolder ? '文件夹' : '文件' }}
               </span>
             </td>
             <td class="px-6 py-4">
               <button 
-                v-if="isVideoFile(file.name)"
+                v-if="!file.isFolder"
                 @click="downloadFile(file)" 
                 :disabled="downloading"
                 class="text-primary hover:underline disabled:opacity-50"
@@ -138,26 +191,76 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
-interface AliyunFile {
-  id: string
+interface CloudFile {
   name: string
+  path: string
+  isFolder: boolean
   size: number
-  type: string
-  category: string
+  modified: string
+}
+
+interface ImportTask {
+  taskId: string
+  sourceName: string
+  status: string
+  progress: number
+  message: string
 }
 
 const searchQuery = ref('')
-const files = ref<AliyunFile[]>([])
+const files = ref<CloudFile[]>([])
+const activeTasks = ref<ImportTask[]>([])
+const loading = ref(false)
 const searching = ref(false)
+const currentPath = ref('/')
 const searchPerformed = ref(false)
-const aliyunConfigured = ref(true)
+const alistConnected = ref(true)
 const connectionError = ref('')
 const downloading = ref(false)
 const downloadingName = ref('')
 
+let taskTimer: number | null = null
+
 const videoExtensions = ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm']
+
+function getTaskStatusText(status: string): string {
+  switch (status) {
+    case 'pending': return '等待中'
+    case 'downloading': return '下载中'
+    case 'scraping': return '刮削中'
+    case 'transcoding': return '转码中'
+    case 'failed': return '失败'
+    default: return status
+  }
+}
+
+async function fetchActiveTasks() {
+  try {
+    const res = await fetch('/api/cloud/tasks/active')
+    if (res.ok) {
+      activeTasks.value = await res.json()
+    }
+  } catch (e) {
+    console.error('Failed to fetch tasks:', e)
+  }
+}
+
+async function cancelTask(taskId: string) {
+  if (!confirm('确定要取消此任务吗？')) return
+  try {
+    const res = await fetch(`/api/cloud/tasks/${taskId}/cancel`, { method: 'POST' })
+    const data = await res.json()
+    if (data.success) {
+      fetchActiveTasks()
+    } else {
+      alert(data.message || '取消失败')
+    }
+  } catch (e) {
+    alert('取消失败')
+  }
+}
 
 function isVideoFile(filename: string): boolean {
   const ext = filename.toLowerCase().slice(filename.lastIndexOf('.'))
@@ -180,7 +283,7 @@ async function searchFiles() {
   connectionError.value = ''
   
   try {
-    const res = await fetch(`/api/videos/aliyun/search?query=${encodeURIComponent(searchQuery.value)}`)
+    const res = await fetch(`/api/cloud/search?keyword=${encodeURIComponent(searchQuery.value)}`)
     const data = await res.json()
     
     if (Array.isArray(data)) {
@@ -199,48 +302,74 @@ async function searchFiles() {
 
 async function testConnection() {
   try {
-    const res = await fetch('/api/videos/aliyun/test')
+    const res = await fetch('/api/cloud/test')
     const data = await res.json()
     
     if (data.success) {
       connectionError.value = ''
+      alistConnected.value = true
+      await loadFiles()
       alert('连接成功')
     } else {
       connectionError.value = data.message || '连接失败'
+      alistConnected.value = false
     }
   } catch (e: any) {
     connectionError.value = e.message || '连接失败'
+    alistConnected.value = false
   }
+}
+
+async function loadFiles(path = '/') {
+  loading.value = true
+  currentPath.value = path
+  try {
+    const res = await fetch(`/api/cloud/files?path=${encodeURIComponent(path)}`)
+    files.value = await res.json()
+  } catch (e: any) {
+    console.error('Failed to load files:', e)
+  } finally {
+    loading.value = false
+  }
+}
+
+function goUp() {
+  if (currentPath.value === '/') return
+  const parts = currentPath.value.split('/').filter(Boolean)
+  parts.pop()
+  const parentPath = parts.length > 0 ? '/' + parts.join('/') : '/'
+  loadFiles(parentPath)
 }
 
 async function refreshToken() {
   try {
-    await fetch('/api/videos/aliyun/refresh-token', { method: 'POST' })
-    alert('Token 已刷新')
+    await fetch('/api/cloud/test')
+    alert('Token 有效')
   } catch (e) {
-    alert('刷新失败')
+    alert('Token 无效，请重新配置')
   }
 }
 
-async function downloadFile(file: AliyunFile) {
+async function downloadFile(file: CloudFile) {
   if (!confirm(`确定要下载 "${file.name}" 吗？\n下载完成后将自动转码`)) return
   
   downloading.value = true
   downloadingName.value = file.name
   
   try {
-    const res = await fetch('/api/videos/aliyun/download', {
+    const res = await fetch('/api/cloud/import', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `fileId=${encodeURIComponent(file.id)}&title=${encodeURIComponent(file.name)}`
+      body: `fileName=${encodeURIComponent(file.name)}&filePath=${encodeURIComponent(file.path)}&fileSize=${file.size || 0}`
     })
     
     const data = await res.json()
     
-    if (data.uuid) {
-      alert('下载任务已创建，请在媒体库中查看转码进度')
-    } else if (data.error) {
-      alert('下载失败: ' + data.error)
+    if (data.taskId) {
+      alert('下载任务已创建，进度将在上方显示')
+      fetchActiveTasks()
+    } else if (data.message) {
+      alert('下载失败: ' + data.message)
     }
   } catch (e: any) {
     alert('下载失败: ' + e.message)
@@ -251,15 +380,27 @@ async function downloadFile(file: AliyunFile) {
 }
 
 onMounted(async () => {
+  fetchActiveTasks()
+  taskTimer = window.setInterval(fetchActiveTasks, 5000)
+  
   try {
-    const res = await fetch('/api/videos/aliyun/test')
+    const res = await fetch('/api/cloud/test')
     const data = await res.json()
-    aliyunConfigured.value = data.success === true
+    alistConnected.value = data.success === true
     if (!data.success) {
-      connectionError.value = data.message || '请配置阿里云盘'
+      connectionError.value = data.message || 'AList 连接失败'
+    } else {
+      await loadFiles()
     }
   } catch (e) {
-    aliyunConfigured.value = false
+    alistConnected.value = false
+    connectionError.value = '无法连接到 AList'
+  }
+})
+
+onUnmounted(() => {
+  if (taskTimer) {
+    clearInterval(taskTimer)
   }
 })
 </script>

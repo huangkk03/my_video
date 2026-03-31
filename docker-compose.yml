@@ -4,22 +4,20 @@ services:
     container_name: video-db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-video_platform}
-      MYSQL_USER: ${MYSQL_USER:-videouser}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-videopass}
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=video_platform
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+    networks:
+      - video-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - video-network
 
   video-redis:
     image: redis:7-alpine
@@ -27,64 +25,46 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
+    networks:
+      - video-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - video-network
 
   video-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: video-api
     restart: unless-stopped
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpass
-      VIDEO_STORAGE_PATH: /data/videos
     volumes:
       - video_data:/data/videos
     ports:
       - "8080:8080"
-    depends_on:
-      video-db:
-        condition: service_healthy
-      video-redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
     networks:
       - video-network
+    depends_on:
+      - video-db
+      - video-redis
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rootpass
 
   video-ui:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
     container_name: video-ui
     restart: unless-stopped
     volumes:
       - video_data:/data/videos:ro
     ports:
       - "80:80"
-    depends_on:
-      - video-api
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     networks:
       - video-network
+    depends_on:
+      - video-api
 
-  alist:
+  video-alist:
     image: xhofe/alist:latest
     container_name: video-alist
     hostname: alist

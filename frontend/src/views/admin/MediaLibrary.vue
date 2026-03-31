@@ -3,6 +3,20 @@
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-semibold text-gray-800">媒体库管理</h1>
       <div class="flex items-center gap-4">
+        <input type="file" ref="fileInput" class="hidden" accept="video/*" @change="handleFileUpload" />
+        <button 
+          @click="triggerUpload" 
+          :disabled="uploading"
+          class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 flex items-center gap-2"
+        >
+          <svg v-if="uploading" class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+          </svg>
+          {{ uploading ? '上传中...' : '本地上传' }}
+        </button>
         <input 
           v-model="searchQuery" 
           type="text" 
@@ -20,6 +34,43 @@
           <option value="failed">失败</option>
         </select>
       </div>
+    </div>
+    
+    <div v-if="activeTasks.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+      <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+        <h2 class="font-medium text-gray-800">云盘导入任务</h2>
+      </div>
+      <table class="w-full">
+        <tbody class="divide-y divide-gray-200">
+          <tr v-for="task in activeTasks" :key="task.taskId" class="hover:bg-gray-50">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-800">{{ task.sourceName }}</div>
+              <div class="text-xs text-gray-500 mt-1">{{ task.message || '处理中...' }}</div>
+            </td>
+            <td class="px-6 py-4 w-1/3">
+              <div class="flex items-center gap-3">
+                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-500 transition-all" :style="{ width: (task.progress || 0) + '%' }"></div>
+                </div>
+                <span class="text-xs text-gray-500 w-10">{{ task.progress || 0 }}%</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">
+                  {{ getTaskStatusText(task.status) }}
+                </span>
+                <button 
+                  @click="cancelTask(task.taskId)"
+                  class="text-xs text-red-500 hover:text-red-700 hover:underline"
+                >
+                  取消
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     
     <div v-if="loading && videos.length === 0" class="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -111,10 +162,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { videoApi, type Video } from '../../api/video'
 
+interface ImportTask {
+  taskId: string
+  sourceName: string
+  status: string
+  progress: number
+  message: string
+}
+
 const videos = ref<Video[]>([])
+const activeTasks = ref<ImportTask[]>([])
 const loading = ref(false)
 const page = ref(0)
 const size = 20
@@ -122,6 +182,8 @@ const hasMore = ref(true)
 const searchQuery = ref('')
 const statusFilter = ref('')
 const progressMap = ref<Record<string, number>>({})
+const fileInput = ref<HTMLInputElement | null>(null)
+const uploading = ref(false)
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -178,6 +240,45 @@ function getStatusText(status: string): string {
 
 function getProgress(uuid: string): number {
   return progressMap.value[uuid] || 0
+}
+
+function getTaskStatusText(status: string): string {
+  switch (status) {
+    case 'pending': return '等待中'
+    case 'downloading': return '下载中'
+    case 'scraping': return '刮削中'
+    case 'transcoding': return '转码中'
+    case 'failed': return '失败'
+    default: return status
+  }
+}
+
+let taskTimer: number | null = null
+
+async function fetchActiveTasks() {
+  try {
+    const res = await fetch('/api/cloud/tasks/active')
+    if (res.ok) {
+      activeTasks.value = await res.json()
+    }
+  } catch (e) {
+    console.error('Failed to fetch tasks:', e)
+  }
+}
+
+async function cancelTask(taskId: string) {
+  if (!confirm('确定要取消此任务吗？')) return
+  try {
+    const res = await fetch(`/api/cloud/tasks/${taskId}/cancel`, { method: 'POST' })
+    const data = await res.json()
+    if (data.success) {
+      fetchActiveTasks()
+    } else {
+      alert(data.message || '取消失败')
+    }
+  } catch (e) {
+    alert('取消失败')
+  }
 }
 
 async function fetchVideos() {
@@ -238,7 +339,57 @@ async function rescrapVideo(uuid: string) {
   }
 }
 
+function triggerUpload() {
+  fileInput.value?.click()
+}
+
+async function handleFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement
+  if (!target.files || target.files.length === 0) return
+  
+  const file = target.files[0]
+  if (file.size > 500 * 1024 * 1024) {
+    alert('文件大小不能超过500MB')
+    target.value = ''
+    return
+  }
+  
+  const formData = new FormData()
+  formData.append('file', file)
+  
+  uploading.value = true
+  try {
+    const res = await fetch('/api/videos/upload', {
+      method: 'POST',
+      body: formData
+    })
+    
+    const data = await res.json()
+    if (res.ok && data.uuid) {
+      alert('上传成功，已开始转码')
+      page.value = 0
+      fetchVideos()
+    } else {
+      alert(data.message || '上传失败')
+    }
+  } catch (e) {
+    console.error('Upload failed:', e)
+    alert('上传失败')
+  } finally {
+    uploading.value = false
+    target.value = ''
+  }
+}
+
 onMounted(() => {
   fetchVideos()
+  fetchActiveTasks()
+  taskTimer = window.setInterval(fetchActiveTasks, 5000)
+})
+
+onUnmounted(() => {
+  if (taskTimer) {
+    clearInterval(taskTimer)
+  }
 })
 </script>

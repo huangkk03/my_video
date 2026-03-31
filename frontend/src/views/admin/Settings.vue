@@ -4,33 +4,32 @@
     
     <div class="space-y-6">
       <div class="bg-white rounded-xl shadow-sm p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">阿里云盘配置</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">AList 配置</h2>
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Refresh Token</label>
-            <div class="flex gap-2">
-              <input 
-                v-model="config.aliyundrive_refresh_token" 
-                :type="showToken ? 'text' : 'password'"
-                placeholder="请输入阿里云盘 Refresh Token"
-                class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <button 
-                @click="showToken = !showToken"
-                class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                {{ showToken ? '隐藏' : '显示' }}
-              </button>
-            </div>
-            <p class="mt-1 text-sm text-gray-500">在阿里云盘开放平台获取 Refresh Token</p>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">根目录 ID</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">AList 地址</label>
             <input 
-              v-model="config.aliyundrive_root_folder_id" 
+              v-model="config.alist_url" 
               type="text"
-              placeholder="root"
+              placeholder="http://localhost:5244"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">用户名</label>
+            <input 
+              v-model="config.alist_username" 
+              type="text"
+              placeholder="admin"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">密码</label>
+            <input 
+              v-model="config.alist_password" 
+              type="password"
+              placeholder="AList 登录密码"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
@@ -114,15 +113,15 @@
 import { ref, reactive, onMounted } from 'vue'
 
 const config = reactive({
-  aliyundrive_refresh_token: '',
-  aliyundrive_root_folder_id: 'root',
+  alist_url: 'http://localhost:5244',
+  alist_username: 'admin',
+  alist_password: '',
   tmdb_api_key: '',
   tmdb_language: 'zh-CN',
   transcode_max_concurrent: '2',
   transcode_quality: '23'
 })
 
-const showToken = ref(false)
 const saving = ref(false)
 
 async function loadConfig() {
@@ -130,8 +129,9 @@ async function loadConfig() {
     const res = await fetch('/api/admin/config')
     const data = await res.json()
     
-    if (data.aliyundrive_refresh_token) config.aliyundrive_refresh_token = data.aliyundrive_refresh_token
-    if (data.aliyundrive_root_folder_id) config.aliyundrive_root_folder_id = data.aliyundrive_root_folder_id
+    if (data.alist_url) config.alist_url = data.alist_url
+    if (data.alist_username) config.alist_username = data.alist_username
+    if (data.alist_password) config.alist_password = data.alist_password
     if (data.tmdb_api_key) config.tmdb_api_key = data.tmdb_api_key
     if (data.tmdb_language) config.tmdb_language = data.tmdb_language
     if (data.transcode_max_concurrent) config.transcode_max_concurrent = data.transcode_max_concurrent
@@ -148,8 +148,9 @@ async function saveConfig() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        aliyundrive_refresh_token: config.aliyundrive_refresh_token,
-        aliyundrive_root_folder_id: config.aliyundrive_root_folder_id,
+        alist_url: config.alist_url,
+        alist_username: config.alist_username,
+        alist_password: config.alist_password,
         tmdb_api_key: config.tmdb_api_key,
         tmdb_language: config.tmdb_language,
         transcode_max_concurrent: config.transcode_max_concurrent,

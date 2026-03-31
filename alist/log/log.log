@@ -436,3 +436,2016 @@ failed get storage
 [GIN] 2026/03/30 - 16:53:01 | 200 |      427.78µs |      172.18.0.4 | GET      "/api/public/settings"
 [GIN] 2026/03/30 - 16:53:11 | 200 |     104.845µs |      172.18.0.4 | GET      "/api/public/settings"
 [36mINFO[0m[2026-03-30 16:53:17] closing db                                   
+[33mWARN[0m[2026-03-31 07:51:41] not enable search                            
+[36mINFO[0m[2026-03-31 07:51:44] [ali_open] token exchange: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI3NDMxMjk2MGUzZDM0MWM1OTY3MDllMTM2YzVkNGIxYSIsImF1ZCI6ImI4Yzk5MGU2MGIxODQ0NmViMDdmNWRjYTMwMzk4ZThhIiwiZXhwIjoxNzgyNjI5NTIzLCJpYXQiOjE3NzQ4NTM1MjMsImp0aSI6IjRjYzY1YjM4OTM5MjQ5YThhMTJhYTZkMGI0NmNlMWE1In0.l2sMK6xLH0hNKaaLmXq3NQBmxigSEHGt4OHFx-8jd293IchFgOF6Jwam-XHYKtIOhHCtqmPYobDrjAcSYeuH3A -> eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI3NDMxMjk2MGUzZDM0MWM1OTY3MDllMTM2YzVkNGIxYSIsImF1ZCI6ImI4Yzk5MGU2MGIxODQ0NmViMDdmNWRjYTMwMzk4ZThhIiwiZXhwIjoxNzgyNjkwNzA0LCJpYXQiOjE3NzQ5MTQ3MDQsImp0aSI6IjY3NWQzZDg5MGE0ZDQwYzA4Y2YyNDZhMmE5ZTNlYzMyIn0.P7L5rm4yNPp4zA73wQMHKWCW5_5kzDrMWFZ18WwklLxRISRs3QkxS1Z6SjRebrj9dX6xa6_CoxYi67l72KWe6Q 
+[GIN] 2026/03/31 - 07:52:45 | 200 |     960.506µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 07:52:46 | 200 |     621.569µs |      172.18.0.1 | GET      "/static/manifest.json"
+[GIN] 2026/03/31 - 07:52:46 | 200 |     589.665µs |      172.18.0.1 | GET      "/assets/index-b206f97b.css"
+[GIN] 2026/03/31 - 07:52:46 | 200 |   42.028067ms |      172.18.0.1 | GET      "/assets/index-0ac33e44.js"
+[GIN] 2026/03/31 - 07:52:46 | 200 |    1.287843ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 07:52:46 | 200 |     648.572µs |      172.18.0.1 | GET      "/assets/entry-b68756c5.js"
+[GIN] 2026/03/31 - 07:52:46 | 200 |   31.647014ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 07:52:47 | 200 |  106.087681ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 07:52:48 | 200 |    7.078686ms |      172.18.0.1 | GET      "/assets/useTitle-98cd4016.js"
+[GIN] 2026/03/31 - 07:52:48 | 200 |      532.76µs |      172.18.0.1 | GET      "/assets/index-904bdd79.js"
+[GIN] 2026/03/31 - 07:52:48 | 200 |   51.377105ms |      172.18.0.1 | GET      "/assets/webauthn-json.browser-ponyfill-f2f06d6e.js"
+[GIN] 2026/03/31 - 07:52:48 | 200 |     439.449µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 07:52:54 | 200 |    6.421917ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 07:52:57 | 200 |    6.379416ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 07:52:57 | 200 |    21.31749ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 07:52:57 | 200 |    1.944918ms |      172.18.0.1 | GET      "/assets/Layout-8a0a2c68.js"
+[GIN] 2026/03/31 - 07:52:57 | 200 |    2.298158ms |      172.18.0.1 | GET      "/assets/index-06a2e1d1.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |     608.268µs |      172.18.0.1 | GET      "/assets/index-62f37b04.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |    2.478678ms |      172.18.0.1 | GET      "/assets/FolderTree-3887d06d.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |    2.012826ms |      172.18.0.1 | GET      "/assets/index-d1b62002.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |     187.121µs |      172.18.0.1 | GET      "/assets/storage-class-1ac53f89.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |   23.678656ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 07:52:58 | 200 |     407.046µs |      172.18.0.1 | GET      "/images/new_icon.png"
+[GIN] 2026/03/31 - 07:52:58 | 200 |   28.590006ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 07:52:58 | 200 |     795.289µs |      172.18.0.1 | GET      "/assets/style-a6d16836.css"
+[GIN] 2026/03/31 - 07:52:58 | 200 |     148.516µs |      172.18.0.1 | GET      "/assets/Paginator-7e0484cf.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |    1.396556ms |      172.18.0.1 | GET      "/assets/style-f5d5f2e6.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |   14.342708ms |      172.18.0.1 | GET      "/assets/video_box-fa1e5e08.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |   24.033395ms |      172.18.0.1 | GET      "/assets/Folder-732f0c1c.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |    6.054279ms |      172.18.0.1 | GET      "/assets/Folder-6ee8584f.css"
+[GIN] 2026/03/31 - 07:52:58 | 200 |  131.998904ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 07:52:58 | 200 |       891.4µs |      172.18.0.1 | GET      "/assets/List-2c510900.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |    2.522883ms |      172.18.0.1 | GET      "/assets/color-a58de010.js"
+[GIN] 2026/03/31 - 07:52:58 | 200 |    5.816652ms |      172.18.0.1 | GET      "/assets/helper-18247784.js"
+[GIN] 2026/03/31 - 07:53:00 | 200 |  161.956264ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 07:53:09 | 200 |  111.961209ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 07:53:10 | 200 |  116.217116ms |      172.18.0.1 | POST     "/api/fs/list"
+[36mINFO[0m[2026-03-31 07:57:03] closing db                                   
+[33mWARN[0m[2026-03-31 07:57:14] not enable search                            
+[GIN] 2026/03/31 - 09:01:20 | 200 |  293.573075ms |      172.18.0.1 | POST     "/api/auth/login"
+[33mWARN[0m[2026-03-31 09:01:28] not enable search                            
+[GIN] 2026/03/31 - 09:01:28 | 200 |   58.290735ms |             ::1 | POST     "/api/admin/user/del_cache?username=admin"
+[36mINFO[0m[2026-03-31 09:01:28] closing db                                   
+[GIN] 2026/03/31 - 09:01:34 | 200 |   30.951565ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 09:06:40 | 200 |  377.063592ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 09:06:43 | 200 |  117.625598ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 09:06:43 | 200 |  256.529831ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:06:43 | 200 |  120.165056ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:06:44 | 200 |    7.873619ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:07:01 | 200 |    11.10631ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:07:11 | 200 |     317.257µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:07:21 | 200 |   86.461178ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 09:07:44 | 200 |    4.561309ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 09:07:47 | 200 |     387.067µs |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 09:07:59 | 200 |     420.074µs |      172.18.0.1 | GET      "/aliyun"
+[GIN] 2026/03/31 - 09:08:00 | 200 |    2.526342ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:08:00 | 200 |    4.319356ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 09:08:01 | 200 |    2.981723ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:08:01 | 200 |    9.282125ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:08:17 | 200 |   43.174866ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 09:08:17 | 200 |  157.202012ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:08:18 | 200 |    68.65459ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 09:08:18 | 200 |  289.544611ms |      172.18.0.1 | POST     "/api/fs/get"
+[GIN] 2026/03/31 - 09:08:18 | 200 |   350.14087ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 09:08:19 | 200 |  1.055464822s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:11:15 | 200 |   32.739489ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:11:26 | 200 |   81.914218ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:11:33 | 200 |   34.695923ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:12:52 | 200 |    5.172471ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:12:52 | 200 |     111.916µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:14:30 | 200 |   37.798593ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 09:22:08 | 200 |  385.757271ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:22:08 | 200 |   42.725976ms |      172.18.0.1 | GET      "/assets/index-2a7c71fa.js"
+[GIN] 2026/03/31 - 09:22:08 | 200 |    7.398238ms |      172.18.0.1 | GET      "/assets/Profile-5a1c61a3.js"
+[GIN] 2026/03/31 - 09:22:08 | 200 |   74.764607ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 09:22:13 | 200 |    34.12881ms |      172.18.0.1 | GET      "/assets/Storages-82415e4f.js"
+[GIN] 2026/03/31 - 09:22:13 | 200 |   31.191171ms |      172.18.0.1 | GET      "/assets/DeletePopover-2fb0138c.js"
+[GIN] 2026/03/31 - 09:22:13 | 200 |   30.303338ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 09:22:13 | 200 |   84.846905ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 09:22:16 | 200 |    1.222583ms |      172.18.0.1 | GET      "/assets/item_type-32dc6fdf.js"
+[GIN] 2026/03/31 - 09:22:16 | 200 |    1.891784ms |      172.18.0.1 | GET      "/assets/AddOrEdit-8aefb31c.js"
+[GIN] 2026/03/31 - 09:22:16 | 200 |     3.00645ms |      172.18.0.1 | GET      "/assets/ResponsiveGrid-31af9f08.js"
+[GIN] 2026/03/31 - 09:22:16 | 200 |   43.906375ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=1"
+[GIN] 2026/03/31 - 09:22:16 | 200 |   23.609535ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[GIN] 2026/03/31 - 09:24:47 | 200 |   17.216176ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 09:24:49 | 200 |    8.477669ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:24:49 | 200 |    8.066507ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 09:24:49 | 200 |   88.296212ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:24:49 | 200 |   95.005316ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 09:24:49 | 200 |  103.549594ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 09:24:49 | 200 |  152.621137ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:25:06 | 200 |   66.850637ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:25:07 | 200 |   70.707715ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 09:25:09 | 200 |   16.533795ms |      172.18.0.1 | GET      "/assets/Wether-2b2bf57f.js"
+[GIN] 2026/03/31 - 09:25:09 | 200 |   26.280364ms |      172.18.0.1 | GET      "/assets/Users-9d91e932.js"
+[GIN] 2026/03/31 - 09:25:10 | 200 |   249.16129ms |      172.18.0.1 | GET      "/api/admin/role/list"
+[GIN] 2026/03/31 - 09:25:10 | 200 |  262.789045ms |      172.18.0.1 | GET      "/api/admin/user/list"
+[GIN] 2026/03/31 - 09:25:11 | 200 |   52.841872ms |      172.18.0.1 | GET      "/api/auth/logout"
+[GIN] 2026/03/31 - 09:25:11 | 200 |   10.119926ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:25:16 | 200 |    19.02157ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 09:25:19 | 200 |   44.420385ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 09:25:20 | 200 |  129.923052ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:25:20 | 200 |   97.312944ms |      172.18.0.1 | GET      "/api/admin/role/list"
+[GIN] 2026/03/31 - 09:25:20 | 200 |   99.250636ms |      172.18.0.1 | GET      "/api/admin/user/list"
+[GIN] 2026/03/31 - 09:25:26 | 200 |     489.974µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 09:25:26 | 200 |   36.953556ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:25:27 | 200 |     643.297µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 09:25:27 | 200 |   13.070665ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:25:27 | 200 |   14.061414ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:25:27 | 200 |   66.489696ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 09:25:27 | 200 |   59.552053ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:25:27 | 200 |   32.091425ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 09:25:29 | 200 |   60.676822ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:25:29 | 200 |   74.791044ms |      172.18.0.1 | GET      "/api/admin/role/list"
+[GIN] 2026/03/31 - 09:25:29 | 200 |   79.112093ms |      172.18.0.1 | GET      "/api/admin/user/list"
+[GIN] 2026/03/31 - 09:25:31 | 200 |    4.419865ms |      172.18.0.1 | GET      "/assets/backup-restore-58c314b3.js"
+[GIN] 2026/03/31 - 09:29:01 | 200 |  291.986482ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 09:29:01 | 200 |  281.526742ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 09:29:05 | 200 |  146.420516ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 09:29:06 | 200 |   77.131487ms |      172.18.0.1 | GET      "/images/tag-gray.png"
+[GIN] 2026/03/31 - 09:29:09 | 200 |    9.572313ms |      172.18.0.1 | GET      "/assets/S3-0309c7f4.js"
+[GIN] 2026/03/31 - 09:29:09 | 200 |   14.990313ms |      172.18.0.1 | GET      "/assets/SettingItem-e66b06f6.js"
+[GIN] 2026/03/31 - 09:29:09 | 200 |  118.258558ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=9"
+[GIN] 2026/03/31 - 09:29:11 | 200 |    5.412298ms |      172.18.0.1 | GET      "/assets/Other-8551d8de.js"
+[GIN] 2026/03/31 - 09:29:12 | 200 |   38.970248ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 09:29:26 | 200 |  122.125736ms |      172.18.0.1 | POST     "/api/admin/setting/set_token"
+[GIN] 2026/03/31 - 09:38:23 | 200 |   31.529815ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:46:30 | 200 |    3.906445ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:46:40 | 200 |    7.668042ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:46:57 | 200 |     503.082µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:01 | 200 |    1.369822ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:06 | 200 |      44.808µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:08 | 200 |      57.509µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:14 | 200 |    7.476931ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 09:47:14 | 200 |  186.768566ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:15 | 200 |    1.735486ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 09:47:15 | 200 |    25.01192ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 09:47:15 | 200 |   14.795038ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:15 | 200 |   27.248689ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 09:47:15 | 200 |   35.072678ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 09:47:15 | 200 |  110.514705ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:47:18 | 200 |  741.053574ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:47:25 | 200 |   13.148116ms |      172.18.0.5 | POST     "/api/fs/search"
+[GIN] 2026/03/31 - 09:47:29 | 200 |      75.413µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:31 | 200 |      69.811µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:42 | 200 |    1.641975ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:49 | 200 |    2.717753ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:47:59 | 200 |  114.222661ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:48:01 | 200 |    25.68823ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:48:03 | 200 |  169.017524ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:48:04 | 200 |  113.810058ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:48:06 | 200 |   153.03028ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:48:18 | 200 |     139.523µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:49:04 | 200 |      238.54µs |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:49:22 | 200 |   19.639657ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 09:49:31 | 200 |   20.222093ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:49:39 | 200 |    13.70279ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:49:52 | 200 |     8.08638ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 09:51:07 | 200 |    7.292195ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:51:09 | 200 |     384.753µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:51:11 | 200 |    1.840152ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:53:14 | 200 |  1.104870415s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:53:14 | 200 |  1.271954859s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:53:18 | 200 |  245.791117ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 09:53:56 | 200 |    3.665603ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:54:04 | 200 |      385.46µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:59:44 | 200 |   35.509893ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 09:59:55 | 200 |  138.957053ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 10:00:13 | 200 |    2.698809ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:01:24 | 200 |    2.223746ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:01:32 | 200 |     8.60725ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 10:01:46 | 200 |     247.043µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:01:58 | 200 |   65.222359ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:02:52 | 200 |    6.210055ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:03:10 | 200 |   33.038921ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:03:29 | 200 |   11.844294ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:03:38 | 200 |   16.676955ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:04:12 | 200 |   13.795185ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:04:32 | 200 |   15.645523ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:08:24 | 200 |   172.20306ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:11:46 | 200 |   44.476964ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:15:44 | 200 |   87.271341ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:20:41 | 200 |   65.492005ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:20:51 | 200 |   21.004476ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:34:33 | 200 |  140.691498ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:34:37 | 200 |   18.393595ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:34:39 | 200 |     249.349µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:34:42 | 200 |      88.218µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:35:05 | 200 |   52.632227ms |      172.18.0.5 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 10:35:17] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:35:18] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:35:18] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:35:19] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:35:19] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:35:19 | 200 |  3.501290032s |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:35:28 | 200 |   17.020045ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:35:29 | 200 |   10.857161ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 10:35:31 | 200 |   42.082465ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 10:35:31 | 200 |  112.772189ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 10:35:34 | 200 |    6.551264ms |      172.18.0.1 | GET      "/assets/Common-69a0fb8a.js"
+[GIN] 2026/03/31 - 10:35:34 | 200 |   11.166026ms |      172.18.0.1 | GET      "/assets/indexes-3cfa432d.js"
+[GIN] 2026/03/31 - 10:35:35 | 200 |   15.792689ms |      172.18.0.1 | GET      "/api/admin/index/progress"
+[GIN] 2026/03/31 - 10:35:35 | 200 |   24.128326ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=6"
+[GIN] 2026/03/31 - 10:35:35 | 200 |    1.018012ms |      172.18.0.1 | GET      "/assets/Metas-3d43d367.js"
+[GIN] 2026/03/31 - 10:35:35 | 200 |   42.631879ms |      172.18.0.1 | GET      "/api/admin/meta/list"
+[GIN] 2026/03/31 - 10:35:36 | 200 |     776.661µs |      172.18.0.1 | GET      "/assets/Role-a9b5b6ce.js"
+[GIN] 2026/03/31 - 10:35:37 | 200 |   22.829153ms |      172.18.0.1 | GET      "/api/admin/role/list"
+[GIN] 2026/03/31 - 10:35:41 | 200 |   20.251517ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=11"
+[GIN] 2026/03/31 - 10:35:41 | 200 |   10.019286ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=9"
+[GIN] 2026/03/31 - 10:35:43 | 200 |   14.183953ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=2"
+[GIN] 2026/03/31 - 10:35:43 | 200 |   12.709926ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=1"
+[GIN] 2026/03/31 - 10:35:46 | 200 |   21.365813ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 10:36:00 | 200 |     833.872µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:36:02 | 200 |      71.515µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:36:11 | 200 |   19.076354ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 10:36:13 | 200 |    2.724464ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 10:36:14 | 200 |    1.585528ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 10:36:14 | 200 |    1.002908ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 10:36:14 | 200 |   12.522096ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:36:14 | 200 |     6.65328ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 10:36:14 | 200 |    5.316302ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:36:14 | 200 |   10.157605ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[31mERRO[0m[2026-03-31 10:36:16] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:17] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:17] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:18] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:36:18] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:36:18 | 200 |  1.614869517s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:36:24 | 200 |   11.050481ms |      172.18.0.1 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 10:36:26] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:27] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:27] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:27] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:36:27] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:36:27 | 200 |  1.665462483s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:36:28 | 200 |   11.583886ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:36:33 | 200 |      80.017µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 10:36:33 | 200 |      584.82µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 10:36:33 | 200 |     133.928µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 10:36:34 | 200 |   27.242713ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:36:34 | 200 |   12.454866ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 10:36:34 | 200 |    9.304317ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 10:36:34 | 200 |   37.682563ms |      172.18.0.1 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 10:36:37] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:37] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:38] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:36:38] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:36:38] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:36:38 | 200 |    1.6226827s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:36:55 | 200 |   24.345486ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:36:55 | 200 |   17.152515ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 10:36:56 | 200 |   16.852055ms |      172.18.0.1 | GET      "/api/auth/logout"
+[GIN] 2026/03/31 - 10:36:56 | 200 |     230.846µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 10:37:03 | 200 |   10.305006ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 10:37:03 | 200 |   12.575269ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:37:04 | 200 |   24.080419ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 10:37:07 | 200 |      782.16µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 10:37:07 | 200 |   11.730797ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:37:08 | 200 |     116.324µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 10:37:08 | 200 |    1.039213ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 10:37:08 | 200 |   12.556666ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:37:08 | 200 |    6.439316ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 10:37:08 | 200 |    11.30751ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 10:37:08 | 200 |   57.417431ms |      172.18.0.1 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 10:37:15] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:37:16] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:37:16] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:37:17] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:37:17] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:37:17 | 200 |  1.646081253s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:39:52 | 200 |   40.746965ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:39:59 | 200 |    1.370321ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:40:03 | 200 |      57.111µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:40:05 | 200 |      51.511µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:40:15 | 200 |      155.23µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:41:42 | 200 |    5.183989ms |      172.18.0.1 | GET      "/aliyun"
+[GIN] 2026/03/31 - 10:41:42 | 200 |     331.263µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 10:41:42 | 200 |     976.087µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 10:41:43 | 200 |    9.836078ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:41:43 | 200 |    4.458551ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 10:41:43 | 200 |   11.399377ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 10:41:43 | 200 |   56.124216ms |      172.18.0.1 | POST     "/api/fs/get"
+[31mERRO[0m[2026-03-31 10:41:47] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:41:48] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:41:50] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:41:51] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:41:51] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:41:51 | 200 |  7.836331148s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:42:09 | 200 |    5.408981ms |      172.18.0.5 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 10:42:18] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:42:18] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:42:18] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 10:42:18] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 10:42:18] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 10:42:19 | 200 |  2.208072205s |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 10:44:07 | 200 |   10.644527ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:44:12 | 200 |      40.308µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:44:54 | 200 |     6.37609ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:49:39 | 200 |   14.110648ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:49:51 | 200 |  247.660806ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 10:50:09 | 200 |    9.045902ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:50:52 | 200 |    4.627227ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:51:12 | 200 |  126.963733ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:54:46 | 200 |   20.767202ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:55:03 | 200 |   88.481737ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 10:56:57 | 200 |     56.8729ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 10:59:21 | 200 |   73.964211ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:03:59 | 200 |   12.834026ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:04:22 | 200 |  262.974907ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:13:00 | 200 |   90.751453ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:18:46 | 200 |   81.180134ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:18:54 | 200 |  183.979145ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:19:15 | 200 |    5.490081ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:19:48 | 200 |     742.802µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:20:05 | 200 |    9.831838ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:20:16 | 200 |    45.39687ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:31:37 | 200 |  334.559112ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:31:37 | 200 |   20.376511ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:33:15 | 200 |   50.221587ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 11:33:17 | 200 |   19.927243ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 11:33:17 | 200 |  269.833092ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 11:33:17 | 200 |  239.585775ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:33:17 | 200 |   41.385057ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 11:33:17 | 200 |   87.325506ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 11:33:18 | 200 |  166.124259ms |      172.18.0.1 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 11:33:23] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:33:24] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:33:25] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:33:25] fs/list: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 11:33:25] failed list /aliyun: failed to refresh token: Too Many Requests
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 11:33:25 | 200 |  5.462323992s |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 11:33:25 | 200 |   33.817729ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:33:25 | 200 |   10.714177ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:33:27 | 200 |   34.644275ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 11:33:29 | 200 |    29.91931ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:33:29 | 200 |   52.790576ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 11:33:31 | 200 |   52.925378ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 11:33:31 | 200 |   184.48932ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:33:33 | 200 |  138.736594ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=1"
+[GIN] 2026/03/31 - 11:33:33 | 200 |   77.276761ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[31mERRO[0m[2026-03-31 11:38:18] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:38:19] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:38:19] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:38:20] failed init storage: failed to refresh token: Too Many Requests 
+[GIN] 2026/03/31 - 11:38:20 | 200 | 10.075817794s |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 11:39:36 | 200 |  147.866663ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 11:39:36 | 200 |   148.55042ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:39:40 | 200 |   21.120747ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=1"
+[GIN] 2026/03/31 - 11:39:40 | 200 |   10.479879ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:39:42 | 200 |  121.202085ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[31mERRO[0m[2026-03-31 11:40:20] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:40:21] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:40:21] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:40:22] failed init storage but storage is already created: failed init storage: failed to refresh token: Too Many Requests 
+[GIN] 2026/03/31 - 11:40:22 | 200 |  3.136616419s |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 11:40:22 | 200 |   25.074316ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=2"
+[GIN] 2026/03/31 - 11:40:22 | 200 |    5.686565ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[GIN] 2026/03/31 - 11:40:28 | 200 |    20.34343ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 11:40:28 | 200 |   25.113345ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:43:20 | 200 |   86.610343ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:43:52 | 200 |   134.70564ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[GIN] 2026/03/31 - 11:49:04 | 200 |   50.510856ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 11:49:04 | 200 |   57.301116ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:49:07 | 200 |   36.938839ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=2"
+[GIN] 2026/03/31 - 11:49:07 | 200 |   12.088698ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:49:59 | 200 |   42.490274ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:49:59 | 200 |     5.30247ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:50:07 | 200 |     6.04224ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:50:40 | 200 |  365.392111ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[GIN] 2026/03/31 - 11:51:05 | 200 |   30.518539ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:51:05 | 200 |     1.09732ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:51:47 | 200 |  181.761524ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 11:52:46 | 200 |  148.402811ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[31mERRO[0m[2026-03-31 11:52:56] failed init storage but storage is already created: failed init storage: _115.Addition.LimitRate: readNumberAsString: invalid number, error found in #10 byte of ...|mit_rate":"2","root_|..., bigger context ...|ode_source":"linux","page_size":1000,"limit_rate":"2","root_folder_id":"0"}|... 
+[GIN] 2026/03/31 - 11:52:56 | 200 |  141.053398ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 11:52:56 | 200 |   25.531265ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=3"
+[GIN] 2026/03/31 - 11:52:56 | 200 |   19.905772ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=115%20Cloud"
+[33mWARN[0m[2026-03-31 11:53:26] [115] get app version failed: {"state":true,"err_code":0,"error":"","data":{"win":{"version_code":"36.0.0","created_time":1755871101,"version_url":"https:\/\/down.115.com\/client\/win\/115br_v36.0.0.exe"},"android":{"version_code":"37.0.4","created_time":1770130098,"version_url":"https:\/\/down.115.com\/client\/tv\/115TV_37.0.4.apk"},"mac":{"version_code":"36.0.0","created_time":1755871262,"version_url":"https:\/\/down.115.com\/client\/mac\/115br_v36.0.0_x64.dmg"},"window_115":{"version_code":"36.0.10","created_time":1764136260,"version_url":"https:\/\/down.115.com\/client\/115pc\/win\/115Life_36.0.10_x32.exe"},"mac_115":{"version_code":"1.0.0.0","created_time":1721290089,"version_url":"https:\/\/down.115.com\/client\/mac\/115br_v26.0.7.2_x64.dmg"},"linux_115":{"version_code":"1.0.0.0","created_time":1721290337,"version_url":"http:\/\/127.0.0.1:8000\/115_2.0.0.16.deb"},"win64":{"version_code":"36.0.0","created_time":1755871162,"version_url":"https:\/\/down.115.com\/client\/win\/115br_v36.0.0_x64.exe"},"mac_arm":{"version_code":"36.0.0","created_time":1755871308,"version_url":"https:\/\/down.115.com\/client\/mac\/115br_v36.0.0_arm64.dmg"},"linux":{"version_code":"36.0.0","created_time":1755871354,"version_url":"https:\/\/down.115.com\/client\/115pc\/lin\/115br_v36.0.0.deb"}}}: unexpected error 
+[31mERRO[0m[2026-03-31 11:53:26] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 11:53:26 | 200 |  772.939299ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-03-31 11:53:56] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 11:53:56 | 200 |  216.503008ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-03-31 11:54:04] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 11:54:04 | 200 |   32.989982ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 11:54:07 | 200 |  133.229076ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 11:54:07 | 200 |   86.636144ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:54:10 | 200 |   42.369043ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=3"
+[GIN] 2026/03/31 - 11:54:10 | 200 |   22.449677ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:55:46 | 200 |  762.192257ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[31mERRO[0m[2026-03-31 11:56:07] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:56:07] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:56:07] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 11:56:07] failed init storage but storage is already created: failed init storage: failed to refresh token: Too Many Requests 
+[GIN] 2026/03/31 - 11:56:07 | 200 |   1.80202848s |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 11:56:07 | 200 |    52.59502ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=4"
+[GIN] 2026/03/31 - 11:56:07 | 200 |   23.432697ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[GIN] 2026/03/31 - 11:56:12 | 200 |   10.630386ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:56:12 | 200 |     278.955µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:56:13 | 200 |   45.280002ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 11:56:13 | 200 |   78.217006ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:57:28 | 200 |  311.730159ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=4"
+[GIN] 2026/03/31 - 11:57:28 | 200 |   36.786775ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 11:58:47 | 200 |  148.897643ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:58:47 | 200 |    5.734754ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:58:47 | 200 |    8.951954ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:58:47 | 200 |     182.861µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:59:11 | 200 |   81.001402ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:59:11 | 200 |    4.201494ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:59:25 | 200 |  249.295443ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 11:59:43 | 200 |    34.61274ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:59:44 | 200 |     930.438µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:59:54 | 200 |    9.048682ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:59:54 | 200 |    3.563066ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:59:56 | 200 |    7.309556ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:59:56 | 200 |    7.122331ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 11:59:58 | 200 |    7.225421ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 11:59:58 | 200 |     192.538µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:02:39 | 200 |   57.228484ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:10:06 | 200 |   17.028207ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:10:23 | 200 |     755.363µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:10:38 | 200 |  178.897957ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:10:47 | 200 |    1.180897ms |      172.18.0.1 | GET      "/api/me"
+[33mWARN[0m[2026-03-31 12:11:17] not enable search                            
+[GIN] 2026/03/31 - 12:11:18 | 200 |   10.755561ms |             ::1 | POST     "/api/admin/user/del_cache?username=admin"
+[36mINFO[0m[2026-03-31 12:11:18] closing db                                   
+[GIN] 2026/03/31 - 12:12:01 | 200 |   12.752205ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:12:01 | 200 |      87.615µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:12:22 | 200 |    9.422127ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:12:22 | 200 |     132.124µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:12:54 | 200 |    5.354441ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:13:04 | 200 |     952.081µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:13:22 | 200 |     172.699µs |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:13:52 | 200 |    5.696691ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:13:52 | 200 |     528.136µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:19:55 | 200 |   48.669176ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:19:55 | 200 |    1.351152ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:20:06 | 200 |   32.082764ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:26:35 | 200 |  136.082994ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:26:35 | 200 |    5.915999ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:38:14 | 200 |   72.888457ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:38:23 | 200 |   53.213449ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:38:31 | 200 |    4.987138ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:38:40 | 200 |     428.016µs |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:50:46 | 200 |     56.4772ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:50:49 | 200 |   50.930575ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:51:07 | 200 |  109.708323ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:51:07 | 200 |     666.703µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:51:10 | 200 |   15.007228ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:51:10 | 200 |      83.613µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:51:53 | 200 |   12.415316ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:51:54 | 200 |     140.021µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:51:56 | 200 |   39.664127ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:51:56 | 200 |     121.616µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:52:07 | 200 |   24.696642ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:52:07 | 200 |     158.523µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:52:10 | 200 |     253.533µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:52:12 | 200 |     303.538µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:52:25 | 200 |   35.266448ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=9"
+[GIN] 2026/03/31 - 12:52:25 | 200 |   77.764038ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 12:52:33 | 200 |   38.996811ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 12:52:33 | 200 |  191.154304ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:52:33 | 200 |   67.436303ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=9"
+[GIN] 2026/03/31 - 12:52:39 | 200 |   39.330168ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 12:52:39 | 200 |  106.976715ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 12:52:40 | 200 |  372.988847ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[31mERRO[0m[2026-03-31 12:53:15] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 12:53:15] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 12:53:15] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 12:53:15] failed init storage but storage is already created: failed init storage: failed to refresh token: Too Many Requests 
+[GIN] 2026/03/31 - 12:53:15 | 200 |  4.661679133s |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 12:53:16 | 200 |   80.059404ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=5"
+[GIN] 2026/03/31 - 12:53:16 | 200 |   40.213028ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[GIN] 2026/03/31 - 12:53:23 | 200 |    4.276201ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 12:53:23 | 200 |  163.955634ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:53:25 | 200 |     1.49321ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 12:53:25 | 200 |    1.006942ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 12:53:25 | 200 |   36.999399ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:53:25 | 200 |   54.757993ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 12:53:25 | 200 |   66.448135ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 12:53:25 | 200 |   126.62989ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:53:29 | 200 |    1.668134ms |      172.18.0.5 | GET      "/api/me"
+[31mERRO[0m[2026-03-31 12:53:29] fs/list: driver not init
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 12:53:29] failed list /alyoss: driver not init
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 12:53:29 | 200 |   49.909212ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:53:32 | 200 |   43.201629ms |      172.18.0.1 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 12:53:34] fs/list: driver not init
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-03-31 12:53:34] failed list /alyoss: driver not init
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/03/31 - 12:53:34 | 200 |   14.532195ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:53:35 | 200 |    7.758419ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:53:36 | 200 |   13.620764ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:53:36 | 200 |   11.242021ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=5"
+[GIN] 2026/03/31 - 12:53:36 | 200 |   10.947378ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[GIN] 2026/03/31 - 12:53:38 | 200 |   10.781655ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 12:53:38 | 200 |   98.909761ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 12:53:55 | 200 |   21.835971ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=5"
+[GIN] 2026/03/31 - 12:53:55 | 200 |    5.302472ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 12:53:56 | 200 |   13.231096ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:54:00 | 200 |  103.593905ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[GIN] 2026/03/31 - 12:54:02 | 200 |   17.251732ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 12:54:02 | 200 |   29.104403ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 12:54:03 | 200 |     653.045µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:54:08 | 200 |   99.725677ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[GIN] 2026/03/31 - 12:54:15 | 200 |   14.456807ms |      172.18.0.1 | POST     "/api/auth/login"
+[31mERRO[0m[2026-03-31 12:54:38] failed init storage but storage is already created: failed init storage: _115.Addition.LimitRate: readNumberAsString: invalid number, error found in #10 byte of ...|mit_rate":"2","root_|..., bigger context ...|rcode_source":"web","page_size":1000,"limit_rate":"2","root_folder_id":"0"}|... 
+[GIN] 2026/03/31 - 12:54:38 | 200 |  137.348217ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 12:54:38 | 200 |   63.323452ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=6"
+[GIN] 2026/03/31 - 12:54:38 | 200 |   29.860104ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=115%20Cloud"
+[33mWARN[0m[2026-03-31 12:54:45] [115] get app version failed: {"state":true,"err_code":0,"error":"","data":{"win":{"version_code":"36.0.0","created_time":1755871101,"version_url":"https:\/\/down.115.com\/client\/win\/115br_v36.0.0.exe"},"android":{"version_code":"37.0.4","created_time":1770130098,"version_url":"https:\/\/down.115.com\/client\/tv\/115TV_37.0.4.apk"},"mac":{"version_code":"36.0.0","created_time":1755871262,"version_url":"https:\/\/down.115.com\/client\/mac\/115br_v36.0.0_x64.dmg"},"window_115":{"version_code":"36.0.10","created_time":1764136260,"version_url":"https:\/\/down.115.com\/client\/115pc\/win\/115Life_36.0.10_x32.exe"},"mac_115":{"version_code":"1.0.0.0","created_time":1721290089,"version_url":"https:\/\/down.115.com\/client\/mac\/115br_v26.0.7.2_x64.dmg"},"linux_115":{"version_code":"1.0.0.0","created_time":1721290337,"version_url":"http:\/\/127.0.0.1:8000\/115_2.0.0.16.deb"},"win64":{"version_code":"36.0.0","created_time":1755871162,"version_url":"https:\/\/down.115.com\/client\/win\/115br_v36.0.0_x64.exe"},"mac_arm":{"version_code":"36.0.0","created_time":1755871308,"version_url":"https:\/\/down.115.com\/client\/mac\/115br_v36.0.0_arm64.dmg"},"linux":{"version_code":"36.0.0","created_time":1755871354,"version_url":"https:\/\/down.115.com\/client\/115pc\/lin\/115br_v36.0.0.deb"}}}: unexpected error 
+[31mERRO[0m[2026-03-31 12:54:45] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 12:54:45 | 200 |  504.364054ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-03-31 12:54:49] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 12:54:49 | 200 |   35.303098ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 12:54:52 | 200 |    3.040513ms |      172.18.0.1 | GET      "/@manage/storages/edit/6"
+[GIN] 2026/03/31 - 12:54:54 | 200 |    1.774341ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 12:54:54 | 200 |    4.006243ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 12:54:54 | 200 |   28.426157ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:54:54 | 200 |   40.349475ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=6"
+[GIN] 2026/03/31 - 12:54:54 | 200 |   19.730578ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=115%20Cloud"
+[31mERRO[0m[2026-03-31 12:55:00] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 12:55:00 | 200 |   74.198553ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-03-31 12:55:04] failed init storage: missing cookie or qrcode account 
+[GIN] 2026/03/31 - 12:55:04 | 200 |  101.966165ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 12:55:11 | 200 |     692.112µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:55:28 | 200 |   32.185267ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:55:36 | 200 |   44.047632ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 12:55:41 | 200 |   77.008878ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 12:55:41 | 200 |   44.854985ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 12:55:44 | 200 |   21.866043ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=6"
+[GIN] 2026/03/31 - 12:55:44 | 200 |   25.381482ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=115%20Cloud"
+[GIN] 2026/03/31 - 12:55:51 | 200 |     398.762µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:55:58 | 200 |   12.322317ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 12:56:32 | 200 |   13.653117ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 12:56:40 | 200 |    3.367134ms |      172.18.0.5 | GET      "/api/me"
+[31mERRO[0m[2026-03-31 12:57:47] failed init storage: failed to login by qrcode: {"state":0,"error":"老乡验证失败！","errno":40101017,"message":"老乡验证失败！","code":40101017}: failed to login 
+[GIN] 2026/03/31 - 12:57:47 | 200 |  1.550679445s |      172.18.0.1 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-03-31 12:57:59] failed init storage: failed to login by qrcode: {"state":0,"error":"老乡验证失败！","errno":40101017,"message":"老乡验证失败！","code":40101017}: failed to login 
+[GIN] 2026/03/31 - 12:57:59 | 200 |   370.61298ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-03-31 12:58:03] failed init storage: failed to login by qrcode: {"state":0,"error":"老乡验证失败！","errno":40101017,"message":"老乡验证失败！","code":40101017}: failed to login 
+[GIN] 2026/03/31 - 12:58:03 | 200 |   365.21046ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 12:58:04 | 200 |     291.868µs |      172.18.0.5 | GET      "/api/me"
+[31mERRO[0m[2026-03-31 12:58:09] failed init storage: failed to login by qrcode: {"state":0,"error":"老乡验证失败！","errno":40101017,"message":"老乡验证失败！","code":40101017}: failed to login 
+[GIN] 2026/03/31 - 12:58:09 | 200 |  326.855942ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 12:58:22 | 200 |   36.188189ms |      172.18.0.5 | GET      "/api/me"
+[31mERRO[0m[2026-03-31 12:59:32] failed init storage: failed to login by qrcode: {"state":0,"error":"老乡验证失败！","errno":40101017,"message":"老乡验证失败！","code":40101017}: failed to login 
+[GIN] 2026/03/31 - 12:59:32 | 200 |  766.109178ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/03/31 - 13:00:16 | 200 |  256.080549ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 13:00:16 | 200 |    86.25414ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 13:00:20 | 200 |   16.178544ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=6"
+[GIN] 2026/03/31 - 13:00:20 | 200 |    16.98159ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 13:02:58 | 200 |  165.581128ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[31mERRO[0m[2026-03-31 13:03:30] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 13:03:30] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 13:03:31] [ali_open] failed to refresh token: failed to refresh token: Too Many Requests 
+[31mERRO[0m[2026-03-31 13:03:32] failed init storage but storage is already created: failed init storage: failed to refresh token: Too Many Requests 
+[GIN] 2026/03/31 - 13:03:32 | 200 |  4.521409876s |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 13:03:32 | 200 |   41.203588ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=7"
+[GIN] 2026/03/31 - 13:03:32 | 200 |   53.578957ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=AliyundriveOpen"
+[GIN] 2026/03/31 - 13:04:02 | 200 |    3.802987ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:04:03 | 200 |     812.783µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:04:07 | 200 |      64.911µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:04:41 | 200 |  216.788391ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 13:04:47 | 200 |  121.051624ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 13:04:47 | 200 |  131.223638ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 13:06:21 | 200 |  484.179936ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:07:20 | 200 |  404.915486ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[31mERRO[0m[2026-03-31 13:08:15] failed create storage in database: UNIQUE constraint failed: x_storages.mount_path 
+[GIN] 2026/03/31 - 13:08:15 | 200 |   46.621117ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 13:08:53 | 200 |  141.838953ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/03/31 - 13:08:53 | 200 |    86.22469ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 13:08:53 | 200 |   99.283798ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 13:08:56 | 200 |    90.45856ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=7"
+[GIN] 2026/03/31 - 13:08:57 | 200 |   82.723714ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 13:09:00 | 200 |    3.235586ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 13:09:00 | 200 |   20.277221ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:09:01 | 200 |    3.491353ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 13:09:01 | 200 |   38.992561ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 13:09:01 | 200 |   37.392053ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:09:02 | 200 |    26.65556ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 13:09:02 | 200 |   82.036649ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 13:09:02 | 200 |  162.649713ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:09:03 | 200 |  124.672883ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:09:10 | 200 |  146.266733ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:09:15 | 200 |   96.570069ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:09:57 | 200 |   69.394694ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:09:57 | 200 |   44.875243ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 13:10:01 | 200 |   42.845029ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 13:13:09 | 200 |   75.439288ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:16:25 | 200 |  288.122945ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 13:16:31 | 200 |   27.479143ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:16:31 | 200 |    8.590252ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 13:16:32 | 200 |     18.5702ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 13:16:32 | 200 |   90.867734ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:16:32 | 200 |    1.773106ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 13:16:32 | 200 |   12.379533ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 13:16:33 | 200 |   15.193136ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:16:33 | 200 |   25.990118ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 13:16:33 | 200 |   14.096824ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 13:16:33 | 200 |     21.3724ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:16:34 | 200 |    73.47297ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:16:36 | 200 |   19.716327ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:16:37 | 200 |   34.295288ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:25:26 | 200 |  216.118169ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:25:27 | 200 |   13.225719ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:25:28 | 200 |   20.108174ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 13:25:31 | 200 |   34.474985ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 13:26:36 | 200 |   49.950033ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=2"
+[GIN] 2026/03/31 - 13:26:40 | 200 |   34.274953ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=1"
+[GIN] 2026/03/31 - 13:26:44 | 200 |   10.787105ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 13:26:46 | 200 |    3.807273ms |      172.18.0.1 | GET      "/assets/helper-699382d8.js"
+[GIN] 2026/03/31 - 13:26:46 | 200 |    26.22073ms |      172.18.0.1 | GET      "/assets/offline_download-551ee1f9.js"
+[GIN] 2026/03/31 - 13:26:46 | 200 |   14.060483ms |      172.18.0.1 | GET      "/assets/Tasks-db5b0556.js"
+[GIN] 2026/03/31 - 13:26:46 | 200 |   60.271144ms |      172.18.0.1 | GET      "/api/task/offline_download/undone"
+[GIN] 2026/03/31 - 13:26:46 | 200 |   25.331673ms |      172.18.0.1 | GET      "/api/task/offline_download_transfer/done"
+[GIN] 2026/03/31 - 13:26:46 | 200 |  115.093924ms |      172.18.0.1 | GET      "/api/task/offline_download/done"
+[GIN] 2026/03/31 - 13:26:46 | 200 |    134.7735ms |      172.18.0.1 | GET      "/api/task/offline_download_transfer/undone"
+[GIN] 2026/03/31 - 13:26:48 | 200 |   19.855489ms |      172.18.0.1 | GET      "/api/task/offline_download/undone"
+[GIN] 2026/03/31 - 13:26:48 | 200 |   11.214714ms |      172.18.0.1 | GET      "/api/task/offline_download_transfer/undone"
+[GIN] 2026/03/31 - 13:26:50 | 200 |   22.581854ms |      172.18.0.1 | GET      "/api/task/offline_download/undone"
+[GIN] 2026/03/31 - 13:26:50 | 200 |    28.06989ms |      172.18.0.1 | GET      "/api/task/offline_download_transfer/undone"
+[GIN] 2026/03/31 - 13:26:51 | 200 |   12.325104ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 13:29:50 | 200 |   70.214734ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:30:20 | 200 |    1.878217ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 13:30:20 | 200 |   25.974084ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:30:20 | 200 |     580.398µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 13:30:20 | 200 |    2.469717ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 13:30:21 | 200 |    7.672695ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:30:21 | 200 |   31.610736ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 13:30:21 | 200 |   14.732087ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:30:21 | 200 |   16.126222ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 13:30:22 | 200 |   58.817927ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:30:37 | 200 |   10.162029ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:31:55 | 200 |   37.852256ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:32:18 | 200 |   15.879068ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:36:32 | 200 |   92.335129ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:36:40 | 200 |     9.22335ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:36:47 | 200 |    1.100204ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:36:54 | 200 |      190.25µs |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:37:00 | 200 |     116.327µs |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:39:10 | 200 |  321.662485ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:39:12 | 200 |   81.891169ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:39:13 | 200 |   18.895379ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:39:20 | 200 |   26.759843ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 13:39:20 | 200 |   26.300334ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 13:39:21 | 200 |   34.379637ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 13:39:21 | 200 |   56.600331ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 13:40:41 | 200 |  117.896356ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:41:39 | 200 |   45.277574ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 13:41:45 | 200 |   13.830092ms |      172.18.0.5 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 13:41:52] failed list /aliyun: storage not found; rawPath: /aliyun
+failed get storage 
+[GIN] 2026/03/31 - 13:41:52 | 200 |   29.468465ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:47:29 | 200 |  320.118412ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:47:32 | 200 |   18.463636ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:47:34 | 200 |   11.595444ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:47:39 | 200 |    8.335805ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:47:42 | 200 |    9.686617ms |      172.18.0.5 | POST     "/api/fs/search"
+[GIN] 2026/03/31 - 14:47:55 | 200 |   17.191455ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:47:58 | 200 |    8.660336ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:48:01 | 200 |  146.066761ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:03 | 200 |    5.501659ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 14:48:03 | 200 |   81.342027ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:48:04 | 200 |   21.743101ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 14:48:04 | 200 |    4.910378ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 14:48:04 | 200 |   41.710757ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:48:04 | 200 |   41.233891ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 14:48:04 | 200 |   36.245002ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 14:48:04 | 200 |   34.494661ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:06 | 200 |   47.013989ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:09 | 200 |   14.177051ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 14:48:15 | 200 |   24.464139ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:17 | 200 |   39.296158ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:19 | 200 |   31.563564ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:20 | 200 |   48.035893ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 14:48:21 | 200 |   35.574431ms |      172.18.0.1 | POST     "/api/fs/get"
+[GIN] 2026/03/31 - 14:48:21 | 200 |   28.150581ms |      172.18.0.1 | GET      "/assets/File-b3d6c366.js"
+[GIN] 2026/03/31 - 14:51:16 | 200 |   45.158351ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 15:03:17 | 200 |   33.549471ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:03:19 | 200 |    5.565292ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:03:22 | 200 |   15.169927ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:03:23 | 200 |    5.911573ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:03:27 | 200 |   59.469271ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 15:03:32 | 200 |   17.159698ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:04:34 | 200 |   21.521913ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:04:37 | 200 |    30.60308ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:04:39 | 200 |    6.825778ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:05:04 | 200 |   19.168393ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:05:42 | 200 |     13.8285ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 15:06:16 | 200 |    8.229169ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:06:45 | 200 |    8.437892ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:07:18 | 200 |     13.7956ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:07:29 | 200 |    7.481745ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 15:07:55 | 200 |    9.093024ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:10:02 | 200 |   29.801242ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 15:10:12 | 200 |   13.080221ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 16:30:23 | 200 |  112.078462ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:30:32 | 200 |   11.020793ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:30:34 | 200 |    5.167156ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:30:45 | 200 |   13.784515ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:30:48 | 200 |   12.898069ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:30:53 | 200 |    7.868655ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:31:05 | 200 |   61.628809ms |      172.18.0.5 | POST     "/api/fs/list"
+[31mERRO[0m[2026-03-31 16:31:09] failed list /localhost: storage not found; rawPath: /localhost
+failed get storage 
+[GIN] 2026/03/31 - 16:31:09 | 200 |   29.509356ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 16:31:17 | 200 |   11.523771ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:31:37 | 200 |   40.775262ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:53 | 200 |   33.248972ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:56 | 200 |   33.909805ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:56 | 200 |   13.269067ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:57 | 200 |   18.568834ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:57 | 200 |     6.37332ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:57 | 200 |   16.357922ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:57 | 200 |    5.885396ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:57 | 200 |    8.502827ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:58 | 200 |    8.594532ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:32:58 | 200 |    5.924498ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:33:09 | 200 |   14.744298ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:33:11 | 200 |    4.558404ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:33:17 | 200 |   22.882666ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:34:18 | 200 |   15.773455ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:34:38 | 200 |    52.12377ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:34:43 | 200 |   69.605615ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:35:09 | 200 |   36.110562ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:35:15 | 200 |    8.780096ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:35:49 | 200 |   19.289417ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:35:55 | 200 |    19.33899ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:35:57 | 200 |    8.413444ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:36:31 | 200 |   38.767422ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:36:37 | 200 |    64.59916ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:36:40 | 200 |    19.79592ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:36:53 | 200 |   67.369551ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:37:47 | 200 |   84.302941ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:37:53 | 200 |   21.475042ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:38:03 | 200 |   21.480896ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:38:19 | 200 |    15.42393ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:38:30 | 200 |   12.895912ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:38:44 | 200 |     7.67668ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:39:38 | 200 |   29.342626ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:39:48 | 200 |    3.552745ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 16:40:30 | 200 |   31.926286ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-03-31 16:52:10] closing db                                   
+[33mWARN[0m[2026-03-31 17:21:28] not enable search                            
+[GIN] 2026/03/31 - 17:24:11 | 200 |   12.004692ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 17:24:11 | 200 |     18.4438ms |      172.18.0.1 | GET      "/assets/index-b206f97b.css"
+[GIN] 2026/03/31 - 17:24:11 | 200 |    1.579423ms |      172.18.0.1 | GET      "/static/manifest.json"
+[GIN] 2026/03/31 - 17:24:11 | 200 |   77.662848ms |      172.18.0.1 | GET      "/assets/index-0ac33e44.js"
+[GIN] 2026/03/31 - 17:24:12 | 200 |     4.61135ms |      172.18.0.1 | GET      "/assets/entry-b68756c5.js"
+[GIN] 2026/03/31 - 17:24:12 | 200 |   12.563771ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 17:24:12 | 200 |   30.744834ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 17:24:12 | 200 |    2.811596ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:24:12 | 200 |     163.723µs |      172.18.0.1 | GET      "/assets/useTitle-98cd4016.js"
+[GIN] 2026/03/31 - 17:24:12 | 200 |     580.482µs |      172.18.0.1 | GET      "/assets/index-904bdd79.js"
+[GIN] 2026/03/31 - 17:24:12 | 200 |     620.688µs |      172.18.0.1 | GET      "/assets/webauthn-json.browser-ponyfill-f2f06d6e.js"
+[GIN] 2026/03/31 - 17:24:12 | 200 |     397.356µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   25.773247ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   16.052271ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:24:17 | 200 |    6.825966ms |      172.18.0.1 | GET      "/assets/Layout-8a0a2c68.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |       705.1µs |      172.18.0.1 | GET      "/assets/index-06a2e1d1.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     520.974µs |      172.18.0.1 | GET      "/assets/FolderTree-3887d06d.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     773.709µs |      172.18.0.1 | GET      "/assets/index-62f37b04.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   12.161221ms |      172.18.0.1 | GET      "/assets/index-d1b62002.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     101.514µs |      172.18.0.1 | GET      "/assets/storage-class-1ac53f89.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   17.944738ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 17:24:17 | 200 |      421.16µs |      172.18.0.1 | GET      "/images/new_icon.png"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   26.587461ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   44.486993ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     333.548µs |      172.18.0.1 | GET      "/assets/style-a6d16836.css"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     325.846µs |      172.18.0.1 | GET      "/assets/style-f5d5f2e6.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     667.395µs |      172.18.0.1 | GET      "/assets/Folder-6ee8584f.css"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     167.524µs |      172.18.0.1 | GET      "/assets/Paginator-7e0484cf.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |    3.791237ms |      172.18.0.1 | GET      "/assets/Folder-732f0c1c.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |   31.253322ms |      172.18.0.1 | GET      "/assets/video_box-fa1e5e08.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     313.244µs |      172.18.0.1 | GET      "/assets/List-2c510900.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |      285.24µs |      172.18.0.1 | GET      "/assets/color-a58de010.js"
+[GIN] 2026/03/31 - 17:24:17 | 200 |     313.144µs |      172.18.0.1 | GET      "/assets/helper-18247784.js"
+[GIN] 2026/03/31 - 17:24:20 | 200 |   52.407814ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:33:22 | 200 |    6.751139ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:09 | 200 |   21.251398ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:34:09 | 200 |     1.66803ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:40 | 200 |    49.01713ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:34:41 | 200 |     9.97548ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:41 | 200 |    4.435981ms |      172.18.0.1 | GET      "/assets/index-2a7c71fa.js"
+[GIN] 2026/03/31 - 17:34:41 | 200 |    1.508499ms |      172.18.0.1 | GET      "/assets/Profile-5a1c61a3.js"
+[GIN] 2026/03/31 - 17:34:41 | 200 |   10.354156ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 17:34:43 | 200 |    1.266052ms |      172.18.0.1 | GET      "/assets/Storages-82415e4f.js"
+[GIN] 2026/03/31 - 17:34:43 | 200 |    1.060511ms |      172.18.0.1 | GET      "/assets/DeletePopover-2fb0138c.js"
+[GIN] 2026/03/31 - 17:34:43 | 200 |   12.880266ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 17:34:43 | 200 |   28.444966ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 17:34:45 | 200 |     234.746µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 17:34:45 | 200 |     8.43448ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:45 | 200 |    2.137826ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 17:34:45 | 200 |     871.674µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 17:34:45 | 200 |    4.307358ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:45 | 200 |    5.474191ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 17:34:45 | 200 |    3.289556ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 17:34:45 | 200 |   10.896971ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:34:47 | 200 |   14.929674ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:34:49 | 200 |   13.387167ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:34:51 | 200 |    8.734434ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:51 | 200 |    17.22872ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 17:34:55 | 200 |    5.742541ms |      172.18.0.1 | GET      "/api/auth/logout"
+[GIN] 2026/03/31 - 17:34:55 | 200 |     612.522µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 17:34:59 | 200 |    3.487087ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 17:34:59 | 200 |    8.695313ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:34:59 | 200 |   16.777706ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 17:35:10 | 200 |    2.056108ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:35:10 | 200 |      102.12µs |      172.18.0.5 | GET      "/api/me"
+[33mWARN[0m[2026-03-31 17:37:17] not enable search                            
+[36mINFO[0m[2026-03-31 17:37:17] closing db                                   
+[33mWARN[0m[2026-03-31 17:38:47] not enable search                            
+[GIN] 2026/03/31 - 17:38:47 | 200 |    6.976666ms |             ::1 | POST     "/api/admin/user/del_cache?username=admin"
+[36mINFO[0m[2026-03-31 17:38:47] closing db                                   
+[GIN] 2026/03/31 - 17:39:06 | 200 |    4.697496ms |      172.18.0.1 | GET      "/api/auth/logout"
+[GIN] 2026/03/31 - 17:39:06 | 200 |      157.33µs |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:39:06 | 200 |     298.157µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 17:39:10 | 200 |     235.146µs |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 17:39:14 | 200 |    3.505087ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/03/31 - 17:39:14 | 200 |   11.121377ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:39:14 | 200 |    2.111513ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 17:39:14 | 200 |   15.064548ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:14 | 200 |   13.082461ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:18 | 200 |   13.743742ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:18 | 200 |   15.861365ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:19 | 200 |    8.033703ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:23 | 200 |   20.339716ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:23 | 200 |   18.532659ms |      172.18.0.1 | POST     "/api/fs/get"
+[GIN] 2026/03/31 - 17:39:23 | 200 |    4.691626ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:25 | 200 |   53.586281ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:28 | 200 |    5.364759ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:39:28 | 200 |   11.943058ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 17:39:29 | 200 |    7.971274ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 17:39:29 | 200 |   15.454151ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 17:39:32 | 200 |     172.934µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 17:39:32 | 200 |   16.264199ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:39:32 | 200 |     360.971µs |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 17:39:32 | 200 |     207.141µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 17:39:32 | 200 |    6.224024ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:39:32 | 200 |    5.120807ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 17:39:32 | 200 |    3.722632ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 17:39:32 | 200 |   21.147459ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:39:38 | 200 |    2.563004ms |      172.18.0.1 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:54:24 | 200 |   24.270784ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:54:24 | 200 |    1.745786ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:54:35 | 200 |    1.613971ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:54:35 | 200 |     986.004µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:54:38 | 200 |     200.722µs |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:54:38 | 200 |      451.85µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:54:39 | 200 |     650.572µs |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:54:39 | 200 |      45.505µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:54:46 | 200 |  124.953337ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:54:47 | 200 |   20.153531ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 17:54:50 | 200 |    6.518722ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:54:50 | 200 |      76.309µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:55:25 | 200 |     658.076µs |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 17:55:25 | 200 |     141.016µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:55:29 | 200 |   22.039738ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 17:55:30 | 200 |   10.559316ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 17:55:31 | 200 |   28.291258ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 17:55:31 | 200 |    23.78624ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 17:55:34 | 200 |    5.573331ms |      172.18.0.1 | GET      "/images/tag-gray.png"
+[GIN] 2026/03/31 - 17:55:36 | 200 |    1.982325ms |      172.18.0.1 | GET      "/assets/SettingItem-e66b06f6.js"
+[GIN] 2026/03/31 - 17:55:36 | 200 |    5.428215ms |      172.18.0.1 | GET      "/assets/Other-8551d8de.js"
+[GIN] 2026/03/31 - 17:55:36 | 200 |    2.582093ms |      172.18.0.1 | GET      "/assets/item_type-32dc6fdf.js"
+[GIN] 2026/03/31 - 17:55:36 | 200 |   38.245933ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 18:06:19 | 200 |   33.865905ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:06:47 | 200 |  188.264673ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:06:58 | 200 |   77.798388ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:11:20 | 200 |   60.384665ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:11:21 | 200 |   13.353463ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:11:27 | 200 |   17.940569ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:11:27 | 200 |    24.68396ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:11:36 | 200 |    11.13025ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:11:36 | 200 |    9.064802ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:11:48 | 200 |   10.117413ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:11:48 | 200 |   11.993686ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:11:50 | 200 |   17.276337ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:11:54 | 200 |   25.154076ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:11:54 | 200 |   33.920131ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:12:06 | 200 |    8.139748ms |      172.18.0.1 | GET      "/assets/ResponsiveGrid-31af9f08.js"
+[GIN] 2026/03/31 - 18:12:06 | 200 |   12.039893ms |      172.18.0.1 | GET      "/assets/S3-0309c7f4.js"
+[GIN] 2026/03/31 - 18:12:06 | 200 |   26.368065ms |      172.18.0.1 | GET      "/api/admin/setting/list?group=9"
+[GIN] 2026/03/31 - 18:12:09 | 200 |   16.133269ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/03/31 - 18:12:09 | 200 |   73.102011ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/03/31 - 18:12:12 | 200 |     503.296µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/03/31 - 18:12:12 | 200 |   12.518782ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:12:12 | 200 |    3.344937ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 18:12:12 | 200 |   23.274829ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 18:12:13 | 200 |    4.130186ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:12:13 | 200 |   11.307251ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/03/31 - 18:12:13 | 200 |   16.981131ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:12:13 | 200 |   20.423486ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/03/31 - 18:12:15 | 200 |   79.576136ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:12:16 | 200 |   36.963646ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:16:33 | 200 |   79.224796ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:16:34 | 200 |   22.083547ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:16:37 | 200 |    8.946361ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:16:37 | 200 |   11.246614ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:17:05 | 200 |   47.304071ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:17:05 | 200 |   15.812333ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:17:14 | 200 |   35.211531ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 18:17:14 | 200 |    1.979401ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:17:19 | 200 |   39.459691ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:17:19 | 200 |   18.775302ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 18:17:22 | 200 |    56.75724ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 18:17:34 | 200 |    7.833136ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 18:17:34 | 200 |     211.442µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:17:44 | 200 |    5.322255ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 18:17:44 | 200 |      98.229µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:17:54 | 200 |     815.146µs |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/03/31 - 18:17:54 | 200 |      81.815µs |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:18:15 | 200 |  399.199959ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:19:01 | 200 |   57.903598ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:19:01 | 200 |   58.826793ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:19:28 | 200 |   36.563423ms |      172.18.0.5 | POST     "/api/fs/search"
+[GIN] 2026/03/31 - 18:19:34 | 200 |    7.265577ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:19:34 | 200 |     9.10185ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:09 | 200 |   20.773706ms |      172.18.0.1 | GET      "/@manage/settings/other"
+[GIN] 2026/03/31 - 18:29:09 | 200 |  218.966934ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/03/31 - 18:29:10 | 200 |    2.690909ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/03/31 - 18:29:10 | 200 |   28.808391ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/03/31 - 18:29:11 | 200 |   20.582085ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:29:11 | 200 |   29.183905ms |      172.18.0.1 | GET      "/api/admin/setting/list?groups=5,0"
+[GIN] 2026/03/31 - 18:29:35 | 200 |   72.481063ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:29:35 | 200 |   65.890529ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:36 | 200 |    60.76567ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:42 | 200 |  109.122455ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:47 | 200 |    7.743851ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:48 | 200 |   12.908051ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:52 | 200 |   25.397665ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:29:54 | 200 |   19.174148ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:30:01 | 200 |   19.474232ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:30:02 | 200 |    16.79979ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:30:10 | 200 |    8.482675ms |      172.18.0.5 | POST     "/api/fs/search"
+[GIN] 2026/03/31 - 18:30:16 | 200 |    6.594725ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:30:17 | 200 |    9.187781ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:30:21 | 200 |     4.02815ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:30:26 | 200 |      7.8088ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:30:27 | 200 |    9.606469ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:33:13 | 200 |  213.148464ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:34:58 | 200 |   93.666869ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:34:59 | 200 |   19.637349ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:42:17 | 200 |  148.590263ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:42:17 | 200 |   32.484646ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:42:18 | 200 |  138.611717ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:42:20 | 200 |   64.547559ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:42:24 | 200 |   33.385572ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:42:24 | 200 |   43.695807ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:42:25 | 200 |   27.751985ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:45:12 | 200 |  179.881172ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:45:13 | 200 |  295.602357ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:45:16 | 200 |  205.292614ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:45:19 | 200 |  170.295057ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:45:27 | 200 |   66.502625ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/03/31 - 18:45:45 | 200 | 17.674874885s |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/03/31 - 18:49:20 | 200 |  130.347021ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:49:20 | 200 |    23.72088ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:50:39 | 200 |   53.142029ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:50:39 | 200 |   27.286428ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:51:22 | 200 |   45.889321ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:55:34 | 200 |  121.128371ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:55:34 | 200 |  196.465427ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:55:36 | 200 |  113.039138ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:55:38 | 200 |    29.40182ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:55:42 | 200 |  100.237844ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:55:42 | 200 |   53.833655ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:55:43 | 200 |   56.554583ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:55:45 | 200 |   77.734009ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:56:40 | 200 |  125.283139ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:56:40 | 200 |   30.072698ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:56:40 | 200 |   18.163254ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:56:40 | 200 |   15.279881ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:56:49 | 200 |   10.897236ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:56:49 | 200 |   16.052199ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:56:52 | 200 |   19.401625ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:56:52 | 200 |   13.866791ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:56:59 | 200 |   45.690299ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:56:59 | 200 |   11.823006ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:57:03 | 200 |   27.617144ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:57:03 | 200 |   12.039647ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:57:08 | 200 |   27.562232ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:57:09 | 200 |   27.246265ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:59:37 | 200 |   47.429067ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:59:37 | 200 |   14.717178ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:59:40 | 200 |   40.322557ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:59:40 | 200 |   13.636211ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 18:59:43 | 200 |   18.178025ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 18:59:43 | 200 |    21.35278ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:01:17 | 200 |   47.438253ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:01:17 | 200 |    9.067246ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:07:46 | 200 |   105.32741ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:07:46 | 200 |    89.10908ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:07:49 | 200 |   37.241314ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:07:49 | 200 |   32.661253ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:07:56 | 200 |   28.255164ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:07:56 | 200 |   32.044108ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:08:39 | 200 |  129.813157ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:08:41 | 200 |   25.628098ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:08:46 | 200 |  102.311261ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/03/31 - 19:09:12 | 200 | 25.091720285s |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/03/31 - 19:09:56 | 200 |  259.302968ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:09:59 | 200 |   38.005053ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:10:00 | 200 |   66.188942ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:10:00 | 200 |   73.024012ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:10:01 | 200 |   28.638433ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:10:51 | 200 |   66.139974ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:10:51 | 200 |   47.587571ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:10:51 | 200 |   12.718445ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:10:55 | 200 |   34.701279ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:10:55 | 200 |   14.813697ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:11:03 | 200 |   25.098187ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:11:03 | 200 |   23.179128ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 19:11:15 | 200 |   14.988692ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 19:11:15 | 200 |   14.841076ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 20:16:02 | 200 |   159.71832ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 20:16:10 | 200 |   48.521807ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 20:16:10 | 200 |   34.900191ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 20:16:12 | 200 |  101.864169ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 20:23:18 | 200 |   86.723572ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 20:23:19 | 200 |    22.78903ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/03/31 - 20:24:11 | 200 |   23.262107ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/03/31 - 20:24:11 | 200 |   27.581845ms |      172.18.0.5 | POST     "/api/fs/list"

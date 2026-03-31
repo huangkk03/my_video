@@ -106,7 +106,9 @@ public class CloudStorageController {
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             log.error("Get tasks failed", e);
-            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
         }
     }
     
@@ -117,7 +119,9 @@ public class CloudStorageController {
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             log.error("Get active tasks failed", e);
-            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
         }
     }
     
@@ -131,7 +135,28 @@ public class CloudStorageController {
             return ResponseEntity.ok(task);
         } catch (Exception e) {
             log.error("Get task failed: {}", taskId, e);
-            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+    
+    @PostMapping("/tasks/{taskId}/cancel")
+    public ResponseEntity<?> cancelTask(@PathVariable String taskId) {
+        try {
+            boolean success = cloudMediaService.cancelTask(taskId);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", success);
+            if (!success) {
+                result.put("message", "Task not found or already completed/failed");
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Cancel task failed: {}", taskId, e);
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(500).body(error);
         }
     }
 }

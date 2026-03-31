@@ -96,7 +96,21 @@ public class CloudMediaService {
             task.setMessage("Transcoding...");
             importTaskRepository.save(task);
             
+            // Check if cancelled before transcoding
+            task = importTaskRepository.findByTaskId(taskId).orElse(null);
+            if (task == null || task.getStatus().equals("failed")) {
+                log.info("Task {} was cancelled, skipping transcode", taskId);
+                return;
+            }
+            
             String videoUuid = startTranscoding(task, targetPath, title);
+            
+            // Delete the temporary downloaded file to save space
+            try {
+                Files.deleteIfExists(targetPath);
+            } catch (Exception e) {
+                log.warn("Failed to delete temporary file: {}", targetPath, e);
+            }
             
             task.setVideoUuid(videoUuid);
             task.setProgress(100);
@@ -113,9 +127,20 @@ public class CloudMediaService {
     }
     
     private void downloadFile(String downloadUrl, Path targetPath, ImportTask task) throws Exception {
-        URL url = new URL(downloadUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) new URL(downloadUrl).openConnection();
         conn.setRequestMethod("GET");
+        conn.setInstanceFollowRedirects(true);
+        
+        // Handle cross-protocol redirects (HTTP -> HTTPS) which Java doesn't follow automatically
+        int status = conn.getResponseCode();
+        if (status == HttpURLConnection.HTTP_MOVED_TEMP
+            || status == HttpURLConnection.HTTP_MOVED_PERM
+            || status == HttpURLConnection.HTTP_SEE_OTHER) {
+            String newUrl = conn.getHeaderField("Location");
+            log.info("Redirecting download to: {}", newUrl);
+            conn = (HttpURLConnection) new URL(newUrl).openConnection();
+            conn.setRequestMethod("GET");
+        }
         
         long totalBytes = conn.getContentLengthLong();
         long downloadedBytes = 0;
@@ -145,21 +170,32 @@ public class CloudMediaService {
         log.info("Downloaded file to: {}", targetPath);
     }
     
-    private void scrapMetadata(ImportTask task, String title, Path videoPath) throws Exception {
-        CompletableFuture<ScrapingAggregationService.MetadataResult> future = 
-            scrapingAggregationService.searchMetadata(title);
-        
-        ScrapingAggregationService.MetadataResult result = future.get();
-        
-        if (result != null) {
-            String metadataInfo = "";
-            if (result.getTitle() != null) {
-                metadataInfo += "Title: " + result.getTitle();
+    private void scrapMetadata(ImportTask task, String title, Path videoPath) {
+        try {
+            CompletableFuture<ScrapingAggregationService.MetadataResult> future = 
+                scrapingAggregationService.searchMetadata(title);
+            
+            // Add a timeout to prevent hanging indefinitely
+            ScrapingAggregationService.MetadataResult result = future.get(5, java.util.concurrent.TimeUnit.SECONDS);
+            
+            if (result != null) {
+                String metadataInfo = "";
+                if (result.getTitle() != null) {
+                    metadataInfo += "Title: " + result.getTitle();
+                }
+                if (result.getRating() != null) {
+                    metadataInfo += " | Rating: " + result.getRating();
+                }
+                task.setMessage("Scraping complete: " + metadataInfo);
+                importTaskRepository.save(task);
             }
-            if (result.getRating() != null) {
-                metadataInfo += " | Rating: " + result.getRating();
-            }
-            task.setMessage("Scraping complete: " + metadataInfo);
+        } catch (java.util.concurrent.TimeoutException e) {
+            log.warn("Scraping timeout for task: {}", task.getTaskId());
+            task.setMessage("Scraping timeout, skipping...");
+            importTaskRepository.save(task);
+        } catch (Exception e) {
+            log.warn("Scraping failed for task: {}", task.getTaskId(), e);
+            task.setMessage("Scraping failed, skipping...");
             importTaskRepository.save(task);
         }
     }
@@ -180,5 +216,16 @@ public class CloudMediaService {
     
     public ImportTask getTask(String taskId) {
         return importTaskRepository.findByTaskId(taskId).orElse(null);
+    }
+    
+    public boolean cancelTask(String taskId) {
+        ImportTask task = importTaskRepository.findByTaskId(taskId).orElse(null);
+        if (task != null && !task.getStatus().equals("completed") && !task.getStatus().equals("failed")) {
+            task.setStatus("failed");
+            task.setMessage("Task cancelled by user");
+            importTaskRepository.save(task);
+            return true;
+        }
+        return false;
     }
 }

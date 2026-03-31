@@ -7,9 +7,9 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
   datasource:
-    url: jdbc:mysql://localhost:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: rootpass
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -26,6 +26,10 @@ server:
 video:
   storage-path: /data/videos
   base-url: http://localhost:8080
+
+alist:
+  url: http://video-alist:5244
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicHdkX3RzIjoxNzc0OTE4ODg4LCJleHAiOjE3NzUwOTQ1OTIsIm5iZiI6MTc3NDkyMTc5MiwiaWF0IjoxNzc0OTIxNzkyfQ.Ggp4u1uhL8v7KL8L3_H6HgQVFZ7nVLKu7k6v_qQsz1M
 
 logging:
   level:

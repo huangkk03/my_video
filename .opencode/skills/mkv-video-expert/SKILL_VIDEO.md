@@ -73,6 +73,17 @@
 4.  **第四步**: 开发 Vue 3 前端，实现视频列表页和后台管理页。
 5.  **第五步**: 编写 `docker-compose.yml`，确保所有服务一键启动。
 
-## 7. 注意事项
-- **安全性**: 接口需要基本的鉴权（JWT）。
-- **性能**: 转码是耗时操作，必须使用异步线程或消息队列（如 Redis Stream 或 简单的数据库状态轮询）处理，不能阻塞主线程。
+## 8. 当前开发进度 (Progress)
+
+- **基础设施**: Docker Compose 容器化一键部署已完成（包含 MySQL, Redis, AList, Backend API, Frontend Nginx）。
+- **后端服务**: Spring Boot 基础架构已搭建，集成了 MyBatis-Plus，实现了 `VideoService`, `CloudStorageService` (AList 对接), `CloudMediaService` (下载与导入)。
+- **前端管理**: Vue 3 + Element Plus 后台已搭建，包含“媒体库管理”和“AList 存储”页面。
+- **核心功能**:
+  - AList 网盘挂载与目录浏览已调通，支持动态路由和面包屑导航。
+  - 从 AList 下载任意视频文件到本地并自动触发 FFmpeg 转码的流程已实现（支持处理 AList 跨协议重定向）。
+  - 异步任务进度查询（下载进度、转码进度）已在前端媒体库页面和 AList 存储页面实时展示。
+  - 下载的视频文件默认存储在 `video-api` 容器内的 `/data/videos` 目录下（该目录通过 Docker Volume 映射到宿主机的 `video_data` 卷中）。原始下载文件会放在 `/data/videos/downloads/incoming`，转码后的 HLS 切片会放在 `/data/videos/<uuid>/hls`。
+- **待办事项 (TODO)**:
+  - 完善 TMDB 元数据刮削逻辑。
+  - 完善前端播放器页面，支持 HLS 流媒体播放。
+  - 完善分类管理和用户权限控制。
