@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import ArtPlayer from 'artplayer'
 import Hls from 'hls.js'
@@ -78,7 +78,6 @@ const video = ref<Video | null>(null)
 const loading = ref(true)
 const controlsVisible = ref(true)
 let art: ArtPlayer | null = null
-let hls: Hls | null = null
 let hideTimer: ReturnType<typeof setTimeout> | null = null
 
 const statusClass = computed(() => {
@@ -151,19 +150,17 @@ async function fetchVideo() {
   }
 }
 
-function initPlayer() {
+async function initPlayer() {
+  await nextTick()
+
   if (!playerRef.value || !video.value || video.value.status !== 'completed') return
 
   const uuid = video.value.uuid
   const streamUrl = videoApi.getStreamUrl(uuid)
 
-  if (Hls.isSupported()) {
-    hls = new Hls()
-    hls.loadSource(streamUrl)
-    hls.attachTo(playerRef.value)
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      console.log('HLS manifest loaded')
-    })
+  if (art) {
+    art.destroy()
+    art = null
   }
 
   art = new ArtPlayer({
@@ -171,31 +168,19 @@ function initPlayer() {
     autoplay: true,
     muted: false,
     theme: '#00AEEC',
-    video: {
-      url: streamUrl,
+    url: streamUrl,
+    type: 'm3u8',
+    customType: {
+      m3u8: function(videoEl, url) {
+        if (Hls.isSupported()) {
+          const hls = new Hls()
+          hls.loadSource(url)
+          hls.attachMedia(videoEl)
+        } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+          videoEl.src = url
+        }
+      }
     },
-    controls: [
-      {
-        name: 'play',
-        position: 'left',
-        index: 10,
-      },
-      {
-        name: 'time',
-        position: 'left',
-        index: 20,
-      },
-      {
-        name: 'full',
-        position: 'right',
-        index: 10,
-      },
-      {
-        name: 'volume',
-        position: 'right',
-        index: 20,
-      },
-    ],
   })
 
   let lastSaveTime = 0
@@ -242,10 +227,6 @@ onUnmounted(() => {
   if (art) {
     art.destroy()
     art = null
-  }
-  if (hls) {
-    hls.destroy()
-    hls = null
   }
 })
 </script>

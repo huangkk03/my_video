@@ -25,7 +25,7 @@
         <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2l8 4-8 4V8z"/>
       </svg>
       <p class="text-gray-400 text-lg mb-4">暂无视频</p>
-      <router-link to="/upload" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-xl hover:bg-opacity-90 transition-all hover:scale-105">
+      <router-link to="/admin/media" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-xl hover:bg-opacity-90 transition-all hover:scale-105">
         上传第一个视频
       </router-link>
     </div>

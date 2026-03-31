@@ -104,6 +104,7 @@ public class VideoController {
             headers.setContentType(MediaType.parseMediaType("application/vnd.apple.mpegurl"));
             headers.setContentDispositionFormData("attachment", 
                 URLEncoder.encode(video.getTitle(), "UTF-8") + ".m3u8");
+            headers.set("Access-Control-Allow-Origin", "*");
             
             long fileSize = resource.contentLength();
             headers.setContentLength(fileSize);

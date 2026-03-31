@@ -3,20 +3,6 @@
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-semibold text-gray-800">媒体库管理</h1>
       <div class="flex items-center gap-4">
-        <input type="file" ref="fileInput" class="hidden" accept="video/*" @change="handleFileUpload" />
-        <button 
-          @click="triggerUpload" 
-          :disabled="uploading"
-          class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 flex items-center gap-2"
-        >
-          <svg v-if="uploading" class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-          </svg>
-          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-          </svg>
-          {{ uploading ? '上传中...' : '本地上传' }}
-        </button>
         <input 
           v-model="searchQuery" 
           type="text" 
@@ -33,6 +19,87 @@
           <option value="completed">已完成</option>
           <option value="failed">失败</option>
         </select>
+      </div>
+    </div>
+
+    <div
+      class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-colors mb-6"
+      :class="{ 'border-primary bg-primary/5': isDragging }"
+      @dragover.prevent="isDragging = true"
+      @dragleave.prevent="isDragging = false"
+      @drop.prevent="handleDrop"
+    >
+      <input
+        ref="fileInput"
+        type="file"
+        accept="video/*"
+        class="hidden"
+        @change="handleFileSelect"
+      />
+      
+      <div v-if="!selectedFile" class="space-y-4">
+        <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+        <div>
+          <p class="text-gray-600 mb-2">拖拽视频文件到此处，或</p>
+          <button 
+            @click="triggerUpload"
+            class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all"
+          >
+            选择文件
+          </button>
+        </div>
+        <p class="text-sm text-gray-400">支持 MKV, MP4, AVI, MOV 格式</p>
+      </div>
+
+      <div v-else class="space-y-4">
+        <div class="flex items-center justify-center gap-3">
+          <svg class="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2l8 4-8 4V8z"/>
+          </svg>
+          <div class="text-left">
+            <p class="font-medium text-gray-800">{{ selectedFile.name }}</p>
+            <p class="text-sm text-gray-500">{{ formatSize(selectedFile.size) }}</p>
+          </div>
+          <button @click="clearFile" class="ml-4 text-gray-400 hover:text-red-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <div v-if="uploadProgress > 0 && uploadProgress < 100" class="w-full bg-gray-200 rounded-full h-2 max-w-md mx-auto">
+          <div 
+            class="bg-primary h-2 rounded-full transition-all"
+            :style="{ width: uploadProgress + '%' }"
+          />
+        </div>
+
+        <div v-if="uploading" class="text-gray-500">
+          上传中... {{ uploadProgress }}%
+        </div>
+
+        <div v-if="uploadResult" :class="uploadResult.success ? 'text-green-600' : 'text-red-500'" class="font-medium">
+          {{ uploadResult.message }}
+        </div>
+
+        <div class="space-y-3 max-w-md mx-auto">
+          <input
+            v-model="videoTitle"
+            type="text"
+            placeholder="输入视频标题（可选）"
+            class="w-full px-4 py-2 bg-white border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+
+          <button
+            @click="upload"
+            :disabled="uploading"
+            class="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {{ uploading ? '上传中...' : '开始上传' }}
+          </button>
+        </div>
       </div>
     </div>
     
@@ -184,6 +251,11 @@ const statusFilter = ref('')
 const progressMap = ref<Record<string, number>>({})
 const fileInput = ref<HTMLInputElement | null>(null)
 const uploading = ref(false)
+const isDragging = ref(false)
+const selectedFile = ref<File | null>(null)
+const videoTitle = ref('')
+const uploadProgress = ref(0)
+const uploadResult = ref<{ success: boolean; message: string } | null>(null)
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -343,22 +415,44 @@ function triggerUpload() {
   fileInput.value?.click()
 }
 
-async function handleFileUpload(event: Event) {
-  const target = event.target as HTMLInputElement
-  if (!target.files || target.files.length === 0) return
-  
-  const file = target.files[0]
-  if (file.size > 500 * 1024 * 1024) {
-    alert('文件大小不能超过500MB')
-    target.value = ''
-    return
+function handleFileSelect(e: Event) {
+  const input = e.target as HTMLInputElement
+  if (input.files?.[0]) {
+    selectedFile.value = input.files[0]
+    uploadResult.value = null
+    uploadProgress.value = 0
   }
-  
-  const formData = new FormData()
-  formData.append('file', file)
+}
+
+function handleDrop(e: DragEvent) {
+  isDragging.value = false
+  const file = e.dataTransfer?.files?.[0]
+  if (file && file.type.startsWith('video/')) {
+    selectedFile.value = file
+    uploadResult.value = null
+    uploadProgress.value = 0
+  }
+}
+
+function clearFile() {
+  selectedFile.value = null
+  if (fileInput.value) fileInput.value.value = ''
+  uploadResult.value = null
+  uploadProgress.value = 0
+}
+
+async function upload() {
+  if (!selectedFile.value) return
   
   uploading.value = true
+  uploadProgress.value = 0
+  uploadResult.value = null
+  
   try {
+    const formData = new FormData()
+    formData.append('file', selectedFile.value)
+    if (videoTitle.value) formData.append('title', videoTitle.value)
+    
     const res = await fetch('/api/videos/upload', {
       method: 'POST',
       body: formData
@@ -366,18 +460,20 @@ async function handleFileUpload(event: Event) {
     
     const data = await res.json()
     if (res.ok && data.uuid) {
-      alert('上传成功，已开始转码')
+      uploadResult.value = { success: true, message: '上传成功，视频正在转码中...' }
+      selectedFile.value = null
+      videoTitle.value = ''
+      if (fileInput.value) fileInput.value.value = ''
       page.value = 0
       fetchVideos()
     } else {
-      alert(data.message || '上传失败')
+      uploadResult.value = { success: false, message: data.message || '上传失败' }
     }
   } catch (e) {
     console.error('Upload failed:', e)
-    alert('上传失败')
+    uploadResult.value = { success: false, message: '上传失败，请重试' }
   } finally {
     uploading.value = false
-    target.value = ''
   }
 }
 
