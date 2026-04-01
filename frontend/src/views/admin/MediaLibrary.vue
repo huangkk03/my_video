@@ -304,6 +304,15 @@
             </div>
             <div class="absolute top-2 right-2 flex gap-1">
               <button 
+                @click="rescrapSeriesConfirm(s)"
+                class="p-1 bg-white/80 rounded hover:bg-white text-blue-500"
+                title="重新刮削"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+              <button 
                 @click="editSeries(s)"
                 class="p-1 bg-white/80 rounded hover:bg-white text-gray-600"
               >
@@ -840,6 +849,18 @@ async function deleteSeriesConfirm(s: Series) {
   } catch (e) {
     console.error('Failed to delete series:', e)
     alert('删除失败')
+  }
+}
+
+async function rescrapSeriesConfirm(s: Series) {
+  if (!confirm(`确定要重新刮削系列 "${s.name}" 吗？这会覆盖现有的海报和简介。`)) return
+  try {
+    await seriesApi.rescrap(s.id)
+    fetchSeries()
+    alert('刮削成功')
+  } catch (e) {
+    console.error('Failed to rescrap series:', e)
+    alert('刮削失败')
   }
 }
 

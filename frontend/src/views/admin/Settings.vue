@@ -59,6 +59,19 @@
               <option value="en-US">English</option>
             </select>
           </div>
+          
+          <div class="pt-2">
+            <button 
+              @click="testTmdbConnection"
+              :disabled="testing"
+              class="px-4 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50"
+            >
+              {{ testing ? '测试中...' : '测试 TMDB 连接' }}
+            </button>
+            <p v-if="testResult" :class="testResult.success ? 'text-green-600' : 'text-red-600'" class="mt-2 text-sm">
+              {{ testResult.message }}
+            </p>
+          </div>
         </div>
       </div>
       
@@ -123,6 +136,22 @@ const config = reactive({
 })
 
 const saving = ref(false)
+const testing = ref(false)
+const testResult = ref<any>(null)
+
+async function testTmdbConnection() {
+  testing.value = true
+  testResult.value = null
+  try {
+    const res = await fetch('/api/admin/config/test-tmdb')
+    const data = await res.json()
+    testResult.value = data
+  } catch (e: any) {
+    testResult.value = { success: false, message: '请求失败: ' + e.message }
+  } finally {
+    testing.value = false
+  }
+}
 
 async function loadConfig() {
   try {

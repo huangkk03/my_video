@@ -90,6 +90,10 @@ export const seriesApi = {
     return api.get('/series/search', { params: { name } }).then(res => res.data)
   },
 
+  rescrap(id: number): Promise<Series> {
+    return api.post(`/series/${id}/rescrap`).then(res => res.data)
+  },
+
   getSeasons(seriesId: number): Promise<Season[]> {
     return api.get(`/series/${seriesId}/seasons`).then(res => res.data)
   },

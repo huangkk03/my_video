@@ -84,6 +84,7 @@ public class ScrapingAggregationService {
             return null;
         }
         
+        log.info("Searching TMDB Movie for query: {}", query);
         try {
             String encodedQuery = URLEncoder.encode(query, "UTF-8");
             String url = String.format("%s/search/movie?api_key=%s&language=%s&query=%s",
@@ -119,13 +120,23 @@ public class ScrapingAggregationService {
             log.warn("TMDB API key not configured");
             return null;
         }
+        log.info("Using TMDB API Key starting with: {}", apiKey.substring(0, Math.min(4, apiKey.length())));
+        log.info("Searching TMDB TV for query: {}", query);
         
         try {
             String encodedQuery = URLEncoder.encode(query, "UTF-8");
             String url = String.format("%s/search/tv?api_key=%s&language=%s&query=%s",
                 TMDB_BASE, apiKey, getTmdbLanguage(), encodedQuery);
             
+            log.info("Fetching TMDB TV data from URL: {}", url.replace(apiKey, "HIDDEN_API_KEY"));
             String response = fetch(url);
+            
+            if (response == null || response.isEmpty()) {
+                log.warn("TMDB TV search returned empty response for query: {}", query);
+                return null;
+            }
+            
+            log.debug("TMDB TV response: {}", response);
             Map<String, Object> json = parseJsonSimple(response);
             
             List<Map<String, Object>> results = (List<Map<String, Object>>) json.get("results");
@@ -141,10 +152,14 @@ public class ScrapingAggregationService {
                 data.setVoteAverage(tv.get("vote_average") != null ? 
                     ((Number) tv.get("vote_average")).doubleValue() : null);
                 
+                log.info("Successfully parsed TMDB TV data: id={}, name={}", data.getId(), data.getName());
                 return data;
+            } else {
+                log.warn("TMDB TV search returned no results in JSON for query: {}", query);
+                log.info("Raw JSON response: {}", json);
             }
         } catch (Exception e) {
-            log.error("Error searching TMDB TV: {}", query, e);
+            log.error("Error searching TMDB TV for query: {}", query, e);
         }
         return null;
     }
@@ -241,8 +256,24 @@ public class ScrapingAggregationService {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(10000);
+        conn.setConnectTimeout(30000); // 30 seconds
+        conn.setReadTimeout(30000); // 30 seconds
+        
+        int status = conn.getResponseCode();
+        if (status != HttpURLConnection.HTTP_OK) {
+            log.error("HTTP request failed with status: {} for URL: {}", status, urlStr.replaceAll("api_key=[^&]+", "api_key=HIDDEN"));
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream() != null ? conn.getErrorStream() : conn.getInputStream()))) {
+                StringBuilder errorResponse = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    errorResponse.append(line);
+                }
+                log.error("Error response body: {}", errorResponse.toString());
+            } catch (Exception e) {
+                log.error("Could not read error response body", e);
+            }
+            return null;
+        }
         
         StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {

@@ -6,6 +6,9 @@ import com.video.entity.Video;
 import com.video.repository.SeasonRepository;
 import com.video.repository.SeriesRepository;
 import com.video.repository.VideoRepository;
+import com.video.service.ScrapingAggregationService;
+import com.video.service.ScrapingAggregationService.TmdbData;
+import com.video.service.ScrapingAggregationService.TmdbTvData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,6 +30,7 @@ public class SeriesService {
     private final SeriesRepository seriesRepository;
     private final SeasonRepository seasonRepository;
     private final VideoRepository videoRepository;
+    private final ScrapingAggregationService scrapingAggregationService;
     
     public List<Series> getAllSeries() {
         return seriesRepository.findAllByOrderBySortOrder();
@@ -51,6 +55,50 @@ public class SeriesService {
         if (series.getSlug() == null || series.getSlug().isEmpty()) {
             series.setSlug(generateSlug(series.getName()));
         }
+        
+        // Auto-scrape metadata
+        if (series.getName() != null && !series.getName().isEmpty()) {
+            log.info("Starting auto-scrape for new series: {}", series.getName());
+            try {
+                TmdbTvData tmdbData = scrapingAggregationService.searchTmdbTv(series.getName());
+                if (tmdbData != null) {
+                    log.info("Auto-scrape successful (TV) for series: {}, tmdbId: {}", series.getName(), tmdbData.getId());
+                    if (series.getTmdbId() == null) {
+                        series.setTmdbId(tmdbData.getId());
+                    }
+                    if (series.getOverview() == null || series.getOverview().isEmpty()) {
+                        series.setOverview(tmdbData.getOverview());
+                    }
+                    if (series.getPosterPath() == null || series.getPosterPath().isEmpty()) {
+                        if (tmdbData.getPosterPath() != null) {
+                            series.setPosterPath("https://image.tmdb.org/t/p/w500" + tmdbData.getPosterPath());
+                        }
+                    }
+                } else {
+                    log.info("Auto-scrape (TV) returned no results, falling back to Movie search for: {}", series.getName());
+                    TmdbData movieData = scrapingAggregationService.searchTmdb(series.getName());
+                    if (movieData != null) {
+                        log.info("Auto-scrape successful (Movie) for series: {}, tmdbId: {}", series.getName(), movieData.getId());
+                        if (series.getTmdbId() == null) {
+                            series.setTmdbId(movieData.getId());
+                        }
+                        if (series.getOverview() == null || series.getOverview().isEmpty()) {
+                            series.setOverview(movieData.getOverview());
+                        }
+                        if (series.getPosterPath() == null || series.getPosterPath().isEmpty()) {
+                            if (movieData.getPosterPath() != null) {
+                                series.setPosterPath("https://image.tmdb.org/t/p/w500" + movieData.getPosterPath());
+                            }
+                        }
+                    } else {
+                        log.warn("Auto-scrape returned no results (TV or Movie) for series: {}", series.getName());
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Failed to auto-scrape metadata for series: {}", series.getName(), e);
+            }
+        }
+        
         return seriesRepository.save(series);
     }
     
@@ -85,6 +133,45 @@ public class SeriesService {
             series.setSortOrder(updatedSeries.getSortOrder());
         }
         return seriesRepository.save(series);
+    }
+    
+    @Transactional
+    public Series rescrapSeries(Long id) {
+        Series series = seriesRepository.findById(id).orElse(null);
+        if (series == null) {
+            return null;
+        }
+        
+        log.info("Starting manual scrape for series: {}", series.getName());
+        try {
+            TmdbTvData tmdbData = scrapingAggregationService.searchTmdbTv(series.getName());
+            if (tmdbData != null) {
+                log.info("Manual scrape successful (TV) for series: {}, tmdbId: {}", series.getName(), tmdbData.getId());
+                series.setTmdbId(tmdbData.getId());
+                series.setOverview(tmdbData.getOverview());
+                if (tmdbData.getPosterPath() != null) {
+                    series.setPosterPath("https://image.tmdb.org/t/p/w500" + tmdbData.getPosterPath());
+                }
+                return seriesRepository.save(series);
+            } else {
+                log.info("Manual scrape (TV) returned no results, falling back to Movie search for: {}", series.getName());
+                TmdbData movieData = scrapingAggregationService.searchTmdb(series.getName());
+                if (movieData != null) {
+                    log.info("Manual scrape successful (Movie) for series: {}, tmdbId: {}", series.getName(), movieData.getId());
+                    series.setTmdbId(movieData.getId());
+                    series.setOverview(movieData.getOverview());
+                    if (movieData.getPosterPath() != null) {
+                        series.setPosterPath("https://image.tmdb.org/t/p/w500" + movieData.getPosterPath());
+                    }
+                    return seriesRepository.save(series);
+                } else {
+                    log.warn("Manual scrape returned no results (TV or Movie) for series: {}", series.getName());
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to manual scrape metadata for series: {}", series.getName(), e);
+        }
+        return series;
     }
     
     @Transactional

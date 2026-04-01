@@ -77,6 +77,15 @@ public class SeriesController {
         return ResponseEntity.ok(updated);
     }
     
+    @PostMapping("/{id}/rescrap")
+    public ResponseEntity<Series> rescrapSeries(@PathVariable Long id) {
+        Series updated = seriesService.rescrapSeries(id);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSeries(@PathVariable Long id) {
         seriesService.deleteSeries(id);

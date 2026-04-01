@@ -19,8 +19,8 @@ public class SystemConfigService {
     
     private final SystemConfigRepository systemConfigRepository;
     
-    public static final String TMDB_API_KEY = "tmdb.api_key";
-    public static final String TMDB_LANGUAGE = "tmdb.language";
+    public static final String TMDB_API_KEY = "tmdb_api_key";
+    public static final String TMDB_LANGUAGE = "tmdb_language";
     public static final String ALIST_URL = "alist_url";
     public static final String ALIST_USERNAME = "alist_username";
     public static final String ALIST_PASSWORD = "alist_password";

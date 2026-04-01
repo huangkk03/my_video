@@ -30,9 +30,13 @@ EXPOSE 8080
 # Volume for video storage
 VOLUME ["/data/videos"]
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh && sed -i 's/\r$//' /docker-entrypoint.sh
+
 # Environment
 ENV JAVA_OPTS="-Xmx512m -Xms256m"
 ENV VIDEO_STORAGE_PATH="/data/videos"
 
-# Use java -jar to run Spring Boot application
-CMD ["java", "-jar", "/app.jar"]
+# Use entrypoint script to run Spring Boot application
+ENTRYPOINT ["/docker-entrypoint.sh"]

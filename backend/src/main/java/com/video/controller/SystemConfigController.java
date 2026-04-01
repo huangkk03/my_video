@@ -1,11 +1,13 @@
 package com.video.controller;
 
+import com.video.service.ScrapingAggregationService;
 import com.video.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -16,6 +18,33 @@ import java.util.Map;
 public class SystemConfigController {
     
     private final SystemConfigService systemConfigService;
+    private final ScrapingAggregationService scrapingAggregationService;
+    
+    @GetMapping("/test-tmdb")
+    public ResponseEntity<Map<String, Object>> testTmdbConnection() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            long start = System.currentTimeMillis();
+            ScrapingAggregationService.TmdbTvData data = scrapingAggregationService.searchTmdbTv("Avatar");
+            long end = System.currentTimeMillis();
+            
+            if (data != null) {
+                result.put("success", true);
+                result.put("message", "TMDB connection successful");
+                result.put("timeMs", end - start);
+                result.put("data", data);
+            } else {
+                result.put("success", false);
+                result.put("message", "TMDB connection failed or returned no results. Check logs for details.");
+                result.put("timeMs", end - start);
+            }
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "Exception: " + e.getMessage());
+            result.put("error", e.toString());
+        }
+        return ResponseEntity.ok(result);
+    }
     
     @GetMapping
     public ResponseEntity<Map<String, String>> getAllConfigs() {
