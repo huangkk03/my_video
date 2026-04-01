@@ -113,6 +113,88 @@ public class ScrapingAggregationService {
         return null;
     }
     
+    public TmdbTvData searchTmdbTv(String query) {
+        String apiKey = getTmdbApiKey();
+        if (apiKey == null || apiKey.isEmpty()) {
+            log.warn("TMDB API key not configured");
+            return null;
+        }
+        
+        try {
+            String encodedQuery = URLEncoder.encode(query, "UTF-8");
+            String url = String.format("%s/search/tv?api_key=%s&language=%s&query=%s",
+                TMDB_BASE, apiKey, getTmdbLanguage(), encodedQuery);
+            
+            String response = fetch(url);
+            Map<String, Object> json = parseJsonSimple(response);
+            
+            List<Map<String, Object>> results = (List<Map<String, Object>>) json.get("results");
+            if (results != null && !results.isEmpty()) {
+                Map<String, Object> tv = results.get(0);
+                
+                TmdbTvData data = new TmdbTvData();
+                data.setId(((Number) tv.get("id")).longValue());
+                data.setName((String) tv.get("name"));
+                data.setOverview((String) tv.get("overview"));
+                data.setPosterPath((String) tv.get("poster_path"));
+                data.setFirstAirDate((String) tv.get("first_air_date"));
+                data.setVoteAverage(tv.get("vote_average") != null ? 
+                    ((Number) tv.get("vote_average")).doubleValue() : null);
+                
+                return data;
+            }
+        } catch (Exception e) {
+            log.error("Error searching TMDB TV: {}", query, e);
+        }
+        return null;
+    }
+    
+    public TmdbSeasonData getTmdbTvSeasonDetails(Long tvId, Integer seasonNumber) {
+        String apiKey = getTmdbApiKey();
+        if (apiKey == null || apiKey.isEmpty()) {
+            return null;
+        }
+        
+        try {
+            String url = String.format("%s/tv/%d/season/%d?api_key=%s&language=%s",
+                TMDB_BASE, tvId, seasonNumber, apiKey, getTmdbLanguage());
+            
+            String response = fetch(url);
+            Map<String, Object> json = parseJsonSimple(response);
+            
+            TmdbSeasonData data = new TmdbSeasonData();
+            data.setId(((Number) json.get("id")).longValue());
+            data.setName((String) json.get("name"));
+            data.setOverview((String) json.get("overview"));
+            data.setPosterPath((String) json.get("poster_path"));
+            data.setSeasonNumber((Integer) json.get("season_number"));
+            
+            List<Map<String, Object>> episodes = (List<Map<String, Object>>) json.get("episodes");
+            if (episodes != null) {
+                List<TmdbEpisodeData> episodeList = new ArrayList<>();
+                for (Map<String, Object> ep : episodes) {
+                    TmdbEpisodeData epData = new TmdbEpisodeData();
+                    epData.setId(((Number) ep.get("id")).longValue());
+                    epData.setName((String) ep.get("name"));
+                    epData.setEpisodeNumber((Integer) ep.get("episode_number"));
+                    epData.setSeasonNumber((Integer) ep.get("season_number"));
+                    epData.setOverview((String) ep.get("overview"));
+                    epData.setStillPath((String) ep.get("still_path"));
+                    epData.setAirDate((String) ep.get("air_date"));
+                    epData.setVoteAverage(ep.get("vote_average") != null ?
+                        ((Number) ep.get("vote_average")).doubleValue() : null);
+                    episodeList.add(epData);
+                }
+                data.setEpisodes(episodeList);
+            }
+            
+            return data;
+        } catch (Exception e) {
+            log.error("Error getting TMDB TV season details: tvId={}, season={}", tvId, seasonNumber, e);
+        }
+        return null;
+    }
+    
     public DoubanData searchDouban(String query) {
         try {
             String encodedQuery = URLEncoder.encode(query, "UTF-8");
@@ -368,5 +450,77 @@ public class ScrapingAggregationService {
         public void setRating(Double rating) { this.rating = rating; }
         public String getDescription() { return description; }
         public void setDescription(String description) { this.description = description; }
+    }
+    
+    public static class TmdbTvData {
+        private Long id;
+        private String name;
+        private String overview;
+        private String posterPath;
+        private String firstAirDate;
+        private Double voteAverage;
+        
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public String getOverview() { return overview; }
+        public void setOverview(String overview) { this.overview = overview; }
+        public String getPosterPath() { return posterPath; }
+        public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
+        public String getFirstAirDate() { return firstAirDate; }
+        public void setFirstAirDate(String firstAirDate) { this.firstAirDate = firstAirDate; }
+        public Double getVoteAverage() { return voteAverage; }
+        public void setVoteAverage(Double voteAverage) { this.voteAverage = voteAverage; }
+    }
+    
+    public static class TmdbSeasonData {
+        private Long id;
+        private String name;
+        private String overview;
+        private String posterPath;
+        private Integer seasonNumber;
+        private List<TmdbEpisodeData> episodes;
+        
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public String getOverview() { return overview; }
+        public void setOverview(String overview) { this.overview = overview; }
+        public String getPosterPath() { return posterPath; }
+        public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
+        public Integer getSeasonNumber() { return seasonNumber; }
+        public void setSeasonNumber(Integer seasonNumber) { this.seasonNumber = seasonNumber; }
+        public List<TmdbEpisodeData> getEpisodes() { return episodes; }
+        public void setEpisodes(List<TmdbEpisodeData> episodes) { this.episodes = episodes; }
+    }
+    
+    public static class TmdbEpisodeData {
+        private Long id;
+        private String name;
+        private Integer episodeNumber;
+        private Integer seasonNumber;
+        private String overview;
+        private String stillPath;
+        private String airDate;
+        private Double voteAverage;
+        
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public Integer getEpisodeNumber() { return episodeNumber; }
+        public void setEpisodeNumber(Integer episodeNumber) { this.episodeNumber = episodeNumber; }
+        public Integer getSeasonNumber() { return seasonNumber; }
+        public void setSeasonNumber(Integer seasonNumber) { this.seasonNumber = seasonNumber; }
+        public String getOverview() { return overview; }
+        public void setOverview(String overview) { this.overview = overview; }
+        public String getStillPath() { return stillPath; }
+        public void setStillPath(String stillPath) { this.stillPath = stillPath; }
+        public String getAirDate() { return airDate; }
+        public void setAirDate(String airDate) { this.airDate = airDate; }
+        public Double getVoteAverage() { return voteAverage; }
+        public void setVoteAverage(Double voteAverage) { this.voteAverage = voteAverage; }
     }
 }

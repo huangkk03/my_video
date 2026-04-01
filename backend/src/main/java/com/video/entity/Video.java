@@ -93,6 +93,15 @@ public class Video {
     @Column(name = "scraping_status", length = 20)
     private String scrapingStatus = "pending";
     
+    @Column(name = "series_id")
+    private Long seriesId;
+    
+    @Column(name = "season_id")
+    private Long seasonId;
+    
+    @Column(name = "episode_number")
+    private Integer episodeNumber;
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

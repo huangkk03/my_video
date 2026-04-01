@@ -19,11 +19,30 @@ CREATE TABLE IF NOT EXISTS video_metadata (
     height INT DEFAULT 0 COMMENT 'Video height',
     status VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT 'Status: pending, transcoding, completed, failed',
     current_position BIGINT DEFAULT 0 COMMENT 'Current playback position',
+    category_id BIGINT DEFAULT NULL COMMENT 'Category ID',
+    overview TEXT COMMENT 'Overview/description',
+    poster_path VARCHAR(1000) COMMENT 'Poster image path',
+    backdrop_path VARCHAR(1000) COMMENT 'Backdrop image path',
+    tmdb_id BIGINT DEFAULT NULL COMMENT 'TMDB ID',
+    imdb_id VARCHAR(20) DEFAULT NULL COMMENT 'IMDB ID',
+    douban_id VARCHAR(20) DEFAULT NULL COMMENT 'Douban ID',
+    rating DOUBLE DEFAULT NULL COMMENT 'Rating',
+    release_year INT DEFAULT NULL COMMENT 'Release year',
+    genres VARCHAR(500) DEFAULT NULL COMMENT 'Genres (comma separated)',
+    actors TEXT DEFAULT NULL COMMENT 'Actors (JSON array)',
+    director VARCHAR(200) DEFAULT NULL COMMENT 'Director',
+    scraping_status VARCHAR(20) DEFAULT 'pending' COMMENT 'Scraping status: pending, success, failed',
+    series_id BIGINT DEFAULT NULL COMMENT 'Series ID',
+    season_id BIGINT DEFAULT NULL COMMENT 'Season ID',
+    episode_number INT DEFAULT NULL COMMENT 'Episode number',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_status (status),
     INDEX idx_created_at (created_at),
-    INDEX idx_uuid (uuid)
+    INDEX idx_uuid (uuid),
+    INDEX idx_category_id (category_id),
+    INDEX idx_series_id (series_id),
+    INDEX idx_season_id (season_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Transcode tasks table
@@ -55,6 +74,40 @@ CREATE TABLE IF NOT EXISTS playback_progress (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (video_id) REFERENCES video_metadata(id) ON DELETE CASCADE,
     INDEX idx_video_user (video_id, user_identifier)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Series table
+CREATE TABLE IF NOT EXISTS series (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL COMMENT 'Series name',
+    slug VARCHAR(255) UNIQUE COMMENT 'URL friendly name',
+    poster_path VARCHAR(1000) COMMENT 'Poster image path',
+    backdrop_path VARCHAR(1000) COMMENT 'Backdrop image path',
+    overview TEXT COMMENT 'Series overview',
+    tmdb_id BIGINT DEFAULT NULL COMMENT 'TMDB series ID',
+    category_id BIGINT DEFAULT NULL COMMENT 'Category ID',
+    sort_order INT DEFAULT 0 COMMENT 'Sort order',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_name (name),
+    INDEX idx_category_id (category_id),
+    INDEX idx_tmdb_id (tmdb_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Season table
+CREATE TABLE IF NOT EXISTS season (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    series_id BIGINT NOT NULL COMMENT 'Series ID',
+    season_number INT NOT NULL COMMENT 'Season number',
+    name VARCHAR(255) COMMENT 'Season name (e.g. Season 1)',
+    poster_path VARCHAR(1000) COMMENT 'Season poster path',
+    overview TEXT COMMENT 'Season overview',
+    tmdb_id BIGINT DEFAULT NULL COMMENT 'TMDB season ID',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_series_season (series_id, season_number),
+    INDEX idx_series_id (series_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- System configuration table

@@ -82,9 +82,10 @@ public class CloudStorageController {
     public ResponseEntity<?> importFile(
             @RequestParam String fileName,
             @RequestParam String filePath,
-            @RequestParam Long fileSize) {
+            @RequestParam Long fileSize,
+            @RequestParam(required = false) String folderName) {
         try {
-            ImportTask task = cloudMediaService.startImport(fileName, filePath, fileSize);
+            ImportTask task = cloudMediaService.startImport(fileName, filePath, fileSize, folderName);
             Map<String, Object> result = new HashMap<>();
             result.put("success", true);
             result.put("taskId", task.getTaskId());

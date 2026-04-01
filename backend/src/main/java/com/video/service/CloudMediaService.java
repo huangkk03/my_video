@@ -1,7 +1,13 @@
 package com.video.service;
 
 import com.video.entity.ImportTask;
+import com.video.entity.Season;
+import com.video.entity.Series;
+import com.video.entity.Video;
 import com.video.repository.ImportTaskRepository;
+import com.video.repository.SeasonRepository;
+import com.video.repository.SeriesRepository;
+import com.video.repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +21,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Service
@@ -27,11 +36,14 @@ public class CloudMediaService {
     private final VideoService videoService;
     private final ScrapingAggregationService scrapingAggregationService;
     private final ImportTaskRepository importTaskRepository;
+    private final SeriesRepository seriesRepository;
+    private final SeasonRepository seasonRepository;
+    private final VideoRepository videoRepository;
     
     @Value("${video.storage-path:/data/videos}")
     private String videoStoragePath;
     
-    public ImportTask startImport(String fileName, String filePath, Long fileSize) {
+    public ImportTask startImport(String fileName, String filePath, Long fileSize, String folderName) {
         String taskId = UUID.randomUUID().toString();
         
         ImportTask task = new ImportTask();
@@ -44,13 +56,13 @@ public class CloudMediaService {
         task.setMessage("Preparing import...");
         
         task = importTaskRepository.save(task);
-        processImportAsync(taskId);
+        processImportAsync(taskId, folderName);
         
         return task;
     }
     
     @Async
-    public void processImportAsync(String taskId) {
+    public void processImportAsync(String taskId, String folderName) {
         ImportTask task = importTaskRepository.findByTaskId(taskId).orElse(null);
         if (task == null) {
             log.error("Task not found: {}", taskId);
@@ -83,8 +95,13 @@ public class CloudMediaService {
             task.setMessage("Scraping metadata...");
             importTaskRepository.save(task);
             
-            String title = fileName.substring(0, fileName.lastIndexOf('.'));
-            title = title.replaceAll("[._]", " ");
+            String title;
+            if (folderName != null && !folderName.trim().isEmpty()) {
+                title = folderName.trim();
+            } else {
+                title = fileName.substring(0, fileName.lastIndexOf('.'));
+                title = title.replaceAll("[._]", " ");
+            }
             
             scrapMetadata(task, title, targetPath);
             
@@ -117,6 +134,11 @@ public class CloudMediaService {
             task.setStatus("completed");
             task.setMessage("Import complete");
             importTaskRepository.save(task);
+            
+            // Auto-assign to series if folderName was provided
+            if (folderName != null && !folderName.trim().isEmpty()) {
+                autoAssignToSeries(videoUuid, folderName, task.getSourceName());
+            }
             
         } catch (Exception e) {
             log.error("Import failed for task: {}", taskId, e);
@@ -227,5 +249,103 @@ public class CloudMediaService {
             return true;
         }
         return false;
+    }
+    
+    private void autoAssignToSeries(String videoUuid, String folderName, String fileName) {
+        try {
+            // Find series by fuzzy matching name
+            List<Series> matchedSeries = seriesRepository.findByNameContaining(folderName);
+            
+            if (matchedSeries.isEmpty()) {
+                log.info("No series found matching: {}", folderName);
+                return;
+            }
+            
+            // Use the first match (best match)
+            Series series = matchedSeries.get(0);
+            log.info("Auto-assigning video {} to series: {}", videoUuid, series.getName());
+            
+            // Parse season number from filename (e.g., S01E01, 01x01)
+            Integer seasonNumber = parseSeasonNumber(fileName);
+            
+            if (seasonNumber != null) {
+                // Find or create the season
+                Optional<Season> existingSeason = seasonRepository.findBySeriesIdAndSeasonNumber(series.getId(), seasonNumber);
+                Season season;
+                if (existingSeason.isPresent()) {
+                    season = existingSeason.get();
+                } else {
+                    // Create the season
+                    season = new Season();
+                    season.setSeriesId(series.getId());
+                    season.setSeasonNumber(seasonNumber);
+                    season.setName("第 " + seasonNumber + " 季");
+                    season = seasonRepository.save(season);
+                    log.info("Created new season: {}", season.getName());
+                }
+                
+                // Parse episode number
+                Integer episodeNumber = parseEpisodeNumber(fileName);
+                
+                // Assign video to season
+                Optional<Video> videoOpt = videoRepository.findByUuid(videoUuid);
+                if (videoOpt.isPresent()) {
+                    Video video = videoOpt.get();
+                    video.setSeriesId(series.getId());
+                    video.setSeasonId(season.getId());
+                    video.setEpisodeNumber(episodeNumber);
+                    videoRepository.save(video);
+                    log.info("Assigned video {} to series {} season {} episode {}", 
+                        videoUuid, series.getName(), seasonNumber, episodeNumber);
+                }
+            } else {
+                // No season info, just assign to series
+                Optional<Video> videoOpt = videoRepository.findByUuid(videoUuid);
+                if (videoOpt.isPresent()) {
+                    Video video = videoOpt.get();
+                    video.setSeriesId(series.getId());
+                    videoRepository.save(video);
+                    log.info("Assigned video {} to series {}", videoUuid, series.getName());
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Auto-assign to series failed: {}", e.getMessage());
+        }
+    }
+    
+    private Integer parseSeasonNumber(String fileName) {
+        // Pattern 1: S01E01 or S1E1
+        Pattern p1 = Pattern.compile("[Ss](\\d{1,2})[Ee]\\d+");
+        Matcher m1 = p1.matcher(fileName);
+        if (m1.find()) {
+            return Integer.parseInt(m1.group(1));
+        }
+        
+        // Pattern 2: 01x01 or 1x01
+        Pattern p2 = Pattern.compile("(\\d{1,2})x\\d+");
+        Matcher m2 = p2.matcher(fileName);
+        if (m2.find()) {
+            return Integer.parseInt(m2.group(1));
+        }
+        
+        return null;
+    }
+    
+    private Integer parseEpisodeNumber(String fileName) {
+        // Pattern 1: S01E01 or S1E1 -> get the E part
+        Pattern p1 = Pattern.compile("[Ss]\\d{1,2}[Ee](\\d+)");
+        Matcher m1 = p1.matcher(fileName);
+        if (m1.find()) {
+            return Integer.parseInt(m1.group(1));
+        }
+        
+        // Pattern 2: 01x01 or 1x01 -> get the x part
+        Pattern p2 = Pattern.compile("\\d{1,2}x(\\d+)");
+        Matcher m2 = p2.matcher(fileName);
+        if (m2.find()) {
+            return Integer.parseInt(m2.group(1));
+        }
+        
+        return null;
     }
 }

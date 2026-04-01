@@ -3,6 +3,36 @@
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-semibold text-gray-800">媒体库管理</h1>
       <div class="flex items-center gap-4">
+        <div class="flex gap-2">
+          <button 
+            @click="activeTab = 'videos'"
+            :class="[
+              'px-4 py-2 rounded-lg font-medium transition-colors',
+              activeTab === 'videos' 
+                ? 'bg-primary text-white' 
+                : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+            ]"
+          >
+            视频列表
+          </button>
+          <button 
+            @click="activeTab = 'series'"
+            :class="[
+              'px-4 py-2 rounded-lg font-medium transition-colors',
+              activeTab === 'series' 
+                ? 'bg-primary text-white' 
+                : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+            ]"
+          >
+            系列管理
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video List Tab -->
+    <div v-if="activeTab === 'videos'" class="space-y-6">
+      <div class="flex items-center gap-4">
         <input 
           v-model="searchQuery" 
           type="text" 
@@ -20,7 +50,6 @@
           <option value="failed">失败</option>
         </select>
       </div>
-    </div>
 
     <div
       class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-colors mb-6"
@@ -225,12 +254,220 @@
         </button>
       </div>
     </div>
+    </div>
+
+    <!-- Series Management Tab -->
+    <div v-if="activeTab === 'series'" class="space-y-6">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <input 
+            v-model="seriesSearchQuery" 
+            type="text" 
+            placeholder="搜索系列..." 
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <button 
+          @click="showCreateSeriesModal = true"
+          class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors"
+        >
+          创建系列
+        </button>
+      </div>
+
+      <div v-if="loadingSeries && seriesList.length === 0" class="text-center py-12 text-gray-500">
+        加载中...
+      </div>
+
+      <div v-else-if="seriesList.length === 0" class="text-center py-12">
+        <p class="text-gray-500 mb-4">暂无系列</p>
+        <button 
+          @click="showCreateSeriesModal = true"
+          class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90"
+        >
+          创建第一个系列
+        </button>
+      </div>
+
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div 
+          v-for="s in filteredSeries" 
+          :key="s.id"
+          class="bg-white rounded-xl shadow-sm overflow-hidden"
+        >
+          <div class="aspect-[2/3] bg-gray-200 relative">
+            <img v-if="s.posterPath" :src="s.posterPath" class="w-full h-full object-cover" />
+            <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
+              <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/>
+              </svg>
+            </div>
+            <div class="absolute top-2 right-2 flex gap-1">
+              <button 
+                @click="editSeries(s)"
+                class="p-1 bg-white/80 rounded hover:bg-white text-gray-600"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                </svg>
+              </button>
+              <button 
+                @click="deleteSeriesConfirm(s)"
+                class="p-1 bg-white/80 rounded hover:bg-white text-red-500"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium text-gray-800 truncate">{{ s.name }}</h3>
+            <p class="text-sm text-gray-500 mt-1">{{ getSeriesVideoCount(s.id) }} 视频 | {{ getSeriesSeasonCount(s.id) }} 季</p>
+            <button 
+              @click="manageSeasons(s)"
+              class="mt-3 w-full px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            >
+              管理季度
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create/Edit Series Modal -->
+    <div v-if="showCreateSeriesModal || editingSeries" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="closeSeriesModal">
+      <div class="bg-white rounded-xl p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+          {{ editingSeries ? '编辑系列' : '创建系列' }}
+        </h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">系列名称</label>
+            <input 
+              v-model="seriesForm.name"
+              type="text"
+              placeholder="输入系列名称"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">TMDB ID</label>
+            <input 
+              v-model="seriesForm.tmdbId"
+              type="number"
+              placeholder="可选，填入后自动刮削"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">海报URL</label>
+            <input 
+              v-model="seriesForm.posterPath"
+              type="text"
+              placeholder="海报图片URL"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">简介</label>
+            <textarea 
+              v-model="seriesForm.overview"
+              rows="3"
+              placeholder="系列简介（可选）"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            ></textarea>
+          </div>
+        </div>
+        <div class="flex justify-end gap-3 mt-6">
+          <button 
+            @click="closeSeriesModal"
+            class="px-4 py-2 text-gray-600 hover:text-gray-800"
+          >
+            取消
+          </button>
+          <button 
+            @click="saveSeries"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90"
+          >
+            {{ editingSeries ? '保存' : '创建' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manage Seasons Modal -->
+    <div v-if="showSeasonsModal && managingSeries" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="showSeasonsModal = false">
+      <div class="bg-white rounded-xl p-6 w-full max-w-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+          管理 {{ managingSeries.name }} 的季度
+        </h3>
+        <div class="space-y-3 max-h-96 overflow-y-auto">
+          <div v-for="season in managingSeriesSeasons" :key="season.id" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div>
+              <span class="font-medium">{{ season.name }}</span>
+              <span class="text-sm text-gray-500 ml-2">{{ getSeasonVideoCount(season.id) }} 集</span>
+            </div>
+            <div class="flex gap-2">
+              <button 
+                @click="editSeason(season)"
+                class="text-blue-600 hover:text-blue-800 text-sm"
+              >
+                编辑
+              </button>
+              <button 
+                @click="deleteSeasonConfirm(season)"
+                class="text-red-600 hover:text-red-800 text-sm"
+              >
+                删除
+              </button>
+            </div>
+          </div>
+          <div v-if="managingSeriesSeasons.length === 0" class="text-center text-gray-500 py-4">
+            暂无季度
+          </div>
+        </div>
+        <div class="border-t pt-4 mt-4">
+          <h4 class="font-medium text-gray-700 mb-2">添加新季度</h4>
+          <div class="flex gap-2">
+            <input 
+              v-model="newSeasonNumber"
+              type="number"
+              min="1"
+              placeholder="季号"
+              class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <input 
+              v-model="newSeasonName"
+              type="text"
+              placeholder="季名称（可选）"
+              class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <button 
+              @click="addSeason"
+              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90"
+            >
+              添加
+            </button>
+          </div>
+        </div>
+        <div class="flex justify-end mt-4">
+          <button 
+            @click="showSeasonsModal = false"
+            class="px-4 py-2 text-gray-600 hover:text-gray-800"
+          >
+            关闭
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { videoApi, type Video } from '../../api/video'
+import { seriesApi, type Series, type Season } from '../../api/series'
 
 interface ImportTask {
   taskId: string
@@ -256,6 +493,28 @@ const selectedFile = ref<File | null>(null)
 const videoTitle = ref('')
 const uploadProgress = ref(0)
 const uploadResult = ref<{ success: boolean; message: string } | null>(null)
+
+// Series management state
+const activeTab = ref('videos')
+const seriesList = ref<Series[]>([])
+const seriesSearchQuery = ref('')
+const loadingSeries = ref(false)
+const showCreateSeriesModal = ref(false)
+const editingSeries = ref<Series | null>(null)
+const seriesForm = ref({
+  name: '',
+  tmdbId: null as number | null,
+  posterPath: '',
+  overview: '',
+})
+const showSeasonsModal = ref(false)
+const managingSeries = ref<Series | null>(null)
+const managingSeriesSeasons = ref<Season[]>([])
+const newSeasonNumber = ref<number | null>(null)
+const newSeasonName = ref('')
+const seriesVideoCounts = ref<Record<number, number>>({})
+const seriesSeasonCounts = ref<Record<number, number>>({})
+const seasonVideoCounts = ref<Record<number, number>>({})
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -477,9 +736,182 @@ async function upload() {
   }
 }
 
+// Series management functions
+async function fetchSeries() {
+  loadingSeries.value = true
+  try {
+    const res = await seriesApi.getAll()
+    seriesList.value = res
+    for (const s of res) {
+      fetchSeriesDetail(s.id)
+    }
+  } catch (e) {
+    console.error('Failed to fetch series:', e)
+  } finally {
+    loadingSeries.value = false
+  }
+}
+
+async function fetchSeriesDetail(id: number) {
+  try {
+    const detail = await seriesApi.getDetail(id)
+    seriesVideoCounts.value[id] = detail.videoCount
+    seriesSeasonCounts.value[id] = detail.seasonCount
+    for (const season of detail.seasons) {
+      fetchSeasonDetail(season.id)
+    }
+  } catch (e) {
+    console.error('Failed to fetch series detail:', e)
+  }
+}
+
+async function fetchSeasonDetail(id: number) {
+  try {
+    const detail = await seriesApi.getSeasonDetail(id)
+    seasonVideoCounts.value[id] = detail.videoCount
+  } catch (e) {
+    console.error('Failed to fetch season detail:', e)
+  }
+}
+
+function getSeriesVideoCount(id: number): number {
+  return seriesVideoCounts.value[id] || 0
+}
+
+function getSeriesSeasonCount(id: number): number {
+  return seriesSeasonCounts.value[id] || 0
+}
+
+function getSeasonVideoCount(id: number): number {
+  return seasonVideoCounts.value[id] || 0
+}
+
+const filteredSeries = computed(() => {
+  if (!seriesSearchQuery.value) return seriesList.value
+  const q = seriesSearchQuery.value.toLowerCase()
+  return seriesList.value.filter(s => s.name.toLowerCase().includes(q))
+})
+
+function editSeries(s: Series) {
+  editingSeries.value = s
+  seriesForm.value = {
+    name: s.name,
+    tmdbId: s.tmdbId,
+    posterPath: s.posterPath || '',
+    overview: s.overview || '',
+  }
+}
+
+function closeSeriesModal() {
+  showCreateSeriesModal.value = false
+  editingSeries.value = null
+  seriesForm.value = {
+    name: '',
+    tmdbId: null,
+    posterPath: '',
+    overview: '',
+  }
+}
+
+async function saveSeries() {
+  if (!seriesForm.value.name) {
+    alert('请输入系列名称')
+    return
+  }
+  try {
+    if (editingSeries.value) {
+      await seriesApi.update(editingSeries.value.id, seriesForm.value)
+    } else {
+      await seriesApi.create(seriesForm.value)
+    }
+    closeSeriesModal()
+    fetchSeries()
+  } catch (e) {
+    console.error('Failed to save series:', e)
+    alert('保存失败')
+  }
+}
+
+async function deleteSeriesConfirm(s: Series) {
+  if (!confirm(`确定要删除系列 "${s.name}" 吗？\n注意：视频不会被删除，只是取消关联。`)) return
+  try {
+    await seriesApi.delete(s.id)
+    fetchSeries()
+  } catch (e) {
+    console.error('Failed to delete series:', e)
+    alert('删除失败')
+  }
+}
+
+async function manageSeasons(s: Series) {
+  managingSeries.value = s
+  showSeasonsModal.value = true
+  try {
+    const detail = await seriesApi.getDetail(s.id)
+    managingSeriesSeasons.value = detail.seasons
+    for (const season of detail.seasons) {
+      fetchSeasonDetail(season.id)
+    }
+  } catch (e) {
+    console.error('Failed to fetch seasons:', e)
+  }
+}
+
+async function addSeason() {
+  if (!managingSeries.value || !newSeasonNumber.value) {
+    alert('请输入季号')
+    return
+  }
+  try {
+    await seriesApi.createSeason(managingSeries.value.id, {
+      seasonNumber: newSeasonNumber.value,
+      name: newSeasonName.value || `第 ${newSeasonNumber.value} 季`,
+    })
+    newSeasonNumber.value = null
+    newSeasonName.value = ''
+    if (managingSeries.value) {
+      await manageSeasons(managingSeries.value)
+    }
+    fetchSeries()
+  } catch (e) {
+    console.error('Failed to add season:', e)
+    alert('添加失败')
+  }
+}
+
+async function editSeason(season: Season) {
+  const newName = prompt('请输入新的季名称:', season.name)
+  if (newName === null) return
+  try {
+    await seriesApi.updateSeason(season.id, { name: newName })
+    if (managingSeries.value) {
+      await manageSeasons(managingSeries.value)
+    }
+    fetchSeries()
+  } catch (e) {
+    console.error('Failed to update season:', e)
+    alert('更新失败')
+  }
+}
+
+async function deleteSeasonConfirm(season: Season) {
+  if (!confirm(`确定要删除季度 "${season.name}" 吗？\n注意：视频不会被删除，只是取消关联。`)) return
+  try {
+    await seriesApi.deleteSeason(season.id)
+    if (managingSeries.value) {
+      await manageSeasons(managingSeries.value)
+    }
+    fetchSeries()
+  } catch (e) {
+    console.error('Failed to delete season:', e)
+    alert('删除失败')
+  }
+}
+
 onMounted(() => {
   fetchVideos()
   fetchActiveTasks()
+  fetchSeries()
   taskTimer = window.setInterval(fetchActiveTasks, 5000)
 })
 

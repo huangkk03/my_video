@@ -4,6 +4,7 @@ import com.video.dto.VideoProgressRequest;
 import com.video.dto.VideoUploadResponse;
 import com.video.entity.Video;
 import com.video.service.CloudStorageService;
+import com.video.service.SeriesService;
 import com.video.service.TranscodeService;
 import com.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class VideoController {
     private final VideoService videoService;
     private final TranscodeService transcodeService;
     private final CloudStorageService cloudStorageService;
+    private final SeriesService seriesService;
     
     @PostMapping("/upload")
     public ResponseEntity<VideoUploadResponse> uploadVideo(
@@ -303,6 +305,39 @@ public class VideoController {
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             log.error("Rescrap failed: {}", uuid, e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+    
+    @PutMapping("/{uuid}/assign")
+    public ResponseEntity<?> assignToSeason(
+            @PathVariable String uuid,
+            @RequestParam Long seasonId,
+            @RequestParam(required = false) Integer episodeNumber) {
+        try {
+            seriesService.assignVideoToSeason(uuid, seasonId, episodeNumber);
+            Map<String, String> result = new HashMap<>();
+            result.put("status", "assigned");
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Assign failed: {}", uuid, e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+    
+    @PutMapping("/{uuid}/unassign")
+    public ResponseEntity<?> removeFromSeries(@PathVariable String uuid) {
+        try {
+            seriesService.removeVideoFromSeries(uuid);
+            Map<String, String> result = new HashMap<>();
+            result.put("status", "unassigned");
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Unassign failed: {}", uuid, e);
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return ResponseEntity.status(500).body(error);

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
+  { path: '/series/:id', name: 'series-detail', component: () => import('./views/SeriesDetailView.vue') },
   { path: '/player/:uuid', name: 'player', component: () => import('./views/PlayerView.vue') },
   { 
     path: '/admin', 

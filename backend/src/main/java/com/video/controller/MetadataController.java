@@ -27,6 +27,32 @@ public class MetadataController {
         }
     }
     
+    @GetMapping("/search-tv")
+    public ResponseEntity<?> searchTvMetadata(@RequestParam String query) {
+        try {
+            ScrapingAggregationService.TmdbTvData result = 
+                scrapingAggregationService.searchTmdbTv(query);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("TV metadata search failed: {}", query, e);
+            return ResponseEntity.status(500).body(new Error(e.getMessage()));
+        }
+    }
+    
+    @GetMapping("/tv/{tmdbId}/season/{seasonNumber}")
+    public ResponseEntity<?> getTvSeasonDetails(
+            @PathVariable Long tmdbId,
+            @PathVariable Integer seasonNumber) {
+        try {
+            ScrapingAggregationService.TmdbSeasonData result = 
+                scrapingAggregationService.getTmdbTvSeasonDetails(tmdbId, seasonNumber);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("TV season details failed: tmdbId={}, season={}", tmdbId, seasonNumber, e);
+            return ResponseEntity.status(500).body(new Error(e.getMessage()));
+        }
+    }
+    
     public static class Error {
         private final String error;
         public Error(String error) { this.error = error; }
