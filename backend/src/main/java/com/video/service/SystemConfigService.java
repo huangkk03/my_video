@@ -24,6 +24,7 @@ public class SystemConfigService {
     public static final String ALIST_URL = "alist_url";
     public static final String ALIST_USERNAME = "alist_username";
     public static final String ALIST_PASSWORD = "alist_password";
+    public static final String ALIST_TOKEN = "alist_token";
     
     public String getConfig(String key) {
         return systemConfigRepository.findByConfigKey(key)

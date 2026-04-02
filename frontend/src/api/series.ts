@@ -39,6 +39,13 @@ export interface SeriesDetail {
   seasonCount: number
 }
 
+export interface BatchAssignRequest {
+  videoUuids: string[]
+  seriesId: number
+  seasonId?: number
+  episodeStart?: number
+}
+
 interface Video {
   uuid: string
   title: string
@@ -126,6 +133,10 @@ export const seriesApi = {
 
   getUnassigned(page = 0, size = 20): Promise<{ content: Video[]; totalElements: number }> {
     return api.get('/series/unassigned', { params: { page, size } }).then(res => res.data)
+  },
+
+  batchAssign(data: BatchAssignRequest): Promise<{ success: boolean; assignedCount: number; message?: string }> {
+    return api.post('/series/batch-assign', data).then(res => res.data)
   },
 }
 

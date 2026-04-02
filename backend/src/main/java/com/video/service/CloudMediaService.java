@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +32,8 @@ import java.util.regex.Pattern;
 @Service
 @RequiredArgsConstructor
 public class CloudMediaService {
+
+    private static final long SCRAPE_TIMEOUT_SECONDS = 30L;
     
     private final CloudStorageService cloudStorageService;
     private final VideoService videoService;
@@ -95,15 +98,8 @@ public class CloudMediaService {
             task.setMessage("Scraping metadata...");
             importTaskRepository.save(task);
             
-            String title;
-            if (folderName != null && !folderName.trim().isEmpty()) {
-                title = folderName.trim();
-            } else {
-                title = fileName.substring(0, fileName.lastIndexOf('.'));
-                title = title.replaceAll("[._]", " ");
-            }
-            
-            scrapMetadata(task, title, targetPath);
+            String title = buildScrapeTitleFromFilename(fileName);
+            ScrapingAggregationService.MetadataResult metadataResult = scrapMetadata(task, title);
             
             task.setProgress(60);
             task.setMessage("Scraping complete, starting transcoding...");
@@ -121,6 +117,7 @@ public class CloudMediaService {
             }
             
             String videoUuid = startTranscoding(task, targetPath, title);
+            applyScrapedMetadataToVideo(videoUuid, metadataResult);
             
             // Delete the temporary downloaded file to save space
             try {
@@ -136,9 +133,7 @@ public class CloudMediaService {
             importTaskRepository.save(task);
             
             // Auto-assign to series if folderName was provided
-            if (folderName != null && !folderName.trim().isEmpty()) {
-                autoAssignToSeries(videoUuid, folderName, task.getSourceName());
-            }
+            autoAssignToSeries(videoUuid, title, task.getSourceName());
             
         } catch (Exception e) {
             log.error("Import failed for task: {}", taskId, e);
@@ -192,13 +187,13 @@ public class CloudMediaService {
         log.info("Downloaded file to: {}", targetPath);
     }
     
-    private void scrapMetadata(ImportTask task, String title, Path videoPath) {
+    private ScrapingAggregationService.MetadataResult scrapMetadata(ImportTask task, String title) {
         try {
+            log.info("Start scraping metadata for task: {}, query: {}", task.getTaskId(), title);
             CompletableFuture<ScrapingAggregationService.MetadataResult> future = 
                 scrapingAggregationService.searchMetadata(title);
             
-            // Add a timeout to prevent hanging indefinitely
-            ScrapingAggregationService.MetadataResult result = future.get(5, java.util.concurrent.TimeUnit.SECONDS);
+            ScrapingAggregationService.MetadataResult result = future.get(SCRAPE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
             
             if (result != null) {
                 String metadataInfo = "";
@@ -210,7 +205,10 @@ public class CloudMediaService {
                 }
                 task.setMessage("Scraping complete: " + metadataInfo);
                 importTaskRepository.save(task);
+                log.info("Scraping success for task: {}, matched title: {}", task.getTaskId(), result.getTitle());
+                return result;
             }
+            log.warn("Scraping returned empty result for task: {}, query: {}", task.getTaskId(), title);
         } catch (java.util.concurrent.TimeoutException e) {
             log.warn("Scraping timeout for task: {}", task.getTaskId());
             task.setMessage("Scraping timeout, skipping...");
@@ -220,6 +218,55 @@ public class CloudMediaService {
             task.setMessage("Scraping failed, skipping...");
             importTaskRepository.save(task);
         }
+        return null;
+    }
+
+    private String buildScrapeTitleFromFilename(String fileName) {
+        String title = fileName;
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0) {
+            title = fileName.substring(0, dotIndex);
+        }
+        title = title.replaceAll("[._]", " ").trim();
+        // Remove common leading episode indexes like "805 " or "EP12 "
+        title = title.replaceAll("^(?i)(ep|e)?\\s*\\d{1,4}\\s+", "");
+        title = title.replaceAll("\\s+", " ");
+        return title;
+    }
+
+    private void applyScrapedMetadataToVideo(String videoUuid, ScrapingAggregationService.MetadataResult metadataResult) {
+        if (metadataResult == null) {
+            log.info("No metadata to apply for video: {}", videoUuid);
+            return;
+        }
+        Optional<Video> videoOpt = videoRepository.findByUuid(videoUuid);
+        if (!videoOpt.isPresent()) {
+            log.warn("Video not found when applying scraped metadata: {}", videoUuid);
+            return;
+        }
+        Video video = videoOpt.get();
+        if (metadataResult.getTitle() != null && !metadataResult.getTitle().isEmpty()) {
+            video.setTitle(metadataResult.getTitle());
+        }
+        if (metadataResult.getOverview() != null && !metadataResult.getOverview().isEmpty()) {
+            video.setOverview(metadataResult.getOverview());
+        }
+        if (metadataResult.getPosterUrl() != null && !metadataResult.getPosterUrl().isEmpty()) {
+            video.setPosterPath(metadataResult.getPosterUrl());
+        }
+        if (metadataResult.getRating() != null) {
+            video.setRating(metadataResult.getRating());
+        }
+        if (metadataResult.getReleaseDate() != null && metadataResult.getReleaseDate().length() >= 4) {
+            try {
+                video.setReleaseYear(Integer.parseInt(metadataResult.getReleaseDate().substring(0, 4)));
+            } catch (Exception ignored) {
+                log.warn("Failed to parse release year for video: {}, releaseDate: {}", videoUuid, metadataResult.getReleaseDate());
+            }
+        }
+        video.setScrapingStatus("success");
+        videoRepository.save(video);
+        log.info("Applied scraped metadata to video: {}, title: {}", videoUuid, video.getTitle());
     }
     
     private String startTranscoding(ImportTask task, Path videoPath, String title) throws Exception {
@@ -253,11 +300,12 @@ public class CloudMediaService {
     
     private void autoAssignToSeries(String videoUuid, String folderName, String fileName) {
         try {
+            String matchName = extractSeriesNameForMatch(folderName, fileName);
             // Find series by fuzzy matching name
-            List<Series> matchedSeries = seriesRepository.findByNameContaining(folderName);
+            List<Series> matchedSeries = seriesRepository.findByNameContaining(matchName);
             
             if (matchedSeries.isEmpty()) {
-                log.info("No series found matching: {}", folderName);
+                log.info("No series found matching: {}", matchName);
                 return;
             }
             
@@ -267,6 +315,10 @@ public class CloudMediaService {
             
             // Parse season number from filename (e.g., S01E01, 01x01)
             Integer seasonNumber = parseSeasonNumber(fileName);
+            Integer episodeNumber = parseEpisodeNumber(fileName);
+            if (seasonNumber == null && episodeNumber != null) {
+                seasonNumber = 1;
+            }
             
             if (seasonNumber != null) {
                 // Find or create the season
@@ -283,9 +335,6 @@ public class CloudMediaService {
                     season = seasonRepository.save(season);
                     log.info("Created new season: {}", season.getName());
                 }
-                
-                // Parse episode number
-                Integer episodeNumber = parseEpisodeNumber(fileName);
                 
                 // Assign video to season
                 Optional<Video> videoOpt = videoRepository.findByUuid(videoUuid);
@@ -312,6 +361,21 @@ public class CloudMediaService {
             log.warn("Auto-assign to series failed: {}", e.getMessage());
         }
     }
+
+    private String extractSeriesNameForMatch(String title, String fileName) {
+        String base = title;
+        if (base == null || base.trim().isEmpty()) {
+            base = buildScrapeTitleFromFilename(fileName);
+        }
+        base = base.replaceAll("(?i)[._\\-\\s]*S\\d{1,2}E\\d{1,3}.*$", "");
+        base = base.replaceAll("(?i)[._\\-\\s]*\\d{1,2}x\\d{1,3}.*$", "");
+        base = base.replaceAll("第\\s*\\d{1,2}\\s*季.*$", "");
+        base = base.replaceAll("第\\s*\\d{1,3}\\s*[集话].*$", "");
+        base = base.replaceAll("\\[[^\\]]+\\]", " ");
+        base = base.replaceAll("\\([^\\)]+\\)", " ");
+        base = base.replaceAll("\\s+", " ").trim();
+        return base.isEmpty() ? title : base;
+    }
     
     private Integer parseSeasonNumber(String fileName) {
         // Pattern 1: S01E01 or S1E1
@@ -322,10 +386,16 @@ public class CloudMediaService {
         }
         
         // Pattern 2: 01x01 or 1x01
-        Pattern p2 = Pattern.compile("(\\d{1,2})x\\d+");
+        Pattern p2 = Pattern.compile("(\\d{1,2})x\\d+", Pattern.CASE_INSENSITIVE);
         Matcher m2 = p2.matcher(fileName);
         if (m2.find()) {
             return Integer.parseInt(m2.group(1));
+        }
+
+        Pattern p3 = Pattern.compile("第\\s*(\\d{1,2})\\s*季");
+        Matcher m3 = p3.matcher(fileName);
+        if (m3.find()) {
+            return Integer.parseInt(m3.group(1));
         }
         
         return null;
@@ -340,10 +410,16 @@ public class CloudMediaService {
         }
         
         // Pattern 2: 01x01 or 1x01 -> get the x part
-        Pattern p2 = Pattern.compile("\\d{1,2}x(\\d+)");
+        Pattern p2 = Pattern.compile("\\d{1,2}x(\\d+)", Pattern.CASE_INSENSITIVE);
         Matcher m2 = p2.matcher(fileName);
         if (m2.find()) {
             return Integer.parseInt(m2.group(1));
+        }
+
+        Pattern p3 = Pattern.compile("第\\s*\\d{1,2}\\s*季\\s*第\\s*(\\d{1,3})\\s*[集话]");
+        Matcher m3 = p3.matcher(fileName);
+        if (m3.find()) {
+            return Integer.parseInt(m3.group(1));
         }
         
         return null;

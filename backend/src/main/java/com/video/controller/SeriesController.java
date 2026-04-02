@@ -1,5 +1,6 @@
 package com.video.controller;
 
+import com.video.dto.BatchAssignRequest;
 import com.video.entity.Season;
 import com.video.entity.Series;
 import com.video.entity.Video;
@@ -63,18 +64,32 @@ public class SeriesController {
     }
     
     @PostMapping
-    public ResponseEntity<Series> createSeries(@RequestBody Series series) {
-        Series created = seriesService.createSeries(series);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<?> createSeries(@RequestBody Series series) {
+        try {
+            Series created = seriesService.createSeries(series);
+            return ResponseEntity.ok(created);
+        } catch (Exception e) {
+            log.error("Failed to create series: {}", series.getName(), e);
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "创建系列失败: " + e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Series> updateSeries(@PathVariable Long id, @RequestBody Series series) {
-        Series updated = seriesService.updateSeries(id, series);
-        if (updated == null) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> updateSeries(@PathVariable Long id, @RequestBody Series series) {
+        try {
+            Series updated = seriesService.updateSeries(id, series);
+            if (updated == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            log.error("Failed to update series {}: {}", id, e.getMessage(), e);
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "更新系列失败: " + e.getMessage());
+            return ResponseEntity.badRequest().body(error);
         }
-        return ResponseEntity.ok(updated);
     }
     
     @PostMapping("/{id}/rescrap")
@@ -130,5 +145,25 @@ public class SeriesController {
         result.put("totalElements", videoPage.getTotalElements());
         result.put("totalPages", videoPage.getTotalPages());
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/batch-assign")
+    public ResponseEntity<Map<String, Object>> batchAssignVideos(@RequestBody BatchAssignRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            int assigned = seriesService.batchAssignVideos(
+                    request.getVideoUuids(),
+                    request.getSeriesId(),
+                    request.getSeasonId(),
+                    request.getEpisodeStart()
+            );
+            result.put("success", true);
+            result.put("assignedCount", assigned);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(result);
+        }
     }
 }

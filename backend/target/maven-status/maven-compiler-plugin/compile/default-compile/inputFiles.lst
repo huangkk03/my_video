@@ -28,4 +28,5 @@ D:\opencode\my_video\backend\src\main\java\com\video\repository\ImportTaskReposi
 D:\opencode\my_video\backend\src\main\java\com\video\controller\MetadataController.java
 D:\opencode\my_video\backend\src\main\java\com\video\controller\VideoController.java
 D:\opencode\my_video\backend\src\main\java\com\video\service\TranscodeService.java
+D:\opencode\my_video\backend\src\main\java\com\video\dto\BatchAssignRequest.java
 D:\opencode\my_video\backend\src\main\java\com\video\VideoApplication.java

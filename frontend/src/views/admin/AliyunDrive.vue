@@ -129,27 +129,6 @@
       </template>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm p-4 mb-6" v-if="alistConnected && !searching && files.length > 0">
-      <div class="flex items-center gap-4">
-        <label class="text-sm font-medium text-gray-700 whitespace-nowrap">刮削标题：</label>
-        <input 
-          v-model="scrapFolderName" 
-          type="text" 
-          placeholder="输入目录名用于刮削元数据（留空则使用文件名）" 
-          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-        <button 
-          @click="scrapFolderName = ''" 
-          class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 border border-gray-200 rounded-lg"
-        >
-          清空
-        </button>
-      </div>
-      <p class="text-xs text-gray-500 mt-2">
-        当前目录：{{ currentPath }} | 将使用"{{ scrapFolderName || '文件名' }}"进行 TMDB/豆瓣 刮削
-      </p>
-    </div>
-
     <div v-if="loading" class="flex justify-center py-12">
       <svg class="w-8 h-8 text-primary animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -241,8 +220,6 @@ const alistConnected = ref(true)
 const connectionError = ref('')
 const downloading = ref(false)
 const downloadingName = ref('')
-const scrapFolderName = ref('')
-
 let taskTimer: number | null = null
 
 const videoExtensions = ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm']
@@ -348,13 +325,6 @@ async function loadFiles(path = '/') {
   try {
     const res = await fetch(`/api/cloud/files?path=${encodeURIComponent(path)}`)
     files.value = await res.json()
-    // Auto-set scrap folder name from current path
-    if (path !== '/') {
-      const parts = path.split('/').filter(Boolean)
-      if (parts.length > 0) {
-        scrapFolderName.value = parts[parts.length - 1]
-      }
-    }
   } catch (e: any) {
     console.error('Failed to load files:', e)
   } finally {
@@ -380,9 +350,7 @@ async function refreshToken() {
 }
 
 async function downloadFile(file: CloudFile) {
-  const confirmMsg = scrapFolderName.value 
-    ? `确定要下载 "${file.name}" 吗？\n将使用「${scrapFolderName.value}」进行刮削\n下载完成后将自动转码`
-    : `确定要下载 "${file.name}" 吗？\n下载完成后将自动转码`
+  const confirmMsg = `确定要下载 "${file.name}" 吗？\n将按文件名自动刮削，下载完成后自动转码`
   if (!confirm(confirmMsg)) return
   
   downloading.value = true
@@ -393,9 +361,6 @@ async function downloadFile(file: CloudFile) {
     params.append('fileName', file.name)
     params.append('filePath', file.path)
     params.append('fileSize', String(file.size || 0))
-    if (scrapFolderName.value.trim()) {
-      params.append('folderName', scrapFolderName.value.trim())
-    }
     
     const res = await fetch('/api/cloud/import', {
       method: 'POST',

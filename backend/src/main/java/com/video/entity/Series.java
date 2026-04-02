@@ -25,7 +25,7 @@ public class Series {
     @Column(name = "backdrop_path", length = 1000)
     private String backdropPath;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String overview;
     
     @Column(name = "tmdb_id")
@@ -48,7 +48,11 @@ public class Series {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (slug == null || slug.isEmpty()) {
-            slug = name != null ? name.replaceAll("[^a-zA-Z0-9\\u4e00-\\u9fa5]", "-").toLowerCase() : null;
+            String baseSlug = name != null ? name.replaceAll("[^a-zA-Z0-9\\u4e00-\\u9fa5]", "-").toLowerCase() : "series";
+            if (baseSlug.length() > 200) {
+                baseSlug = baseSlug.substring(0, 200);
+            }
+            slug = baseSlug + "-" + System.currentTimeMillis();
         }
     }
     

@@ -1,5 +1,7 @@
 package com.video.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
 public class ScrapingAggregationService {
     
     private final SystemConfigService systemConfigService;
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     
     private static final String TMDB_BASE = "https://api.themoviedb.org/3";
     private static final String TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
@@ -35,16 +38,25 @@ public class ScrapingAggregationService {
         return CompletableFuture.supplyAsync(() -> {
             MetadataResult result = new MetadataResult();
             result.setQuery(query);
-            
-            CompletableFuture<TmdbData> tmdbFuture = CompletableFuture.supplyAsync(() -> searchTmdb(query));
-            CompletableFuture<DoubanData> doubanFuture = CompletableFuture.supplyAsync(() -> searchDouban(query));
-            
+
             try {
-                TmdbData tmdb = tmdbFuture.get();
-                DoubanData douban = doubanFuture.get();
-                
+                TmdbData tmdb = searchTmdb(query);
+                if (tmdb == null) {
+                    // Fallback to TV endpoint for episode/series style names
+                    TmdbTvData tmdbTv = searchTmdbTv(query);
+                    if (tmdbTv != null) {
+                        tmdb = new TmdbData();
+                        tmdb.setId(tmdbTv.getId());
+                        tmdb.setTitle(tmdbTv.getName());
+                        tmdb.setOverview(tmdbTv.getOverview());
+                        tmdb.setPosterPath(tmdbTv.getPosterPath());
+                        tmdb.setReleaseDate(tmdbTv.getFirstAirDate());
+                        tmdb.setVoteAverage(tmdbTv.getVoteAverage());
+                    }
+                }
+
                 result.setTmdb(tmdb);
-                result.setDouban(douban);
+                result.setDouban(null);
                 
                 if (tmdb != null) {
                     result.setTitle(tmdb.getTitle());
@@ -53,22 +65,7 @@ public class ScrapingAggregationService {
                     result.setReleaseDate(tmdb.getReleaseDate());
                     result.setRating(tmdb.getVoteAverage());
                 }
-                
-                if (douban != null) {
-                    if (result.getTitle() == null || result.getTitle().isEmpty()) {
-                        result.setTitle(douban.getTitle());
-                    }
-                    if (result.getOverview() == null || result.getOverview().isEmpty()) {
-                        result.setOverview(douban.getDescription());
-                    }
-                    if (douban.getRating() != null) {
-                        result.setRating(douban.getRating());
-                    }
-                    if (result.getPosterUrl() == null) {
-                        result.setPosterUrl(douban.getCoverUrl());
-                    }
-                }
-                
+
             } catch (Exception e) {
                 log.error("Error aggregating metadata for: {}", query, e);
             }
@@ -89,24 +86,30 @@ public class ScrapingAggregationService {
             String encodedQuery = URLEncoder.encode(query, "UTF-8");
             String url = String.format("%s/search/movie?api_key=%s&language=%s&query=%s",
                 TMDB_BASE, apiKey, getTmdbLanguage(), encodedQuery);
-            
+
+            log.info("Fetching TMDB Movie data from URL: {}", url.replace(apiKey, "HIDDEN_API_KEY"));
             String response = fetch(url);
-            Map<String, Object> json = parseJsonSimple(response);
-            
-            List<Map<String, Object>> results = (List<Map<String, Object>>) json.get("results");
-            if (results != null && !results.isEmpty()) {
-                Map<String, Object> movie = results.get(0);
-                
+            if (response == null || response.isEmpty()) {
+                log.warn("TMDB Movie search returned empty response for query: {}", query);
+                return null;
+            }
+
+            JsonNode root = OBJECT_MAPPER.readTree(response);
+            JsonNode results = root.path("results");
+            if (results.isArray() && results.size() > 0) {
+                JsonNode movie = results.get(0);
                 TmdbData data = new TmdbData();
-                data.setId(((Number) movie.get("id")).longValue());
-                data.setTitle((String) movie.get("title"));
-                data.setOverview((String) movie.get("overview"));
-                data.setPosterPath((String) movie.get("poster_path"));
-                data.setReleaseDate((String) movie.get("release_date"));
-                data.setVoteAverage(movie.get("vote_average") != null ? 
-                    ((Number) movie.get("vote_average")).doubleValue() : null);
-                
+                data.setId(movie.path("id").asLong());
+                data.setTitle(movie.path("title").asText(null));
+                data.setOverview(movie.path("overview").asText(null));
+                data.setPosterPath(movie.path("poster_path").asText(null));
+                data.setReleaseDate(movie.path("release_date").asText(null));
+                data.setVoteAverage(movie.hasNonNull("vote_average") ? movie.path("vote_average").asDouble() : null);
+
+                log.info("Successfully parsed TMDB Movie data: id={}, title={}", data.getId(), data.getTitle());
                 return data;
+            } else {
+                log.warn("TMDB Movie search returned no results in JSON for query: {}", query);
             }
         } catch (Exception e) {
             log.error("Error searching TMDB: {}", query, e);
@@ -137,26 +140,23 @@ public class ScrapingAggregationService {
             }
             
             log.debug("TMDB TV response: {}", response);
-            Map<String, Object> json = parseJsonSimple(response);
-            
-            List<Map<String, Object>> results = (List<Map<String, Object>>) json.get("results");
-            if (results != null && !results.isEmpty()) {
-                Map<String, Object> tv = results.get(0);
-                
+            JsonNode root = OBJECT_MAPPER.readTree(response);
+            JsonNode results = root.path("results");
+            if (results.isArray() && results.size() > 0) {
+                JsonNode tv = results.get(0);
                 TmdbTvData data = new TmdbTvData();
-                data.setId(((Number) tv.get("id")).longValue());
-                data.setName((String) tv.get("name"));
-                data.setOverview((String) tv.get("overview"));
-                data.setPosterPath((String) tv.get("poster_path"));
-                data.setFirstAirDate((String) tv.get("first_air_date"));
-                data.setVoteAverage(tv.get("vote_average") != null ? 
-                    ((Number) tv.get("vote_average")).doubleValue() : null);
+                data.setId(tv.path("id").asLong());
+                data.setName(tv.path("name").asText(null));
+                data.setOverview(tv.path("overview").asText(null));
+                data.setPosterPath(tv.path("poster_path").asText(null));
+                data.setFirstAirDate(tv.path("first_air_date").asText(null));
+                data.setVoteAverage(tv.hasNonNull("vote_average") ? tv.path("vote_average").asDouble() : null);
                 
                 log.info("Successfully parsed TMDB TV data: id={}, name={}", data.getId(), data.getName());
                 return data;
             } else {
                 log.warn("TMDB TV search returned no results in JSON for query: {}", query);
-                log.info("Raw JSON response: {}", json);
+                log.info("Raw JSON response: {}", root);
             }
         } catch (Exception e) {
             log.error("Error searching TMDB TV for query: {}", query, e);

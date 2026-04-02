@@ -6,7 +6,6 @@ import com.video.entity.Video;
 import com.video.repository.SeasonRepository;
 import com.video.repository.SeriesRepository;
 import com.video.repository.VideoRepository;
-import com.video.service.ScrapingAggregationService;
 import com.video.service.ScrapingAggregationService.TmdbData;
 import com.video.service.ScrapingAggregationService.TmdbTvData;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -50,7 +47,6 @@ public class SeriesService {
         return series;
     }
     
-    @Transactional
     public Series createSeries(Series series) {
         if (series.getSlug() == null || series.getSlug().isEmpty()) {
             series.setSlug(generateSlug(series.getName()));
@@ -99,7 +95,10 @@ public class SeriesService {
             }
         }
         
-        return seriesRepository.save(series);
+        log.info("Persisting series to database: name={}, tmdbId={}", series.getName(), series.getTmdbId());
+        Series saved = seriesRepository.save(series);
+        log.info("Series persisted successfully: id={}, name={}", saved.getId(), saved.getName());
+        return saved;
     }
     
     @Transactional
@@ -135,7 +134,6 @@ public class SeriesService {
         return seriesRepository.save(series);
     }
     
-    @Transactional
     public Series rescrapSeries(Long id) {
         Series series = seriesRepository.findById(id).orElse(null);
         if (series == null) {
@@ -152,7 +150,10 @@ public class SeriesService {
                 if (tmdbData.getPosterPath() != null) {
                     series.setPosterPath("https://image.tmdb.org/t/p/w500" + tmdbData.getPosterPath());
                 }
-                return seriesRepository.save(series);
+                log.info("Persisting rescraped series (TV) to database: id={}, name={}", series.getId(), series.getName());
+                Series saved = seriesRepository.save(series);
+                log.info("Rescraped series persisted successfully: id={}, name={}", saved.getId(), saved.getName());
+                return saved;
             } else {
                 log.info("Manual scrape (TV) returned no results, falling back to Movie search for: {}", series.getName());
                 TmdbData movieData = scrapingAggregationService.searchTmdb(series.getName());
@@ -163,7 +164,10 @@ public class SeriesService {
                     if (movieData.getPosterPath() != null) {
                         series.setPosterPath("https://image.tmdb.org/t/p/w500" + movieData.getPosterPath());
                     }
-                    return seriesRepository.save(series);
+                    log.info("Persisting rescraped series (Movie fallback) to database: id={}, name={}", series.getId(), series.getName());
+                    Series saved = seriesRepository.save(series);
+                    log.info("Rescraped series persisted successfully: id={}, name={}", saved.getId(), saved.getName());
+                    return saved;
                 } else {
                     log.warn("Manual scrape returned no results (TV or Movie) for series: {}", series.getName());
                 }
@@ -300,6 +304,43 @@ public class SeriesService {
             video.setEpisodeNumber(null);
             videoRepository.save(video);
         }
+    }
+
+    @Transactional
+    public int batchAssignVideos(List<String> videoUuids, Long seriesId, Long seasonId, Integer episodeStart) {
+        if (videoUuids == null || videoUuids.isEmpty()) {
+            throw new RuntimeException("videoUuids 不能为空");
+        }
+        Series series = seriesRepository.findById(seriesId).orElseThrow(() -> new RuntimeException("系列不存在"));
+
+        Season season = null;
+        if (seasonId != null) {
+            season = seasonRepository.findById(seasonId).orElseThrow(() -> new RuntimeException("季度不存在"));
+            if (!series.getId().equals(season.getSeriesId())) {
+                throw new RuntimeException("季度不属于该系列");
+            }
+        }
+
+        int assigned = 0;
+        int nextEpisode = episodeStart != null && episodeStart > 0 ? episodeStart : -1;
+        for (String uuid : videoUuids) {
+            if (uuid == null || uuid.trim().isEmpty()) {
+                continue;
+            }
+            Optional<Video> videoOpt = videoRepository.findByUuid(uuid.trim());
+            if (!videoOpt.isPresent()) {
+                continue;
+            }
+            Video video = videoOpt.get();
+            video.setSeriesId(series.getId());
+            video.setSeasonId(season != null ? season.getId() : null);
+            if (nextEpisode > 0) {
+                video.setEpisodeNumber(nextEpisode++);
+            }
+            videoRepository.save(video);
+            assigned++;
+        }
+        return assigned;
     }
     
     private String generateSlug(String name) {

@@ -33,6 +33,15 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Token（可选，优先）</label>
+            <input 
+              v-model="config.alist_token"
+              type="text"
+              placeholder="AList Token，填写后将优先使用"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
         </div>
       </div>
       
@@ -129,6 +138,7 @@ const config = reactive({
   alist_url: 'http://localhost:5244',
   alist_username: 'admin',
   alist_password: '',
+  alist_token: '',
   tmdb_api_key: '',
   tmdb_language: 'zh-CN',
   transcode_max_concurrent: '2',
@@ -161,6 +171,7 @@ async function loadConfig() {
     if (data.alist_url) config.alist_url = data.alist_url
     if (data.alist_username) config.alist_username = data.alist_username
     if (data.alist_password) config.alist_password = data.alist_password
+    if (data.alist_token) config.alist_token = data.alist_token
     if (data.tmdb_api_key) config.tmdb_api_key = data.tmdb_api_key
     if (data.tmdb_language) config.tmdb_language = data.tmdb_language
     if (data.transcode_max_concurrent) config.transcode_max_concurrent = data.transcode_max_concurrent
@@ -180,6 +191,7 @@ async function saveConfig() {
         alist_url: config.alist_url,
         alist_username: config.alist_username,
         alist_password: config.alist_password,
+        alist_token: config.alist_token,
         tmdb_api_key: config.tmdb_api_key,
         tmdb_language: config.tmdb_language,
         transcode_max_concurrent: config.transcode_max_concurrent,

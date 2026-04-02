@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import java.io.*;
 import java.net.URL;
@@ -40,38 +41,79 @@ public class CloudStorageService {
         if (url == null || url.isEmpty()) {
             url = defaultAlistUrl;
         }
-        return url;
+        return normalizeAlistUrl(url);
+    }
+
+    private String normalizeAlistUrl(String url) {
+        if (url == null) {
+            return null;
+        }
+        String normalized = url.trim();
+        while (normalized.endsWith("/")) {
+            normalized = normalized.substring(0, normalized.length() - 1);
+        }
+        return normalized;
     }
 
     public String getAlistToken() {
-        String password = getAlistPassword();
-        
-        if (password != null && password.startsWith("alist-")) {
-            log.info("Using admin token directly, length: {}", password.length());
-            return password;
+        String configuredToken = systemConfigService.getConfig(SystemConfigService.ALIST_TOKEN);
+        if (configuredToken != null && !configuredToken.trim().isEmpty()) {
+            String token = configuredToken.trim();
+            if (isTokenValid(token)) {
+                log.info("Using configured AList token, length: {}", token.length());
+                return token;
+            }
+            log.warn("Configured AList token is invalid, falling back to username/password login");
         }
-        
+
+        return loginByUsernamePassword();
+    }
+
+    private boolean isTokenValid(String token) {
+        try {
+            String url = getAlistUrl() + "/api/me";
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", token);
+            HttpEntity<?> request = new HttpEntity<>(headers);
+            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, request, Map.class);
+            if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+                return false;
+            }
+            Object codeObj = response.getBody().get("code");
+            if (codeObj instanceof Number) {
+                return ((Number) codeObj).intValue() == 200;
+            }
+            return false;
+        } catch (Exception e) {
+            log.warn("Failed to validate AList token: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    private String loginByUsernamePassword() {
+        String password = getAlistPassword();
         String username = getAlistUsername();
-        
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             log.warn("AList username or password not configured");
             return null;
         }
-        
+
         try {
             String url = getAlistUrl();
-            log.info("Attempting to login to AList at: {}", url + "/api/auth/login");
-            
+            String loginUrl = url + "/api/auth/login";
+            log.info("Attempting to login to AList at: {}", loginUrl);
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            
+
             Map<String, String> body = new HashMap<>();
-            body.put("username", username);
-            body.put("password", password);
-            
+            body.put("username", username.trim());
+            body.put("password", password.trim());
+
             HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
-            ResponseEntity<Map> response = restTemplate.postForEntity(url + "/api/auth/login", request, Map.class);
-            
+            ResponseEntity<Map> response = restTemplate.postForEntity(loginUrl, request, Map.class);
+
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 Map data = response.getBody();
                 Integer code = (Integer) data.get("code");
@@ -84,10 +126,13 @@ public class CloudStorageService {
                     }
                 }
             }
+            log.warn("AList login returned non-success payload, status: {}, body: {}", response.getStatusCode(), response.getBody());
+        } catch (HttpStatusCodeException e) {
+            log.error("Failed to login to AList, url: {}, status: {}, body: {}", getAlistUrl() + "/api/auth/login", e.getStatusCode(), e.getResponseBodyAsString());
         } catch (Exception e) {
             log.error("Failed to login to AList: {}, ex: {}", e.getMessage(), e.getClass().getName());
         }
-        
+
         return null;
     }
     
@@ -120,16 +165,23 @@ public class CloudStorageService {
         try {
             String token = getAlistToken();
             String url = getAlistUrl();
-            log.info("testConnection - token length: {}, url: {}", token != null ? token.length() : 0, url);
-            
+            String targetUrl = url + "/api/me";
+            log.info("testConnection - token length: {}, url: {}", token != null ? token.length() : 0, targetUrl);
+
+            if (token == null || token.isEmpty()) {
+                result.put("success", false);
+                result.put("message", "AList 鉴权失败：未获取到 token，请检查 alist_token 或用户名密码配置");
+                return result;
+            }
+
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", token);
             HttpEntity<?> request = new HttpEntity<>(headers);
-            log.info("Making request to: {}", url + "/api/me");
+            log.info("Making request to: {}", targetUrl);
             
             // Use exchange instead of getForEntity for more control
             ResponseEntity<Map> response = restTemplate.exchange(
-                url + "/api/me", 
+                targetUrl,
                 HttpMethod.GET, 
                 request, 
                 Map.class
@@ -148,11 +200,15 @@ public class CloudStorageService {
                 }
             } else {
                 result.put("success", false);
-                result.put("message", "连接失败");
+                result.put("message", "AList 连接失败，请求 " + targetUrl + " 返回状态: " + response.getStatusCode());
             }
+        } catch (HttpStatusCodeException e) {
+            String url = getAlistUrl() + "/api/me";
+            result.put("success", false);
+            result.put("message", "AList 连接失败，请求 " + url + " 返回状态: " + e.getStatusCode() + ", 响应: " + e.getResponseBodyAsString());
         } catch (Exception e) {
             result.put("success", false);
-            result.put("message", e.getMessage());
+            result.put("message", "AList 连接异常: " + e.getMessage());
         }
         return result;
     }
@@ -160,15 +216,30 @@ public class CloudStorageService {
     public Map<String, Object> getStorageList() {
         Map<String, Object> result = new HashMap<>();
         try {
+            String token = getAlistToken();
+            if (token == null || token.isEmpty()) {
+                result.put("success", false);
+                result.put("message", "AList 鉴权失败：未获取到 token，请检查 alist_token 或用户名密码配置");
+                return result;
+            }
+
+            String targetUrl = getAlistUrl() + "/api/storage/list";
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", getAlistToken());
+            headers.set("Authorization", token);
             HttpEntity<?> request = new HttpEntity<>(headers);
-            ResponseEntity<Map> response = restTemplate.getForEntity(getAlistUrl() + "/api/storage/list", Map.class);
+            ResponseEntity<Map> response = restTemplate.exchange(targetUrl, HttpMethod.GET, request, Map.class);
             result.put("success", response.getStatusCode() == HttpStatus.OK);
             result.put("data", response.getBody());
+            if (response.getStatusCode() != HttpStatus.OK) {
+                result.put("message", "AList 存储列表请求失败，URL: " + targetUrl + ", 状态: " + response.getStatusCode());
+            }
+        } catch (HttpStatusCodeException e) {
+            String url = getAlistUrl() + "/api/storage/list";
+            result.put("success", false);
+            result.put("message", "AList 存储列表请求失败，URL: " + url + ", 状态: " + e.getStatusCode() + ", 响应: " + e.getResponseBodyAsString());
         } catch (Exception e) {
             result.put("success", false);
-            result.put("message", e.getMessage());
+            result.put("message", "AList 存储列表请求异常: " + e.getMessage());
         }
         return result;
     }

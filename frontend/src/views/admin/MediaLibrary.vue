@@ -51,6 +51,50 @@
         </select>
       </div>
 
+      <div class="bg-white rounded-xl shadow-sm p-4 border">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-sm text-gray-600">已选 {{ selectedVideoUuids.length }} 项</span>
+          <select
+            v-model="batchSeriesId"
+            class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option :value="null">选择系列</option>
+            <option v-for="s in seriesList" :key="s.id" :value="s.id">{{ s.name }}</option>
+          </select>
+          <select
+            v-model="batchSeasonId"
+            :disabled="!batchSeriesId"
+            class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+          >
+            <option :value="null">不指定季度</option>
+            <option v-for="season in batchSeasons" :key="season.id" :value="season.id">
+              {{ season.name }}
+            </option>
+          </select>
+          <input
+            v-model.number="batchEpisodeStart"
+            type="number"
+            min="1"
+            placeholder="起始集号(可选)"
+            class="w-40 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <button
+            @click="batchAssignSelectedVideos"
+            :disabled="assigningBatch || selectedVideoUuids.length === 0 || !batchSeriesId"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 disabled:opacity-50"
+          >
+            {{ assigningBatch ? '归档中...' : '批量归档到系列/季度' }}
+          </button>
+          <button
+            @click="clearBatchSelection"
+            :disabled="selectedVideoUuids.length === 0"
+            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+          >
+            清空选择
+          </button>
+        </div>
+      </div>
+
     <div
       class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-colors mb-6"
       :class="{ 'border-primary bg-primary/5': isDragging }"
@@ -184,6 +228,9 @@
       <table class="w-full">
         <thead class="bg-gray-50">
           <tr>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <input type="checkbox" :checked="allVisibleSelected" @change="onSelectAllChange" />
+            </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">封面</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">标题</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
@@ -195,6 +242,9 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
           <tr v-for="video in filteredVideos" :key="video.uuid" class="hover:bg-gray-50">
+            <td class="px-4 py-4">
+              <input type="checkbox" :checked="isVideoSelected(video.uuid)" @change="onVideoSelectChange($event, video.uuid)" />
+            </td>
             <td class="px-6 py-4">
               <div class="w-20 h-14 bg-gray-200 rounded overflow-hidden">
                 <img v-if="video.thumbnailPath" :src="video.thumbnailPath" class="w-full h-full object-cover" />
@@ -474,7 +524,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { videoApi, type Video } from '../../api/video'
 import { seriesApi, type Series, type Season } from '../../api/series'
 
@@ -524,6 +574,12 @@ const newSeasonName = ref('')
 const seriesVideoCounts = ref<Record<number, number>>({})
 const seriesSeasonCounts = ref<Record<number, number>>({})
 const seasonVideoCounts = ref<Record<number, number>>({})
+const selectedVideoUuids = ref<string[]>([])
+const batchSeriesId = ref<number | null>(null)
+const batchSeasonId = ref<number | null>(null)
+const batchEpisodeStart = ref<number | null>(null)
+const batchSeasons = ref<Season[]>([])
+const assigningBatch = ref(false)
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -801,6 +857,105 @@ const filteredSeries = computed(() => {
   return seriesList.value.filter(s => s.name.toLowerCase().includes(q))
 })
 
+const allVisibleSelected = computed(() => {
+  if (filteredVideos.value.length === 0) return false
+  return filteredVideos.value.every(v => selectedVideoUuids.value.includes(v.uuid))
+})
+
+function isVideoSelected(uuid: string): boolean {
+  return selectedVideoUuids.value.includes(uuid)
+}
+
+function toggleVideoSelection(uuid: string, checked: boolean) {
+  if (checked) {
+    if (!selectedVideoUuids.value.includes(uuid)) {
+      selectedVideoUuids.value.push(uuid)
+    }
+    return
+  }
+  selectedVideoUuids.value = selectedVideoUuids.value.filter(id => id !== uuid)
+}
+
+function toggleSelectAllVisible(checked: boolean) {
+  const visibleUuids = filteredVideos.value.map(v => v.uuid)
+  if (checked) {
+    const merged = new Set([...selectedVideoUuids.value, ...visibleUuids])
+    selectedVideoUuids.value = Array.from(merged)
+    return
+  }
+  selectedVideoUuids.value = selectedVideoUuids.value.filter(id => !visibleUuids.includes(id))
+}
+
+function onSelectAllChange(event: Event) {
+  const checked = (event.target as HTMLInputElement).checked
+  toggleSelectAllVisible(checked)
+}
+
+function onVideoSelectChange(event: Event, uuid: string) {
+  const checked = (event.target as HTMLInputElement).checked
+  toggleVideoSelection(uuid, checked)
+}
+
+function clearBatchSelection() {
+  selectedVideoUuids.value = []
+  batchSeasonId.value = null
+  batchEpisodeStart.value = null
+}
+
+async function loadBatchSeasons() {
+  if (!batchSeriesId.value) {
+    batchSeasons.value = []
+    batchSeasonId.value = null
+    return
+  }
+  try {
+    batchSeasons.value = await seriesApi.getSeasons(batchSeriesId.value)
+    if (batchSeasonId.value && !batchSeasons.value.some(s => s.id === batchSeasonId.value)) {
+      batchSeasonId.value = null
+    }
+  } catch (e) {
+    console.error('Failed to load batch seasons:', e)
+    batchSeasons.value = []
+    batchSeasonId.value = null
+  }
+}
+
+async function batchAssignSelectedVideos() {
+  if (selectedVideoUuids.value.length === 0) {
+    alert('请先选择视频')
+    return
+  }
+  if (!batchSeriesId.value) {
+    alert('请选择系列')
+    return
+  }
+  assigningBatch.value = true
+  try {
+    const payload: any = {
+      videoUuids: selectedVideoUuids.value,
+      seriesId: batchSeriesId.value,
+    }
+    if (batchSeasonId.value) payload.seasonId = batchSeasonId.value
+    if (batchEpisodeStart.value && batchEpisodeStart.value > 0) payload.episodeStart = batchEpisodeStart.value
+    const res = await seriesApi.batchAssign(payload)
+    if (res.success) {
+      alert(`批量归档成功，已处理 ${res.assignedCount} 条视频`)
+      clearBatchSelection()
+      fetchSeries()
+      page.value = 0
+      await fetchVideos()
+    } else {
+      alert(res.message || '批量归档失败')
+    }
+  } catch (e: any) {
+    console.error('Failed to batch assign videos:', e)
+    const msg = e?.response?.data?.message || e?.message || '批量归档失败'
+    alert(msg)
+  } finally {
+    assigningBatch.value = false
+  }
+}
+
 function editSeries(s: Series) {
   editingSeries.value = s
   seriesForm.value = {
@@ -835,9 +990,10 @@ async function saveSeries() {
     }
     closeSeriesModal()
     fetchSeries()
-  } catch (e) {
+  } catch (e: any) {
     console.error('Failed to save series:', e)
-    alert('保存失败')
+    const errorMsg = e.response?.data?.message || e.message || '未知错误'
+    alert(`保存失败: ${errorMsg}`)
   }
 }
 
@@ -940,5 +1096,9 @@ onUnmounted(() => {
   if (taskTimer) {
     clearInterval(taskTimer)
   }
+})
+
+watch(batchSeriesId, () => {
+  loadBatchSeasons()
 })
 </script>
