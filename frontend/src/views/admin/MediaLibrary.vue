@@ -270,6 +270,12 @@
             <td class="px-6 py-4 text-gray-600">{{ formatDate(video.createdAt) }}</td>
             <td class="px-6 py-4">
               <div class="flex items-center gap-2">
+                <button 
+                  @click="editVideo(video)" 
+                  class="text-blue-600 hover:text-blue-800 text-sm"
+                >
+                  编辑
+                </button>
                 <router-link 
                   :to="'/player/' + video.uuid" 
                   class="text-primary hover:underline text-sm"
@@ -304,6 +310,36 @@
         </button>
       </div>
     </div>
+    </div>
+
+    <!-- 编辑视频对话框 -->
+    <div v-if="showEditDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold mb-4">编辑视频信息</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">标题</label>
+            <input v-model="editVideoForm.title" type="text" 
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">年代</label>
+            <input v-model.number="editVideoForm.releaseYear" type="number" 
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                   min="1900" max="2099" />
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end space-x-3">
+          <button @click="showEditDialog = false" 
+                  class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+            取消
+          </button>
+          <button @click="saveVideoEdit" 
+                  class="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90">
+            保存
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Series Management Tab -->
@@ -580,6 +616,12 @@ const batchSeasonId = ref<number | null>(null)
 const batchEpisodeStart = ref<number | null>(null)
 const batchSeasons = ref<Season[]>([])
 const assigningBatch = ref(false)
+const showEditDialog = ref(false)
+const editVideoForm = ref({
+  uuid: '',
+  title: '',
+  releaseYear: null as number | null
+})
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -732,6 +774,41 @@ async function rescrapVideo(uuid: string) {
     alert('已触发重新刮削')
   } catch (e) {
     console.error('Failed to rescrap:', e)
+  }
+}
+
+function editVideo(video: Video) {
+  editVideoForm.value = {
+    uuid: video.uuid,
+    title: video.title || '',
+    releaseYear: video.releaseYear || null
+  }
+  showEditDialog.value = true
+}
+
+async function saveVideoEdit() {
+  if (!editVideoForm.value.title) {
+    alert('标题不能为空')
+    return
+  }
+  try {
+    const response = await fetch(`/api/videos/${editVideoForm.value.uuid}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: editVideoForm.value.title,
+        releaseYear: editVideoForm.value.releaseYear
+      })
+    })
+    if (response.ok) {
+      showEditDialog.value = false
+      fetchVideos()
+    } else {
+      alert('保存失败')
+    }
+  } catch (e) {
+    console.error('Failed to update video:', e)
+    alert('保存失败')
   }
 }
 

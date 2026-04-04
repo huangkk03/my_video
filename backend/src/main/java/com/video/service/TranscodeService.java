@@ -10,13 +10,21 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -25,6 +33,7 @@ public class TranscodeService {
     
     private static final String VIDEO_STORAGE_PATH = "/data/videos";
     private static final String FFMPEG_COMMAND = "ffmpeg";
+    private static final String FFPROBE_COMMAND = "ffprobe";
     
     private final VideoRepository videoRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
@@ -177,7 +186,124 @@ public class TranscodeService {
             log.warn("Failed to generate thumbnail: {}", e.getMessage());
         }
     }
-    
+
+    private void executeTranscodeFromUrl(String sourceUrl, Video video, TranscodeTask task) throws Exception {
+        Path videoDir = Paths.get(VIDEO_STORAGE_PATH, video.getUuid());
+        Files.createDirectories(videoDir);
+
+        Path hlsPath = videoDir.resolve("index.m3u8");
+        Path thumbnailPath = videoDir.resolve("thumbnail.jpg");
+
+        long durationMs = getVideoDurationFromUrl(sourceUrl);
+        video.setDuration(durationMs);
+
+        List<String> command = new ArrayList<>(Arrays.asList(
+            FFMPEG_COMMAND,
+            "-reconnect", "1",
+            "-reconnect_streamed", "1",
+            "-reconnect_delay_max", "5",
+            "-i", sourceUrl,
+            "-codec:v", "libx264",
+            "-preset", "fast",
+            "-crf", "23",
+            "-codec:a", "aac",
+            "-b:a", "128k",
+            "-f", "hls",
+            "-hls_time", "10",
+            "-hls_list_size", "0",
+            "-http_seekable", "1",
+            hlsPath.toString(),
+            "-ss", "00:00:05",
+            "-vframes", "1",
+            "-vf", "scale=320:-1",
+            thumbnailPath.toString()
+        ));
+
+        task.setFfmpegCommand(String.join(" ", command));
+        transcodeTaskRepository.save(task);
+
+        log.info("Executing FFmpeg stream transcode from URL: {}",
+                 sourceUrl.replaceAll("sign=[^&]+", "sign=HIDDEN"));
+
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String line;
+            long lastProgressUpdate = System.currentTimeMillis();
+            while ((line = reader.readLine()) != null) {
+                log.debug("FFmpeg: {}", line);
+
+                if (System.currentTimeMillis() - lastProgressUpdate > 2000) {
+                    lastProgressUpdate = System.currentTimeMillis();
+                    int progress = parseProgress(line, durationMs);
+                    if (progress > 0 && progress < 100) {
+                        task.setProgress(progress);
+                        transcodeTaskRepository.save(task);
+                    }
+                }
+            }
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new RuntimeException("FFmpeg exited with code: " + exitCode);
+        }
+
+        video.setHlsPath(hlsPath.toString());
+        if (Files.exists(thumbnailPath)) {
+            video.setThumbnailPath(thumbnailPath.toString());
+        }
+        videoRepository.save(video);
+    }
+
+    private long getVideoDurationFromUrl(String urlStr) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(
+                FFPROBE_COMMAND, "-i", urlStr, "-v", "quiet", "-print_format", "json",
+                "-show_format", "-show_streams"
+            );
+            pb.redirectErrorStream(true);
+            Process p = pb.start();
+
+            StringBuilder sb = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+            }
+            p.waitFor();
+
+            String output = sb.toString();
+            Pattern pattern = Pattern.compile("\"duration\"\\s*:\\s*([\\d.]+)");
+            Matcher matcher = pattern.matcher(output);
+            if (matcher.find()) {
+                return (long) (Double.parseDouble(matcher.group(1)) * 1000);
+            }
+        } catch (Exception e) {
+            log.warn("Failed to get video duration from URL: {}", e.getMessage());
+        }
+        return 0;
+    }
+
+    private void cleanupPartialFiles(String uuid) {
+        try {
+            Path videoDir = Paths.get(VIDEO_STORAGE_PATH, uuid);
+            if (Files.exists(videoDir)) {
+                try (Stream<Path> walk = Files.walk(videoDir)) {
+                    walk.sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+                }
+                log.info("Cleaned up partial files for video: {}", uuid);
+            }
+        } catch (Exception e) {
+            log.warn("Failed to cleanup directory for video: {}", uuid, e);
+        }
+    }
+
     private long getVideoDuration(String videoPath) {
         try {
             ProcessBuilder pb = new ProcessBuilder(FFMPEG_COMMAND, "-i", videoPath, "-v", "quiet", "-print_format", "json", "-show_format", "-show_streams");
@@ -237,10 +363,13 @@ public class TranscodeService {
     }
     
     private void handleTranscodeFailure(Video video, TranscodeTask task, Exception e) {
+        log.error("Stream transcode failed, cleaning up partial files...");
+        cleanupPartialFiles(video.getUuid());
+
         task.setStatus("failed");
         task.setErrorMessage(e.getMessage());
         transcodeTaskRepository.save(task);
-        
+
         video.setStatus("failed");
         videoRepository.save(video);
     }
@@ -269,5 +398,48 @@ public class TranscodeService {
         } catch (Exception e) {
             log.error("Failed to start transcode for: {}", filePath, e);
         }
+    }
+
+    @Async
+    public CompletableFuture<Void> transcodeVideoFromUrl(String videoUuid, String sourceUrl) {
+        log.info("Starting stream transcode for video: {} from URL", videoUuid);
+
+        Video video = videoRepository.findByUuid(videoUuid).orElse(null);
+        if (video == null) {
+            log.error("Video not found: {}", videoUuid);
+            return CompletableFuture.completedFuture(null);
+        }
+
+        TranscodeTask task = transcodeTaskRepository.findByVideoUuid(videoUuid).orElse(null);
+        if (task == null) {
+            task = createTranscodeTask(video);
+        }
+
+        try {
+            task.setStatus("processing");
+            task.setStartedAt(LocalDateTime.now());
+            transcodeTaskRepository.save(task);
+
+            video.setStatus("transcoding");
+            videoRepository.save(video);
+
+            executeTranscodeFromUrl(sourceUrl, video, task);
+
+            task.setStatus("completed");
+            task.setProgress(100);
+            task.setCompletedAt(LocalDateTime.now());
+            transcodeTaskRepository.save(task);
+
+            video.setStatus("completed");
+            videoRepository.save(video);
+
+            log.info("Stream transcode completed for video: {}", videoUuid);
+
+        } catch (Exception e) {
+            log.error("Stream transcode failed for video: {}", videoUuid, e);
+            handleTranscodeFailure(video, task, e);
+        }
+
+        return CompletableFuture.completedFuture(null);
     }
 }

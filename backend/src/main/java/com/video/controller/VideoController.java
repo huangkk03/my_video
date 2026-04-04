@@ -3,6 +3,7 @@ package com.video.controller;
 import com.video.dto.VideoProgressRequest;
 import com.video.dto.VideoUploadResponse;
 import com.video.entity.Video;
+import com.video.repository.VideoRepository;
 import com.video.service.CloudStorageService;
 import com.video.service.SeriesService;
 import com.video.service.TranscodeService;
@@ -27,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -39,6 +41,7 @@ public class VideoController {
     private final TranscodeService transcodeService;
     private final CloudStorageService cloudStorageService;
     private final SeriesService seriesService;
+    private final VideoRepository videoRepository;
     
     @PostMapping("/upload")
     public ResponseEntity<VideoUploadResponse> uploadVideo(
@@ -342,5 +345,66 @@ public class VideoController {
             error.put("error", e.getMessage());
             return ResponseEntity.status(500).body(error);
         }
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<?> updateVideo(
+            @PathVariable String uuid,
+            @RequestBody VideoUpdateRequest request) {
+        try {
+            Optional<Video> videoOpt = videoRepository.findByUuid(uuid);
+            if (!videoOpt.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Video video = videoOpt.get();
+            if (request.getTitle() != null && !request.getTitle().isEmpty()) {
+                video.setTitle(request.getTitle());
+            }
+            if (request.getOverview() != null) {
+                video.setOverview(request.getOverview());
+            }
+            if (request.getPosterPath() != null) {
+                video.setPosterPath(request.getPosterPath());
+            }
+            if (request.getRating() != null) {
+                video.setRating(request.getRating());
+            }
+            if (request.getReleaseYear() != null) {
+                video.setReleaseYear(request.getReleaseYear());
+            }
+
+            videoRepository.save(video);
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("video", video);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Failed to update video: {}", uuid, e);
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    public static class VideoUpdateRequest {
+        private String title;
+        private String overview;
+        private String posterPath;
+        private Double rating;
+        private Integer releaseYear;
+
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+        public String getOverview() { return overview; }
+        public void setOverview(String overview) { this.overview = overview; }
+        public String getPosterPath() { return posterPath; }
+        public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
+        public Double getRating() { return rating; }
+        public void setRating(Double rating) { this.rating = rating; }
+        public Integer getReleaseYear() { return releaseYear; }
+        public void setReleaseYear(Integer releaseYear) { this.releaseYear = releaseYear; }
     }
 }

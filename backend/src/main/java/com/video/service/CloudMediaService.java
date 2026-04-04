@@ -20,6 +20,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,6 +38,7 @@ public class CloudMediaService {
     
     private final CloudStorageService cloudStorageService;
     private final VideoService videoService;
+    private final TranscodeService transcodeService;
     private final ScrapingAggregationService scrapingAggregationService;
     private final ImportTaskRepository importTaskRepository;
     private final SeriesRepository seriesRepository;
@@ -73,68 +75,50 @@ public class CloudMediaService {
         }
         
         try {
-            task.setStatus("downloading");
-            task.setMessage("Downloading...");
+            task.setStatus("preparing");
+            task.setMessage("Preparing stream transcode...");
+            task.setProgress(5);
+            importTaskRepository.save(task);
+
+            String alistPath = task.getSourcePath();
+
             task.setProgress(10);
+            task.setMessage("Scraping metadata...");
             importTaskRepository.save(task);
-            
-            Path downloadDir = Paths.get(videoStoragePath, "downloads", "incoming");
-            Files.createDirectories(downloadDir);
-            
-            String fileName = task.getSourceName();
-            Path targetPath = downloadDir.resolve(fileName);
-            
-            String downloadUrl = cloudStorageService.getFileRawUrl(task.getSourcePath());
-            if (downloadUrl == null) {
-                throw new RuntimeException("Failed to get download URL from AList");
-            }
-            downloadFile(downloadUrl, targetPath, task);
-            
-            task.setProgress(40);
-            task.setMessage("Download complete, scraping metadata...");
-            importTaskRepository.save(task);
-            
+
             task.setStatus("scraping");
             task.setMessage("Scraping metadata...");
             importTaskRepository.save(task);
-            
+
+            String fileName = task.getSourceName();
             String title = buildScrapeTitleFromFilename(fileName);
             ScrapingAggregationService.MetadataResult metadataResult = scrapMetadata(task, title);
-            
-            task.setProgress(60);
-            task.setMessage("Scraping complete, starting transcoding...");
+
+            task.setProgress(30);
+            task.setMessage("Starting stream transcode...");
             importTaskRepository.save(task);
-            
+
             task.setStatus("transcoding");
             task.setMessage("Transcoding...");
             importTaskRepository.save(task);
-            
-            // Check if cancelled before transcoding
+
             task = importTaskRepository.findByTaskId(taskId).orElse(null);
             if (task == null || task.getStatus().equals("failed")) {
                 log.info("Task {} was cancelled, skipping transcode", taskId);
                 return;
             }
-            
-            String videoUuid = startTranscoding(task, targetPath, title);
+
+            String videoUuid = startTranscodingFromAlist(task, alistPath, title);
             applyScrapedMetadataToVideo(videoUuid, metadataResult);
-            
-            // Delete the temporary downloaded file to save space
-            try {
-                Files.deleteIfExists(targetPath);
-            } catch (Exception e) {
-                log.warn("Failed to delete temporary file: {}", targetPath, e);
-            }
-            
+
             task.setVideoUuid(videoUuid);
             task.setProgress(100);
             task.setStatus("completed");
             task.setMessage("Import complete");
             importTaskRepository.save(task);
-            
-            // Auto-assign to series if folderName was provided
+
             autoAssignToSeries(videoUuid, title, task.getSourceName());
-            
+
         } catch (Exception e) {
             log.error("Import failed for task: {}", taskId, e);
             task.setStatus("failed");
@@ -227,10 +211,109 @@ public class CloudMediaService {
         if (dotIndex > 0) {
             title = fileName.substring(0, dotIndex);
         }
-        title = title.replaceAll("[._]", " ").trim();
-        // Remove common leading episode indexes like "805 " or "EP12 "
-        title = title.replaceAll("^(?i)(ep|e)?\\s*\\d{1,4}\\s+", "");
-        title = title.replaceAll("\\s+", " ");
+        title = title.replaceAll("[._]", " ");
+        title = cleanMovieTitle(title);
+        title = title.replaceAll("\\s+", " ").trim();
+        if (title.isEmpty()) {
+            return fileName;
+        }
+        return title;
+    }
+
+    private String cleanMovieTitle(String title) {
+        title = removeYear(title);
+        title = removeVideoQualityTags(title);
+        title = removeCodecTags(title);
+        title = removeLanguageTags(title);
+        title = removeReleaseGroup(title);
+        title = removeCommonSuffixes(title);
+        title = removeEpisodeIdentifiers(title);
+        title = removeSpecialCharacters(title);
+        return title.trim();
+    }
+
+    private String removeYear(String title) {
+        Pattern pattern = Pattern.compile("(.*?)\\s*(19|20)\\d{2}\\s*(.*)");
+        Matcher matcher = pattern.matcher(title);
+        if (matcher.matches()) {
+            String before = matcher.group(1).trim();
+            String year = matcher.group(2);
+            String after = matcher.group(3).trim();
+            if (!before.isEmpty()) {
+                return before + " " + year;
+            }
+            return before + year + " " + after;
+        }
+        return title;
+    }
+
+    private String removeVideoQualityTags(String title) {
+        String[] tags = {
+            "BD1080P", "BD720P", "1080P", "720P", "480P", "2160P", "4K",
+            "BluRay", "Blu-ray", "HDTV", "WEBRIP", "WEB-DL", "DVDRIP",
+            "UHD", "HD", "Remastered", "Extended"
+        };
+        for (String tag : tags) {
+            title = title.replaceAll("(?i)" + tag, " ");
+        }
+        return title;
+    }
+
+    private String removeCodecTags(String title) {
+        String[] tags = {
+            "X264", "X265", "H264", "H265", "HEVC", "AVC",
+            "DTS", "AAC", "AC3", "DTS-HD", "TrueHD", "Atmos",
+            "8bit", "10bit", "12bit"
+        };
+        for (String tag : tags) {
+            title = title.replaceAll("(?i)" + tag, " ");
+        }
+        return title;
+    }
+
+    private String removeLanguageTags(String title) {
+        String[] tags = {
+            "Mandarin", "English", "CHS-ENG", "CHT-ENG", "CHS", "CHT",
+            "ENG", "中英双语", "双语", "中文字幕", "国语", "粤语"
+        };
+        for (String tag : tags) {
+            title = title.replaceAll("(?i)" + tag, " ");
+        }
+        return title;
+    }
+
+    private String removeReleaseGroup(String title) {
+        String[] groups = {
+            "Adans", "HR", "PRiViTHD", "CHD", "M-team", "WiKi", "CTRLHD",
+            "SPARKS", "CMCT", "TLF", "FRDS", "MySiLU", "BeiTai"
+        };
+        for (String group : groups) {
+            title = title.replaceAll("(?i)" + group, " ");
+        }
+        return title;
+    }
+
+    private String removeCommonSuffixes(String title) {
+        String[] suffixes = {
+            "1080p", "720p", "576p", "480p", "360p",
+            "webrip", "dvdrip", "bluray", "hdtv"
+        };
+        for (String suffix : suffixes) {
+            title = title.replaceAll("(?i)" + suffix, " ");
+        }
+        return title;
+    }
+
+    private String removeEpisodeIdentifiers(String title) {
+        title = title.replaceAll("(?i)S\\d{1,2}E\\d{1,3}", " ");
+        title = title.replaceAll("(?i)EP\\s*\\d{1,3}", " ");
+        title = title.replaceAll("(?i)第\\s*\\d{1,3}\\s*[集话]", " ");
+        title = title.replaceAll("\\d{1,2}x\\d{1,3}", " ");
+        return title;
+    }
+
+    private String removeSpecialCharacters(String title) {
+        title = title.replaceAll("[&\\[\\](){}@#$%^*+=|<>\\/\\\\]", " ");
         return title;
     }
 
@@ -297,7 +380,31 @@ public class CloudMediaService {
         }
         return false;
     }
-    
+
+    private String startTranscodingFromAlist(ImportTask task, String alistPath, String title) {
+        String uuid = UUID.randomUUID().toString();
+
+        String sourceUrl = cloudStorageService.getFileRawUrl(alistPath);
+        if (sourceUrl == null) {
+            throw new RuntimeException("Failed to get raw URL from AList for path: " + alistPath);
+        }
+
+        Video video = new Video();
+        video.setUuid(uuid);
+        video.setTitle(title);
+        video.setOriginalFilename(task.getSourceName());
+        video.setAlistPath(alistPath);
+        video.setSourceType("remote_alist");
+        video.setFileSize(task.getSourceSize());
+        video.setStatus("pending");
+        video.setCreatedAt(LocalDateTime.now());
+        video = videoRepository.save(video);
+
+        transcodeService.transcodeVideoFromUrl(uuid, sourceUrl);
+
+        return uuid;
+    }
+
     private void autoAssignToSeries(String videoUuid, String folderName, String fileName) {
         try {
             String matchName = extractSeriesNameForMatch(folderName, fileName);

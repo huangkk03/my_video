@@ -23,6 +23,12 @@ public class Video {
     
     @Column(name = "original_path", length = 1000)
     private String originalPath;
+
+    @Column(name = "source_type", length = 20)
+    private String sourceType = "local_file";
+
+    @Column(name = "alist_path", length = 1000)
+    private String alistPath;
     
     @Column(name = "hls_path", length = 1000)
     private String hlsPath;
