@@ -473,6 +473,18 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             ></textarea>
           </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">分类</label>
+            <select 
+              v-model="seriesForm.categoryId"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option :value="null">请选择分类</option>
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                {{ cat.name }}
+              </option>
+            </select>
+          </div>
         </div>
         <div class="flex justify-end gap-3 mt-6">
           <button 
@@ -496,6 +508,12 @@
       <div class="bg-white rounded-xl p-6 w-full max-w-lg">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">
           管理 {{ managingSeries.name }} 的季度
+          <button 
+            @click="scrapeAllSeasons"
+            class="ml-3 text-sm px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
+          >
+            刮削所有季度
+          </button>
         </h3>
         <div class="space-y-3 max-h-96 overflow-y-auto">
           <div v-for="season in managingSeriesSeasons" :key="season.id" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -504,6 +522,12 @@
               <span class="text-sm text-gray-500 ml-2">{{ getSeasonVideoCount(season.id) }} 集</span>
             </div>
             <div class="flex gap-2">
+              <button 
+                @click="scrapeSeason(season)"
+                class="text-green-600 hover:text-green-800 text-sm"
+              >
+                刮削此季度
+              </button>
               <button 
                 @click="editSeason(season)"
                 class="text-blue-600 hover:text-blue-800 text-sm"
@@ -563,6 +587,7 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { videoApi, type Video } from '../../api/video'
 import { seriesApi, type Series, type Season } from '../../api/series'
+import { categoryApi, type Category } from '../../api/category'
 
 interface ImportTask {
   taskId: string
@@ -601,7 +626,10 @@ const seriesForm = ref({
   tmdbId: null as number | null,
   posterPath: '',
   overview: '',
+  categoryId: null as number | null,
 })
+
+const categories = ref<Category[]>([])
 const showSeasonsModal = ref(false)
 const managingSeries = ref<Series | null>(null)
 const managingSeriesSeasons = ref<Season[]>([])
@@ -894,6 +922,14 @@ async function fetchSeries() {
   }
 }
 
+async function fetchCategories() {
+  try {
+    categories.value = await categoryApi.getAll()
+  } catch (e) {
+    console.error('Failed to fetch categories:', e)
+  }
+}
+
 async function fetchSeriesDetail(id: number) {
   try {
     const detail = await seriesApi.getDetail(id)
@@ -1040,6 +1076,7 @@ function editSeries(s: Series) {
     tmdbId: s.tmdbId,
     posterPath: s.posterPath || '',
     overview: s.overview || '',
+    categoryId: (s as any).categoryId || null,
   }
 }
 
@@ -1051,6 +1088,7 @@ function closeSeriesModal() {
     tmdbId: null,
     posterPath: '',
     overview: '',
+    categoryId: null,
   }
 }
 
@@ -1162,10 +1200,41 @@ async function deleteSeasonConfirm(season: Season) {
   }
 }
 
+async function scrapeSeason(season: Season) {
+  if (!managingSeries.value) return
+  if (!confirm(`确定要刮削季度 "${season.name}" 吗？`)) return
+  try {
+    await seriesApi.scrapeSeason(managingSeries.value.id, season.seasonNumber)
+    alert('刮削成功')
+    if (managingSeries.value) {
+      await manageSeasons(managingSeries.value)
+    }
+  } catch (e) {
+    console.error('Failed to scrape season:', e)
+    alert('刮削失败')
+  }
+}
+
+async function scrapeAllSeasons() {
+  if (!managingSeries.value) return
+  if (!confirm(`确定要刮削所有季度吗？这可能需要一些时间。`)) return
+  try {
+    await seriesApi.scrapeAllSeasons(managingSeries.value.id)
+    alert('刮削成功')
+    if (managingSeries.value) {
+      await manageSeasons(managingSeries.value)
+    }
+  } catch (e) {
+    console.error('Failed to scrape all seasons:', e)
+    alert('刮削失败')
+  }
+}
+
 onMounted(() => {
   fetchVideos()
   fetchActiveTasks()
   fetchSeries()
+  fetchCategories()
   taskTimer = window.setInterval(fetchActiveTasks, 5000)
 })
 

@@ -129,6 +129,30 @@ public class SeriesController {
         }
     }
     
+    @PostMapping("/{id}/seasons/{seasonNumber}/scrape")
+    public ResponseEntity<Map<String, Object>> scrapeSeason(
+            @PathVariable Long id,
+            @PathVariable Integer seasonNumber) {
+        log.info("Received request to scrape season {} for series {}", seasonNumber, id);
+        Map<String, Object> result = seriesService.scrapeSeasonFromTmdb(id, seasonNumber);
+        if (Boolean.TRUE.equals(result.get("success"))) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+    
+    @PostMapping("/{id}/seasons/scrape-all")
+    public ResponseEntity<Map<String, Object>> scrapeAllSeasons(@PathVariable Long id) {
+        log.info("Received request to scrape all seasons for series {}", id);
+        Map<String, Object> result = seriesService.scrapeAllSeasonsFromTmdb(id);
+        if (Boolean.TRUE.equals(result.get("success"))) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+    
     @GetMapping("/{id}/videos")
     public ResponseEntity<List<Video>> getSeriesVideos(@PathVariable Long id) {
         List<Video> videos = seriesService.getVideosBySeriesId(id);

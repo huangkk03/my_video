@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
+  { path: '/movie/:id', name: 'movie-detail', component: () => import('./views/MovieDetail.vue') },
+  { path: '/tv/:id', name: 'tv-detail', component: () => import('./views/TVShowDetail.vue') },
+  { path: '/tv/:id/season/:seasonId', name: 'tv-season', component: () => import('./views/TVShowDetail.vue') },
   { path: '/series/:id', name: 'series-detail', component: () => import('./views/SeriesDetailView.vue') },
   { path: '/player/:uuid', name: 'player', component: () => import('./views/PlayerView.vue') },
   { 

@@ -1,5 +1,6 @@
 package com.video.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.video.dto.VideoProgressRequest;
 import com.video.dto.VideoUploadResponse;
 import com.video.entity.TranscodeTask;
@@ -26,6 +27,7 @@ import java.util.UUID;
 public class VideoService {
     
     private static final String VIDEO_STORAGE_PATH = "/data/videos";
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     
     private final VideoRepository videoRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
@@ -123,12 +125,29 @@ public class VideoService {
             if (result != null) {
                 if (result.getTitle() != null) video.setTitle(result.getTitle());
                 if (result.getOverview() != null) video.setOverview(result.getOverview());
-                if (result.getPosterUrl() != null) video.setPosterPath(result.getPosterUrl());
+                if (result.getPosterUrl() != null) {
+                    video.setPosterPath(result.getPosterUrl());
+                    video.setThumbnailPath(result.getPosterUrl());
+                }
                 if (result.getRating() != null) video.setRating(result.getRating());
                 if (result.getReleaseDate() != null && result.getReleaseDate().length() >= 4) {
                     try {
                         video.setReleaseYear(Integer.parseInt(result.getReleaseDate().substring(0, 4)));
                     } catch (Exception ignored) {}
+                }
+                if (result.getActors() != null && !result.getActors().isEmpty()) {
+                    video.setActors(result.getActors());
+                }
+                if (result.getDirector() != null && !result.getDirector().isEmpty()) {
+                    video.setDirector(result.getDirector());
+                }
+                if (result.getActorList() != null && !result.getActorList().isEmpty()) {
+                    try {
+                        String actorListJson = OBJECT_MAPPER.writeValueAsString(result.getActorList());
+                        video.setActorListJson(actorListJson);
+                    } catch (Exception e) {
+                        log.warn("Failed to serialize actor list for video: {}", uuid, e);
+                    }
                 }
                 video.setScrapingStatus("success");
             } else {

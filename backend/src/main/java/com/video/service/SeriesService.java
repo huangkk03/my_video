@@ -7,7 +7,10 @@ import com.video.repository.SeasonRepository;
 import com.video.repository.SeriesRepository;
 import com.video.repository.VideoRepository;
 import com.video.service.ScrapingAggregationService.TmdbData;
+import com.video.service.ScrapingAggregationService.TmdbEpisodeData;
+import com.video.service.ScrapingAggregationService.TmdbSeasonData;
 import com.video.service.ScrapingAggregationService.TmdbTvData;
+import com.video.service.ScrapingAggregationService.TmdbTvDetailData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,8 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -338,6 +345,7 @@ public class SeriesService {
                 video.setEpisodeNumber(nextEpisode++);
             }
             videoRepository.save(video);
+            
             assigned++;
         }
         return assigned;
@@ -349,5 +357,160 @@ public class SeriesService {
                    .toLowerCase()
                    .replaceAll("-+", "-")
                    .replaceAll("^-|-$", "");
+    }
+    
+    public Map<String, Object> scrapeSeasonFromTmdb(Long seriesId, Integer seasonNumber) {
+        Map<String, Object> result = new HashMap<>();
+        
+        Series series = seriesRepository.findById(seriesId).orElse(null);
+        if (series == null) {
+            result.put("success", false);
+            result.put("message", "Series not found");
+            return result;
+        }
+        
+        if (series.getTmdbId() == null) {
+            result.put("success", false);
+            result.put("message", "Series has no TMDB ID");
+            return result;
+        }
+        
+        log.info("Scraping season {} from TMDB for series: {} (tmdbId: {})", seasonNumber, series.getName(), series.getTmdbId());
+        
+        try {
+            TmdbSeasonData seasonData = scrapingAggregationService.getTmdbTvSeasonDetails(series.getTmdbId(), seasonNumber);
+            if (seasonData == null) {
+                result.put("success", false);
+                result.put("message", "Failed to fetch season data from TMDB");
+                return result;
+            }
+            
+            Season season = createOrUpdateSeason(seriesId, seasonData);
+            List<Video> episodes = createSeasonEpisodes(season, seasonData.getEpisodes());
+            
+            log.info("Successfully scraped season {} with {} episodes for series: {}", seasonNumber, episodes.size(), series.getName());
+            
+            result.put("success", true);
+            result.put("season", season);
+            result.put("episodes", episodes);
+            result.put("episodeCount", episodes.size());
+            
+            return result;
+        } catch (Exception e) {
+            log.error("Error scraping season from TMDB: seriesId={}, seasonNumber={}", seriesId, seasonNumber, e);
+            result.put("success", false);
+            result.put("message", "Error: " + e.getMessage());
+            return result;
+        }
+    }
+    
+    public Map<String, Object> scrapeAllSeasonsFromTmdb(Long seriesId) {
+        Map<String, Object> result = new HashMap<>();
+        
+        Series series = seriesRepository.findById(seriesId).orElse(null);
+        if (series == null || series.getTmdbId() == null) {
+            result.put("success", false);
+            result.put("message", "Series not found or has no TMDB ID");
+            return result;
+        }
+        
+        log.info("Scraping all seasons from TMDB for series: {} (tmdbId: {})", series.getName(), series.getTmdbId());
+        
+        try {
+            TmdbTvDetailData tvData = scrapingAggregationService.searchTmdbTvById(series.getTmdbId());
+            if (tvData == null || tvData.getNumberOfSeasons() == null) {
+                result.put("success", false);
+                result.put("message", "Failed to fetch TV details from TMDB");
+                return result;
+            }
+            
+            List<Map<String, Object>> scrapedSeasons = new ArrayList<>();
+            int totalSeasons = tvData.getNumberOfSeasons();
+            
+            for (int i = 1; i <= totalSeasons; i++) {
+                Map<String, Object> seasonResult = scrapeSeasonFromTmdb(seriesId, i);
+                scrapedSeasons.add(seasonResult);
+            }
+            
+            result.put("success", true);
+            result.put("totalSeasons", totalSeasons);
+            result.put("seasons", scrapedSeasons);
+            
+            return result;
+        } catch (Exception e) {
+            log.error("Error scraping all seasons from TMDB: seriesId={}", seriesId, e);
+            result.put("success", false);
+            result.put("message", "Error: " + e.getMessage());
+            return result;
+        }
+    }
+    
+    private Season createOrUpdateSeason(Long seriesId, TmdbSeasonData data) {
+        Season season = null;
+        
+        Optional<Season> existingOpt = seasonRepository.findBySeriesIdAndSeasonNumber(seriesId, data.getSeasonNumber());
+        if (existingOpt.isPresent()) {
+            season = existingOpt.get();
+            log.info("Updating existing season: {} (id: {})", data.getName(), season.getId());
+        } else {
+            season = new Season();
+            season.setSeriesId(seriesId);
+            log.info("Creating new season: {}", data.getName());
+        }
+        
+        season.setSeasonNumber(data.getSeasonNumber());
+        season.setName(data.getName());
+        season.setOverview(data.getOverview());
+        season.setTmdbId(data.getId());
+        
+        if (data.getPosterPath() != null) {
+            season.setPosterPath("https://image.tmdb.org/t/p/w500" + data.getPosterPath());
+        }
+        
+        return seasonRepository.save(season);
+    }
+    
+    private List<Video> createSeasonEpisodes(Season season, List<TmdbEpisodeData> tmdbEpisodes) {
+        List<Video> videos = new ArrayList<>();
+        
+        if (tmdbEpisodes == null || tmdbEpisodes.isEmpty()) {
+            return videos;
+        }
+        
+        for (TmdbEpisodeData epData : tmdbEpisodes) {
+            // 查找该集是否已有真实视频（remote_alist）
+            List<Video> existing = videoRepository.findBySeriesIdAndSeasonIdAndEpisodeNumber(
+                season.getSeriesId(), season.getId(), epData.getEpisodeNumber());
+            
+            // 筛选出真实视频（remote_alist 有 hls_path）
+            Video existingVideo = null;
+            for (Video v : existing) {
+                if (v.getHlsPath() != null && !v.getHlsPath().isEmpty()) {
+                    existingVideo = v;
+                    break;
+                }
+            }
+            
+            if (existingVideo != null) {
+                // 更新已有真实视频的元信息
+                log.info("Updating metadata for episode {} - videoId={}, title={}", 
+                    epData.getEpisodeNumber(), existingVideo.getUuid(), epData.getName());
+                
+                existingVideo.setTitle(epData.getName());
+                existingVideo.setOverview(epData.getOverview());
+                if (epData.getStillPath() != null) {
+                    existingVideo.setThumbnailPath("https://image.tmdb.org/t/p/w500" + epData.getStillPath());
+                }
+                existingVideo.setScrapingStatus("scraped");
+                
+                videos.add(videoRepository.save(existingVideo));
+            } else {
+                // 没有对应真实视频，跳过（不再创建刮削数据）
+                log.info("No real video found for episode {} in seasonId={}, skipping", 
+                    epData.getEpisodeNumber(), season.getId());
+            }
+        }
+        
+        return videos;
     }
 }

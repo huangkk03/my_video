@@ -66,6 +66,13 @@ interface Video {
   episodeNumber: number
   createdAt: string
   updatedAt: string
+  overview?: string
+  rating?: number
+  releaseYear?: number
+  genres?: string
+  actors?: string
+  director?: string
+  actorListJson?: string
 }
 
 export const seriesApi = {
@@ -137,6 +144,14 @@ export const seriesApi = {
 
   batchAssign(data: BatchAssignRequest): Promise<{ success: boolean; assignedCount: number; message?: string }> {
     return api.post('/series/batch-assign', data).then(res => res.data)
+  },
+
+  scrapeSeason(seriesId: number, seasonNumber: number): Promise<any> {
+    return api.post(`/series/${seriesId}/seasons/${seasonNumber}/scrape`).then(res => res.data)
+  },
+
+  scrapeAllSeasons(seriesId: number): Promise<any> {
+    return api.post(`/series/${seriesId}/seasons/scrape-all`).then(res => res.data)
   },
 }
 

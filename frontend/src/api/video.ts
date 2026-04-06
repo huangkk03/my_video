@@ -20,6 +20,18 @@ export interface Video {
   currentPosition: number
   createdAt: string
   updatedAt: string
+  posterPath?: string
+  backdropPath?: string
+  overview?: string
+  rating?: number
+  releaseYear?: number
+  genres?: string
+  actors?: string
+  director?: string
+  actorListJson?: string
+  seriesId?: number
+  seasonId?: number
+  episodeNumber?: number
 }
 
 export interface VideoUploadResponse {

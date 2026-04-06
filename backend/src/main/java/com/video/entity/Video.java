@@ -96,6 +96,9 @@ public class Video {
     @Column(name = "director", length = 200)
     private String director;
     
+    @Column(name = "actor_list_json", columnDefinition = "TEXT")
+    private String actorListJson;
+    
     @Column(name = "scraping_status", length = 20)
     private String scrapingStatus = "pending";
     

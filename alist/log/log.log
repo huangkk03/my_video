@@ -2885,3 +2885,496 @@ failed get storage
 [GIN] 2026/04/04 - 21:47:52 | 200 |    2.158845ms |      172.18.0.5 | POST     "/api/auth/login"
 [GIN] 2026/04/04 - 21:47:52 | 200 |    7.979577ms |      172.18.0.5 | POST     "/api/fs/list"
 [36mINFO[0m[2026-04-04 22:00:41] closing db                                   
+[33mWARN[0m[2026-04-04 22:07:31] not enable search                            
+[GIN] 2026/04/04 - 22:12:59 | 200 |  211.819354ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:12:59 | 200 |   36.229755ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 22:13:01 | 200 |    9.015157ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:13:01 | 200 |    8.734409ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 22:16:06 | 200 |   36.336172ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:16:06 | 200 |   14.284687ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 22:16:06 | 200 |    1.989133ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:16:07 | 200 |   41.296301ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/04 - 22:16:07 | 200 |    3.138925ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:16:08 | 200 |   31.884329ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/04 - 22:16:10 | 200 |   19.424746ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:16:10 | 200 |   17.246682ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/04 - 22:16:21 | 200 |     9.17577ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:16:21 | 200 |   13.685842ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/04/04 - 22:16:23 | 206 |     172.329µs |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/04/04 - 22:16:23 | 206 |   97.736621ms |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/04/04 - 22:16:23 | 206 |   84.345129ms |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/04/04 - 22:16:23 | 206 |     168.129µs |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/04/04 - 22:16:23 | 206 |   21.376958ms |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[GIN] 2026/04/04 - 22:22:19 | 200 |  226.081773ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 22:22:19 | 200 |   47.349837ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 22:23:48 | 206 |         7m24s |      172.18.0.5 | GET      "/p/local/opt/425 闪闪王国（上）.mp4?sign=wSAcMIIbKjBX1qglEQEwLlspBoS0_13AgCiAOFZ6I-Y=:0"
+[36mINFO[0m[2026-04-04 22:51:05] closing db                                   
+[33mWARN[0m[2026-04-04 22:58:50] not enable search                            
+[GIN] 2026/04/04 - 23:03:58 | 200 |   361.97976ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:03:58 | 200 |   27.348251ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:06:20 | 200 |   15.524012ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:06:20 | 200 |    8.729957ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:06:20 | 200 |     2.51565ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:06:20 | 200 |   43.796319ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/04 - 23:07:37 | 200 |   12.152833ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:07:37 | 200 |    11.48909ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:07:37 | 200 |    2.656575ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:07:37 | 200 |   16.930269ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/04 - 23:07:39 | 200 |    9.443078ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:07:39 | 200 |   12.072357ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:08:25 | 200 |   14.084415ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:08:25 | 200 |    8.496839ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:23:17 | 200 |   31.901251ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:23:17 | 200 |    9.242769ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:29:33 | 200 |   63.594087ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:29:33 | 200 |    9.957946ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/04 - 23:29:33 | 200 |     2.31673ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/04 - 23:29:33 | 200 |   14.371264ms |      172.18.0.5 | POST     "/api/fs/list"
+[36mINFO[0m[2026-04-05 07:28:10] closing db                                   
+[33mWARN[0m[2026-04-05 07:29:22] not enable search                            
+[GIN] 2026/04/05 - 07:29:58 | 200 |   16.105295ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:29:58 | 200 |   13.947715ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 07:30:00 | 200 |    4.501986ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:00 | 200 |    7.681099ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 07:30:00 | 200 |    2.023463ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:00 | 200 |    9.538641ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:30:05 | 200 |    6.363847ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:05 | 200 |    5.179245ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 07:30:05 | 200 |    1.892863ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:05 | 200 |    5.897707ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:30:06 | 200 |    2.032874ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:07 | 200 |   19.404467ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:30:10 | 200 |    6.729178ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:10 | 200 |    9.832145ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:30:12 | 200 |    3.290242ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:12 | 200 |     7.82205ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:30:14 | 200 |    3.437162ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:14 | 200 |    5.191997ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:30:15 | 200 |     2.08488ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:30:15 | 200 |    8.584253ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:36:01 | 200 |   42.041963ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:36:02 | 200 |   11.268423ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 07:36:02 | 200 |    2.499971ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:36:02 | 200 |    9.662449ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:36:03 | 200 |    2.593882ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:36:03 | 200 |   16.200859ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 07:36:10 | 200 |    8.915267ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:36:10 | 200 |   21.322111ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/04/05 - 07:36:11 | 206 |     290.732µs |      172.18.0.5 | GET      "/p/local/425 闪闪王国（上）.mp4?sign=mR7FO6MyxxPpvhfcFo5EqtkmBkzWH8ctCI20F6ZY2A8=:0"
+[GIN] 2026/04/05 - 07:36:11 | 206 |    79.16258ms |      172.18.0.5 | GET      "/p/local/425 闪闪王国（上）.mp4?sign=mR7FO6MyxxPpvhfcFo5EqtkmBkzWH8ctCI20F6ZY2A8=:0"
+[GIN] 2026/04/05 - 07:36:11 | 206 |   35.053799ms |      172.18.0.5 | GET      "/p/local/425 闪闪王国（上）.mp4?sign=mR7FO6MyxxPpvhfcFo5EqtkmBkzWH8ctCI20F6ZY2A8=:0"
+[GIN] 2026/04/05 - 07:36:12 | 206 |      365.64µs |      172.18.0.5 | GET      "/p/local/425 闪闪王国（上）.mp4?sign=mR7FO6MyxxPpvhfcFo5EqtkmBkzWH8ctCI20F6ZY2A8=:0"
+[GIN] 2026/04/05 - 07:36:12 | 206 |    20.84646ms |      172.18.0.5 | GET      "/p/local/425 闪闪王国（上）.mp4?sign=mR7FO6MyxxPpvhfcFo5EqtkmBkzWH8ctCI20F6ZY2A8=:0"
+[GIN] 2026/04/05 - 07:46:18 | 206 |         10m6s |      172.18.0.5 | GET      "/p/local/425 闪闪王国（上）.mp4?sign=mR7FO6MyxxPpvhfcFo5EqtkmBkzWH8ctCI20F6ZY2A8=:0"
+[GIN] 2026/04/05 - 07:49:47 | 200 |    82.48096ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:49:47 | 200 |   31.660951ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 07:49:51 | 200 |    6.233694ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:49:51 | 200 |    9.270679ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 07:50:08 | 200 |    5.566761ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 07:50:09 | 200 |   10.993207ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 07:53:05] closing db                                   
+[33mWARN[0m[2026-04-05 07:59:15] not enable search                            
+[36mINFO[0m[2026-04-05 08:10:25] closing db                                   
+[33mWARN[0m[2026-04-05 08:11:11] not enable search                            
+[36mINFO[0m[2026-04-05 08:24:57] closing db                                   
+[33mWARN[0m[2026-04-05 08:27:50] not enable search                            
+[36mINFO[0m[2026-04-05 08:43:47] closing db                                   
+[33mWARN[0m[2026-04-05 08:44:58] not enable search                            
+[36mINFO[0m[2026-04-05 08:52:47] closing db                                   
+[33mWARN[0m[2026-04-05 08:53:14] not enable search                            
+[GIN] 2026/04/05 - 08:54:24 | 200 |     6.65089ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 08:54:24 | 200 |    6.367239ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 08:54:50 | 200 |    4.166653ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 08:54:50 | 200 |    4.618434ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 09:04:41] closing db                                   
+[33mWARN[0m[2026-04-05 09:07:52] not enable search                            
+[36mINFO[0m[2026-04-05 09:21:19] closing db                                   
+[33mWARN[0m[2026-04-05 09:24:37] not enable search                            
+[GIN] 2026/04/05 - 10:06:22 | 200 |   33.586518ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 10:06:22 | 200 |    9.665286ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 10:10:07] closing db                                   
+[33mWARN[0m[2026-04-05 10:13:32] not enable search                            
+[GIN] 2026/04/05 - 10:14:01 | 200 |   29.624196ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 10:14:01 | 200 |     9.42353ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 10:22:40] closing db                                   
+[33mWARN[0m[2026-04-05 10:24:54] not enable search                            
+[GIN] 2026/04/05 - 10:25:46 | 200 |   56.495894ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 10:25:46 | 200 |   11.115001ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 10:27:03 | 200 |   16.890872ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 10:27:03 | 200 |   11.236414ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 10:45:51] closing db                                   
+[33mWARN[0m[2026-04-05 10:46:40] not enable search                            
+[36mINFO[0m[2026-04-05 11:08:32] closing db                                   
+[33mWARN[0m[2026-04-05 11:24:54] not enable search                            
+[GIN] 2026/04/05 - 11:25:42 | 200 |   45.253531ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 11:25:42 | 200 |   10.923331ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 11:26:05 | 200 |   19.040559ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 11:26:05 | 200 |   15.847764ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 11:26:05 | 200 |    6.820145ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 11:26:05 | 200 |  126.650293ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 11:26:09 | 200 |   27.230581ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 11:26:09 | 200 |   22.219622ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 11:26:23 | 200 |    5.184702ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 11:26:23 | 200 |   15.941659ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 11:36:17] closing db                                   
+[33mWARN[0m[2026-04-05 11:37:44] not enable search                            
+[GIN] 2026/04/05 - 11:41:07 | 200 |  188.525199ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 11:41:07 | 200 |   25.250209ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 13:18:04] closing db                                   
+[33mWARN[0m[2026-04-05 13:18:39] not enable search                            
+[GIN] 2026/04/05 - 18:22:43 | 200 |   303.11743ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 18:22:44 | 200 |   33.006498ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 18:22:44 | 200 |  151.341103ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 18:22:44 | 200 |   29.019868ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 18:22:44 | 200 |    3.852722ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 18:22:44 | 200 |   32.304058ms |      172.18.0.5 | POST     "/api/fs/list"
+[36mINFO[0m[2026-04-05 18:30:42] closing db                                   
+[33mWARN[0m[2026-04-05 18:33:47] not enable search                            
+[GIN] 2026/04/05 - 18:34:50 | 200 |   58.593697ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 18:34:50 | 200 |   13.059417ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 19:02:17] closing db                                   
+[33mWARN[0m[2026-04-05 19:31:23] not enable search                            
+[GIN] 2026/04/05 - 19:32:23 | 200 |  206.375314ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 19:32:23 | 200 |   35.828587ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-05 19:39:28] closing db                                   
+[33mWARN[0m[2026-04-05 22:07:13] not enable search                            
+[GIN] 2026/04/05 - 22:18:15 | 200 |  394.195476ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 22:18:15 | 200 |  393.433531ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 22:18:16 | 200 |   49.332125ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 22:18:16 | 200 |   51.122332ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 22:18:16 | 200 |    3.914732ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 22:18:16 | 200 |   50.564199ms |      172.18.0.5 | POST     "/api/fs/list"
+[36mINFO[0m[2026-04-05 22:40:17] closing db                                   
+[33mWARN[0m[2026-04-05 22:43:40] not enable search                            
+[GIN] 2026/04/05 - 22:53:03 | 200 |  221.956352ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 22:53:03 | 200 |   30.002678ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 22:53:03 | 200 |    7.356616ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 22:53:03 | 200 |   55.896039ms |      172.18.0.5 | POST     "/api/fs/list"
+[36mINFO[0m[2026-04-05 23:04:16] closing db                                   
+[33mWARN[0m[2026-04-05 23:05:35] not enable search                            
+[GIN] 2026/04/05 - 23:10:56 | 200 |  239.548592ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:10:56 | 200 |   28.479993ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 23:10:56 | 200 |    6.805221ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:10:56 | 200 |   32.408975ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 23:11:50 | 200 |  180.791811ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:11:50 | 200 |   50.946625ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 23:13:39 | 200 |  367.501107ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:13:39 | 200 |   24.564415ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 23:13:39 | 200 |   36.305655ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:13:40 | 200 |  123.363289ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/05 - 23:16:18 | 200 |   61.201737ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:16:18 | 200 |   15.003476ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 23:16:20 | 200 |     4.63259ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:16:20 | 200 |   12.886787ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/05 - 23:16:20 | 200 |    1.816606ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/05 - 23:16:20 | 200 |   15.559932ms |      172.18.0.5 | POST     "/api/fs/list"
+[36mINFO[0m[2026-04-05 23:56:28] closing db                                   
+[33mWARN[0m[2026-04-05 23:57:21] not enable search                            
+[36mINFO[0m[2026-04-06 09:05:13] closing db                                   
+[33mWARN[0m[2026-04-06 09:05:56] not enable search                            
+[GIN] 2026/04/06 - 09:06:53 | 200 |   68.232917ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 09:06:53 | 200 |   14.227212ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 09:12:10 | 200 |   87.154737ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 09:12:10 | 200 |   16.868695ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 09:12:11 | 200 |    5.202292ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 09:12:11 | 200 |  152.764237ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 09:12:12 | 200 |    4.810356ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 09:12:12 | 200 |   13.959324ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-06 09:24:03] closing db                                   
+[33mWARN[0m[2026-04-06 09:25:23] not enable search                            
+[GIN] 2026/04/06 - 09:47:50 | 200 |  551.765957ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 09:47:50 | 200 |   36.279804ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-06 09:53:45] closing db                                   
+[33mWARN[0m[2026-04-06 11:21:10] not enable search                            
+[GIN] 2026/04/06 - 12:57:25 | 200 |   317.85561ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 12:57:25 | 200 |   46.256253ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 12:58:46 | 200 |  129.073715ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 12:58:46 | 200 |   17.742621ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 15:37:52 | 200 |  144.133126ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:37:52 | 200 |   20.938405ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 15:38:37 | 200 |   14.434675ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:38:37 | 200 |   17.014557ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 15:38:37 | 200 |     3.75581ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:38:37 | 200 |   62.599732ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 15:39:24 | 200 |    9.062437ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:39:24 | 200 |   10.453264ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 15:39:24 | 200 |    2.682648ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:39:24 | 200 |    9.982421ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 15:43:03 | 200 |   96.713674ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:43:03 | 200 |   42.287874ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 15:43:04 | 200 |    6.799487ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:43:04 | 200 |   19.242945ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 15:43:05 | 200 |    9.745085ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:43:05 | 200 |   47.635214ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 15:43:13 | 200 |   14.388595ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:43:13 | 200 |   23.263616ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/04/06 - 15:43:16 | 206 |     1.40625ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 15:43:16 | 206 |  203.620355ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 15:43:16 | 206 |   39.238493ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 15:43:16 | 206 |     902.896µs |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 15:43:16 | 206 |   16.196631ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 15:47:10 | 200 |   115.67141ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:47:10 | 200 |   56.768094ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 15:47:11 | 200 |   11.768821ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 15:47:11 | 200 |   28.270575ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 15:50:19 | 206 |          7m2s |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 16:07:46 | 200 |  294.507529ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 16:07:46 | 200 |   45.166563ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 16:07:46 | 200 |    8.957806ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 16:07:46 | 200 |   17.502369ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 16:30:01 | 200 |   44.203627ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 16:30:01 | 200 |   10.660363ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 16:30:01 | 200 |    1.672802ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 16:30:01 | 200 |    7.148618ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 16:30:02 | 200 |    2.166221ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 16:30:02 | 200 |   26.782238ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 16:30:08 | 200 |    9.826384ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 16:30:08 | 200 |   13.286529ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/04/06 - 16:30:09 | 206 |     198.655µs |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 16:30:09 | 206 |   70.170969ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 16:30:09 | 206 |   33.809836ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 16:30:09 | 206 |      110.93µs |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 16:30:09 | 206 |   10.781945ms |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 16:37:24 | 206 |         7m14s |      172.18.0.5 | GET      "/p/local/801 立校多磨（上）.mp4?sign=tn0Pobp9k95wyArPDwtYG7cfiZRKr6jpSKcS7qo2wR4=:0"
+[GIN] 2026/04/06 - 17:11:13 | 200 |  389.264763ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 17:11:13 | 200 |   42.775465ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 18:56:14 | 200 |  172.373284ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 18:56:14 | 200 |   29.815829ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 18:56:14 | 200 |    6.310923ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 18:56:14 | 200 |   33.287598ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 18:56:15 | 200 |    3.329219ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 18:56:16 | 200 |   86.142677ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 18:56:22 | 200 |   16.702767ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 18:56:22 | 200 |    29.37774ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/04/06 - 18:56:24 | 206 |    2.896731ms |      172.18.0.5 | GET      "/p/local/802 立校多磨（下）.mp4?sign=8AYxDnthdz7BhWRIDb8Xw23QLZV9XIzayObRSXrAH60=:0"
+[GIN] 2026/04/06 - 18:56:24 | 206 |  205.729007ms |      172.18.0.5 | GET      "/p/local/802 立校多磨（下）.mp4?sign=8AYxDnthdz7BhWRIDb8Xw23QLZV9XIzayObRSXrAH60=:0"
+[GIN] 2026/04/06 - 18:56:24 | 206 |  223.760601ms |      172.18.0.5 | GET      "/p/local/802 立校多磨（下）.mp4?sign=8AYxDnthdz7BhWRIDb8Xw23QLZV9XIzayObRSXrAH60=:0"
+[GIN] 2026/04/06 - 18:56:25 | 206 |     381.822µs |      172.18.0.5 | GET      "/p/local/802 立校多磨（下）.mp4?sign=8AYxDnthdz7BhWRIDb8Xw23QLZV9XIzayObRSXrAH60=:0"
+[GIN] 2026/04/06 - 18:56:25 | 206 |  110.996767ms |      172.18.0.5 | GET      "/p/local/802 立校多磨（下）.mp4?sign=8AYxDnthdz7BhWRIDb8Xw23QLZV9XIzayObRSXrAH60=:0"
+[GIN] 2026/04/06 - 19:05:35 | 206 |          9m9s |      172.18.0.5 | GET      "/p/local/802 立校多磨（下）.mp4?sign=8AYxDnthdz7BhWRIDb8Xw23QLZV9XIzayObRSXrAH60=:0"
+[GIN] 2026/04/06 - 19:07:40 | 200 |  124.371977ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:07:40 | 200 |   37.640283ms |      172.18.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-06 19:25:02] closing db                                   
+[33mWARN[0m[2026-04-06 19:25:32] not enable search                            
+[GIN] 2026/04/06 - 19:42:49 | 200 |  284.460927ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:42:50 | 200 |   38.913606ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 19:42:50 | 200 |     4.41095ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:42:50 | 200 |    55.01173ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 19:42:52 | 200 |    3.502903ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:42:52 | 200 |   47.370306ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 19:43:04 | 200 |   11.546237ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:43:04 | 200 |   24.648555ms |      172.18.0.5 | POST     "/api/fs/get"
+[GIN] 2026/04/06 - 19:43:07 | 206 |     499.622µs |      172.18.0.5 | GET      "/p/local/803 地设一对.mp4?sign=PbCZbkuxob3oJ0X9G3tn-XG0XxLWUFx-nJ7ROYCNLKk=:0"
+[GIN] 2026/04/06 - 19:43:07 | 206 |  162.960532ms |      172.18.0.5 | GET      "/p/local/803 地设一对.mp4?sign=PbCZbkuxob3oJ0X9G3tn-XG0XxLWUFx-nJ7ROYCNLKk=:0"
+[GIN] 2026/04/06 - 19:43:07 | 206 |   67.032267ms |      172.18.0.5 | GET      "/p/local/803 地设一对.mp4?sign=PbCZbkuxob3oJ0X9G3tn-XG0XxLWUFx-nJ7ROYCNLKk=:0"
+[GIN] 2026/04/06 - 19:43:07 | 206 |     773.751µs |      172.18.0.5 | GET      "/p/local/803 地设一对.mp4?sign=PbCZbkuxob3oJ0X9G3tn-XG0XxLWUFx-nJ7ROYCNLKk=:0"
+[GIN] 2026/04/06 - 19:43:07 | 206 |   44.059448ms |      172.18.0.5 | GET      "/p/local/803 地设一对.mp4?sign=PbCZbkuxob3oJ0X9G3tn-XG0XxLWUFx-nJ7ROYCNLKk=:0"
+[GIN] 2026/04/06 - 19:43:08 | 200 |   12.038914ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:43:08 | 200 |    5.397955ms |      172.18.0.5 | GET      "/api/me"
+[GIN] 2026/04/06 - 19:43:08 | 200 |    5.159978ms |      172.18.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/06 - 19:43:08 | 200 |    6.061671ms |      172.18.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 19:51:36 | 206 |         8m28s |      172.18.0.5 | GET      "/p/local/803 地设一对.mp4?sign=PbCZbkuxob3oJ0X9G3tn-XG0XxLWUFx-nJ7ROYCNLKk=:0"
+[GIN] 2026/04/06 - 21:43:37 | 200 |   33.955932ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/04/06 - 21:43:37 | 200 |   25.205569ms |      172.18.0.1 | GET      "/assets/index-b206f97b.css"
+[GIN] 2026/04/06 - 21:43:37 | 200 |   57.887512ms |      172.18.0.1 | GET      "/assets/index-0ac33e44.js"
+[GIN] 2026/04/06 - 21:43:37 | 200 |    7.194689ms |      172.18.0.1 | GET      "/assets/entry-b68756c5.js"
+[GIN] 2026/04/06 - 21:43:37 | 200 |   23.115833ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/06 - 21:43:37 | 200 |  139.705506ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/04/06 - 21:43:37 | 200 |   17.441606ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 21:43:37 | 200 |    1.148749ms |      172.18.0.1 | GET      "/assets/useTitle-98cd4016.js"
+[GIN] 2026/04/06 - 21:43:37 | 200 |    2.093737ms |      172.18.0.1 | GET      "/assets/webauthn-json.browser-ponyfill-f2f06d6e.js"
+[GIN] 2026/04/06 - 21:43:37 | 200 |    3.010816ms |      172.18.0.1 | GET      "/assets/index-904bdd79.js"
+[GIN] 2026/04/06 - 21:43:37 | 200 |    7.145574ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/04/06 - 21:43:42 | 200 |    82.40639ms |      172.18.0.1 | POST     "/api/auth/login/hash"
+[GIN] 2026/04/06 - 21:43:42 | 200 |  134.967585ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 21:43:42 | 200 |      2.9212ms |      172.18.0.1 | GET      "/assets/FolderTree-3887d06d.js"
+[GIN] 2026/04/06 - 21:43:42 | 200 |    4.579811ms |      172.18.0.1 | GET      "/assets/index-06a2e1d1.js"
+[GIN] 2026/04/06 - 21:43:42 | 200 |     7.65896ms |      172.18.0.1 | GET      "/assets/Layout-8a0a2c68.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |     1.55868ms |      172.18.0.1 | GET      "/assets/index-62f37b04.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |    2.438552ms |      172.18.0.1 | GET      "/assets/storage-class-1ac53f89.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |   12.394219ms |      172.18.0.1 | GET      "/assets/index-d1b62002.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |   40.785166ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/04/06 - 21:43:43 | 200 |    1.970507ms |      172.18.0.1 | GET      "/images/new_icon.png"
+[GIN] 2026/04/06 - 21:43:43 | 200 |   24.987499ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/04/06 - 21:43:43 | 200 |   36.557164ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 21:43:43 | 200 |    1.521268ms |      172.18.0.1 | GET      "/assets/style-f5d5f2e6.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |    1.151355ms |      172.18.0.1 | GET      "/assets/style-a6d16836.css"
+[GIN] 2026/04/06 - 21:43:43 | 200 |     416.729µs |      172.18.0.1 | GET      "/assets/Paginator-7e0484cf.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |    4.535897ms |      172.18.0.1 | GET      "/assets/video_box-fa1e5e08.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |    8.807313ms |      172.18.0.1 | GET      "/assets/Folder-732f0c1c.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |     4.83489ms |      172.18.0.1 | GET      "/assets/Folder-6ee8584f.css"
+[GIN] 2026/04/06 - 21:43:43 | 200 |     534.364µs |      172.18.0.1 | GET      "/assets/color-a58de010.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |     601.685µs |      172.18.0.1 | GET      "/assets/helper-18247784.js"
+[GIN] 2026/04/06 - 21:43:43 | 200 |     1.20267ms |      172.18.0.1 | GET      "/assets/List-2c510900.js"
+[GIN] 2026/04/06 - 21:43:45 | 200 |   10.989686ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 21:43:45 | 200 |    1.250386ms |      172.18.0.1 | GET      "/assets/index-2a7c71fa.js"
+[GIN] 2026/04/06 - 21:43:45 | 200 |    2.322315ms |      172.18.0.1 | GET      "/assets/Profile-5a1c61a3.js"
+[GIN] 2026/04/06 - 21:43:46 | 200 |   22.048194ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/04/06 - 21:43:47 | 200 |     933.387µs |      172.18.0.1 | GET      "/assets/DeletePopover-2fb0138c.js"
+[GIN] 2026/04/06 - 21:43:47 | 200 |    3.678633ms |      172.18.0.1 | GET      "/assets/Storages-82415e4f.js"
+[GIN] 2026/04/06 - 21:43:47 | 200 |   20.592445ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/06 - 21:43:47 | 200 |   22.471424ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/06 - 21:43:49 | 200 |     638.194µs |      172.18.0.1 | GET      "/assets/ResponsiveGrid-31af9f08.js"
+[GIN] 2026/04/06 - 21:43:49 | 200 |      196.46µs |      172.18.0.1 | GET      "/assets/item_type-32dc6fdf.js"
+[GIN] 2026/04/06 - 21:43:49 | 200 |     2.16876ms |      172.18.0.1 | GET      "/assets/AddOrEdit-8aefb31c.js"
+[GIN] 2026/04/06 - 21:43:49 | 200 |   78.089441ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[GIN] 2026/04/06 - 21:48:17 | 200 |  216.512175ms |      172.18.0.1 | POST     "/api/admin/storage/create"
+[GIN] 2026/04/06 - 21:48:17 | 200 |   47.397021ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/06 - 21:48:17 | 200 |   52.997408ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/06 - 21:48:26 | 200 |     185.658µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/04/06 - 21:48:26 | 200 |     129.741µs |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/06 - 21:48:26 | 200 |    3.214411ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/04/06 - 21:48:26 | 200 |    9.479581ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 21:48:26 | 200 |   14.058321ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/04/06 - 21:48:26 | 200 |    2.647632ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/04/06 - 21:48:26 | 200 |   13.772631ms |      172.18.0.1 | POST     "/api/fs/list"
+[31mERRO[0m[2026-04-06 21:48:28] fs/list: open \mnt\vmware_nas\move\move: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-04-06 21:48:28] failed list /move: open \mnt\vmware_nas\move\move: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/04/06 - 21:48:28 | 200 |   39.289555ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 21:48:34 | 200 |   35.328237ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 21:48:37 | 200 |    8.562792ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 21:48:37 | 200 |   12.465318ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/04/06 - 21:48:38 | 200 |   24.709566ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/06 - 21:48:38 | 200 |   25.269242ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/06 - 21:48:40 | 200 |   12.240948ms |      172.18.0.1 | GET      "/api/admin/storage/get?id=9"
+[GIN] 2026/04/06 - 21:48:40 | 200 |    7.676412ms |      172.18.0.1 | GET      "/api/admin/driver/info?driver=SMB"
+[31mERRO[0m[2026-04-06 21:58:39] failed init storage: internal error: Anonymous account is not supported yet. Use guest account instead 
+[GIN] 2026/04/06 - 21:58:39 | 200 |   78.562003ms |      172.18.0.1 | POST     "/api/admin/storage/update"
+[GIN] 2026/04/06 - 21:59:35 | 200 |   39.808208ms |      172.18.0.1 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/06 - 21:59:35 | 200 |   42.150056ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/06 - 21:59:37 | 200 |    15.80457ms |      172.18.0.1 | POST     "/api/admin/storage/delete?id=9"
+[GIN] 2026/04/06 - 21:59:37 | 200 |    9.733955ms |      172.18.0.1 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/06 - 21:59:38 | 200 |    74.74994ms |      172.18.0.1 | GET      "/api/admin/driver/list"
+[GIN] 2026/04/06 - 22:09:08 | 200 |   44.933854ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/04/06 - 22:09:13 | 200 |     341.142µs |      172.18.0.1 | GET      "/"
+[GIN] 2026/04/06 - 22:09:13 | 200 |    2.139789ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/04/06 - 22:09:13 | 200 |    3.915927ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/06 - 22:09:14 | 200 |    7.858166ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 22:09:14 | 200 |    6.926279ms |      172.18.0.1 | GET      "/api/label/list"
+[GIN] 2026/04/06 - 22:09:14 | 200 |   18.525198ms |      172.18.0.1 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/04/06 - 22:09:14 | 200 |   27.712716ms |      172.18.0.1 | POST     "/api/fs/list"
+[GIN] 2026/04/06 - 22:09:20 | 200 |    7.026263ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 22:09:20 | 200 |    5.651981ms |      172.18.0.1 | GET      "/api/me/sshkey/list"
+[GIN] 2026/04/06 - 22:09:23 | 200 |    5.805835ms |      172.18.0.1 | GET      "/assets/About-a77d8d20.js"
+[36mINFO[0m[2026-04-06 22:13:36] closing db                                   
+[33mWARN[0m[2026-04-06 22:37:21] not enable search                            
+[36mINFO[0m[2026-04-06 22:38:08] closing db                                   
+[33mWARN[0m[2026-04-06 22:43:27] not enable search                            
+[36mINFO[0m[2026-04-06 22:44:37] closing db                                   
+[33mWARN[0m[2026-04-06 22:46:09] not enable search                            
+[36mINFO[0m[2026-04-06 22:47:00] closing db                                   
+[33mWARN[0m[2026-04-06 22:50:46] not enable search                            
+[36mINFO[0m[2026-04-06 22:51:25] closing db                                   
+[33mWARN[0m[2026-04-06 22:54:44] not enable search                            
+[36mINFO[0m[2026-04-06 22:55:02] closing db                                   
+[33mWARN[0m[2026-04-06 22:55:20] not enable search                            
+[36mINFO[0m[2026-04-06 22:55:47] closing db                                   
+[33mWARN[0m[2026-04-06 22:56:40] not enable search                            
+[36mINFO[0m[2026-04-06 22:57:05] closing db                                   
+[33mWARN[0m[2026-04-06 22:58:36] not enable search                            
+[36mINFO[0m[2026-04-06 22:58:52] closing db                                   
+[33mWARN[0m[2026-04-06 23:08:35] not enable search                            
+[GIN] 2026/04/06 - 23:08:38 | 200 |    3.399265ms |      172.18.0.1 | GET      "/"
+[GIN] 2026/04/06 - 23:08:38 | 200 |    2.131268ms |      172.18.0.1 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/06 - 23:08:38 | 200 |   85.069263ms |      172.18.0.1 | GET      "/api/public/settings"
+[GIN] 2026/04/06 - 23:08:39 | 200 |   14.084614ms |      172.18.0.1 | GET      "/api/me"
+[GIN] 2026/04/06 - 23:08:39 | 200 |    4.204248ms |      172.18.0.1 | GET      "/api/public/settings"

@@ -64,6 +64,15 @@ public class ScrapingAggregationService {
                     result.setPosterUrl(tmdb.getPosterPath() != null ? TMDB_IMAGE_BASE + tmdb.getPosterPath() : null);
                     result.setReleaseDate(tmdb.getReleaseDate());
                     result.setRating(tmdb.getVoteAverage());
+                    
+                    Map<String, Object> credits = getTmdbMovieCredits(tmdb.getId());
+                    if (credits != null) {
+                        result.setActors((String) credits.get("actorsStr"));
+                        result.setDirector((String) credits.get("director"));
+                        @SuppressWarnings("unchecked")
+                        List<Actor> actorList = (List<Actor>) credits.get("actors");
+                        result.setActorList(actorList);
+                    }
                 }
 
             } catch (Exception e) {
@@ -117,6 +126,78 @@ public class ScrapingAggregationService {
         return null;
     }
     
+    public Map<String, Object> getTmdbMovieCredits(Long movieId) {
+        String apiKey = getTmdbApiKey();
+        if (apiKey == null || apiKey.isEmpty() || movieId == null) {
+            return null;
+        }
+        
+        Map<String, Object> result = new HashMap<>();
+        List<Actor> actorsList = new ArrayList<>();
+        StringBuilder actorsBuilder = new StringBuilder();
+        result.put("actors", actorsList);
+        result.put("actorsStr", "");
+        result.put("director", "");
+        
+        try {
+            String url = String.format("%s/movie/%d/credits?api_key=%s&language=%s",
+                TMDB_BASE, movieId, apiKey, getTmdbLanguage());
+            
+            log.info("Fetching TMDB Movie credits from URL: {}", url.replace(apiKey, "HIDDEN_API_KEY"));
+            String response = fetch(url);
+            if (response == null || response.isEmpty()) {
+                return result;
+            }
+            
+            JsonNode root = OBJECT_MAPPER.readTree(response);
+            
+            JsonNode castArray = root.path("cast");
+            if (castArray.isArray()) {
+                int count = 0;
+                for (JsonNode castMember : castArray) {
+                    if (count >= 10) break;
+                    String name = castMember.path("name").asText(null);
+                    if (name != null && !name.isEmpty()) {
+                        Actor actor = new Actor();
+                        actor.setName(name);
+                        actor.setCharacter(castMember.path("character").asText(null));
+                        actor.setProfilePath(castMember.path("profile_path").asText(null));
+                        actorsList.add(actor);
+                        
+                        if (actorsBuilder.length() > 0) {
+                            actorsBuilder.append(", ");
+                        }
+                        actorsBuilder.append(name);
+                        count++;
+                    }
+                }
+            }
+            result.put("actorsStr", actorsBuilder.toString());
+            
+            JsonNode crewArray = root.path("crew");
+            if (crewArray.isArray()) {
+                for (JsonNode member : crewArray) {
+                    String job = member.path("job").asText(null);
+                    if ("Director".equals(job)) {
+                        String director = member.path("name").asText(null);
+                        if (director != null && !director.isEmpty()) {
+                            result.put("director", director);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            log.info("Successfully parsed TMDB Movie credits: actorsCount={}, director={}", 
+                actorsList.size(), result.get("director"));
+            
+        } catch (Exception e) {
+            log.error("Error fetching TMDB movie credits: movieId={}", movieId, e);
+        }
+        
+        return result;
+    }
+    
     public TmdbTvData searchTmdbTv(String query) {
         String apiKey = getTmdbApiKey();
         if (apiKey == null || apiKey.isEmpty()) {
@@ -164,48 +245,105 @@ public class ScrapingAggregationService {
         return null;
     }
     
-    public TmdbSeasonData getTmdbTvSeasonDetails(Long tvId, Integer seasonNumber) {
+    public TmdbTvDetailData searchTmdbTvById(Long tvId) {
         String apiKey = getTmdbApiKey();
         if (apiKey == null || apiKey.isEmpty()) {
+            log.warn("TMDB API key not configured");
             return null;
         }
         
         try {
-            String url = String.format("%s/tv/%d/season/%d?api_key=%s&language=%s",
-                TMDB_BASE, tvId, seasonNumber, apiKey, getTmdbLanguage());
+            String url = String.format("%s/tv/%d?api_key=%s&language=%s",
+                TMDB_BASE, tvId, apiKey, getTmdbLanguage());
             
+            log.info("Fetching TMDB TV details from URL: {}", url.replace(apiKey, "HIDDEN_API_KEY"));
             String response = fetch(url);
-            Map<String, Object> json = parseJsonSimple(response);
+            
+            if (response == null || response.isEmpty()) {
+                log.warn("TMDB TV details returned empty response for tvId: {}", tvId);
+                return null;
+            }
+            
+            JsonNode root = OBJECT_MAPPER.readTree(response);
+            TmdbTvDetailData data = new TmdbTvDetailData();
+            data.setId(root.path("id").asLong());
+            data.setName(root.path("name").asText(null));
+            data.setOverview(root.path("overview").asText(null));
+            data.setPosterPath(root.path("poster_path").asText(null));
+            data.setNumberOfSeasons(root.path("number_of_seasons").isNull() ? null : root.path("number_of_seasons").asInt());
+            
+            log.info("Successfully parsed TMDB TV details: id={}, name={}, seasons={}", 
+                data.getId(), data.getName(), data.getNumberOfSeasons());
+            return data;
+        } catch (Exception e) {
+            log.error("Error fetching TMDB TV details for tvId: {}", tvId, e);
+        }
+        return null;
+    }
+    
+    public TmdbSeasonData getTmdbTvSeasonDetails(Long tvId, Integer seasonNumber) {
+        String apiKey = getTmdbApiKey();
+        if (apiKey == null || apiKey.isEmpty()) {
+            log.error("TMDB API key is empty or null for getTmdbTvSeasonDetails");
+            return null;
+        }
+        
+        String language = getTmdbLanguage();
+        String url = String.format("%s/tv/%d/season/%d?api_key=%s&language=%s",
+            TMDB_BASE, tvId, seasonNumber, apiKey, language);
+        
+        log.info("=== getTmdbTvSeasonDetails START ===");
+        log.info("tvId={}, seasonNumber={}, language={}", tvId, seasonNumber, language);
+        log.info("Request URL: {}", url.replace(apiKey, "***" + apiKey.substring(0, 4) + "***"));
+        
+        try {
+            log.info("Calling fetch() for TMDB season...");
+            String response = fetch(url);
+            log.info("fetch() returned, response is {}", response == null ? "NULL" : "length=" + response.length());
+            
+            if (response == null || response.isEmpty()) {
+                log.error("Empty or null response from TMDB for tvId={}, season={}", tvId, seasonNumber);
+                return null;
+            }
+            
+            log.info("Parsing JSON response with Jackson...");
+            JsonNode root = OBJECT_MAPPER.readTree(response);
+            log.info("JSON parsed successfully");
             
             TmdbSeasonData data = new TmdbSeasonData();
-            data.setId(((Number) json.get("id")).longValue());
-            data.setName((String) json.get("name"));
-            data.setOverview((String) json.get("overview"));
-            data.setPosterPath((String) json.get("poster_path"));
-            data.setSeasonNumber((Integer) json.get("season_number"));
+            data.setId(root.path("id").asLong());
+            data.setName(root.path("name").asText(null));
+            data.setOverview(root.path("overview").asText(null));
+            data.setPosterPath(root.path("poster_path").asText(null));
+            data.setSeasonNumber(root.path("season_number").isNull() ? null : root.path("season_number").asInt());
             
-            List<Map<String, Object>> episodes = (List<Map<String, Object>>) json.get("episodes");
-            if (episodes != null) {
+            JsonNode episodesNode = root.path("episodes");
+            if (episodesNode.isArray()) {
                 List<TmdbEpisodeData> episodeList = new ArrayList<>();
-                for (Map<String, Object> ep : episodes) {
+                for (JsonNode ep : episodesNode) {
                     TmdbEpisodeData epData = new TmdbEpisodeData();
-                    epData.setId(((Number) ep.get("id")).longValue());
-                    epData.setName((String) ep.get("name"));
-                    epData.setEpisodeNumber((Integer) ep.get("episode_number"));
-                    epData.setSeasonNumber((Integer) ep.get("season_number"));
-                    epData.setOverview((String) ep.get("overview"));
-                    epData.setStillPath((String) ep.get("still_path"));
-                    epData.setAirDate((String) ep.get("air_date"));
-                    epData.setVoteAverage(ep.get("vote_average") != null ?
-                        ((Number) ep.get("vote_average")).doubleValue() : null);
+                    epData.setId(ep.path("id").asLong());
+                    epData.setName(ep.path("name").asText(null));
+                    epData.setEpisodeNumber(ep.path("episode_number").isNull() ? null : ep.path("episode_number").asInt());
+                    epData.setSeasonNumber(ep.path("season_number").isNull() ? null : ep.path("season_number").asInt());
+                    epData.setOverview(ep.path("overview").asText(null));
+                    epData.setStillPath(ep.path("still_path").asText(null));
+                    epData.setAirDate(ep.path("air_date").asText(null));
+                    epData.setVoteAverage(ep.path("vote_average").isNull() ? null : ep.path("vote_average").asDouble());
                     episodeList.add(epData);
                 }
                 data.setEpisodes(episodeList);
+                log.info("Parsed {} episodes for season", episodeList.size());
+            } else {
+                log.warn("No episodes array found in TMDB response for tvId={}, season={}", tvId, seasonNumber);
             }
             
+            log.info("=== getTmdbTvSeasonDetails END ===");
             return data;
         } catch (Exception e) {
-            log.error("Error getting TMDB TV season details: tvId={}, season={}", tvId, seasonNumber, e);
+            log.error("Exception in getTmdbTvSeasonDetails: tvId={}, season={}, error={}", 
+                tvId, seasonNumber, e.getMessage(), e);
+            log.info("=== getTmdbTvSeasonDetails END WITH ERROR ===");
         }
         return null;
     }
@@ -423,6 +561,9 @@ public class ScrapingAggregationService {
         private Double rating;
         private TmdbData tmdb;
         private DoubanData douban;
+        private String actors;
+        private String director;
+        private List<Actor> actorList;
         
         public String getQuery() { return query; }
         public void setQuery(String query) { this.query = query; }
@@ -440,6 +581,28 @@ public class ScrapingAggregationService {
         public void setTmdb(TmdbData tmdb) { this.tmdb = tmdb; }
         public DoubanData getDouban() { return douban; }
         public void setDouban(DoubanData douban) { this.douban = douban; }
+        public String getActors() { return actors; }
+        public void setActors(String actors) { this.actors = actors; }
+        public String getDirector() { return director; }
+        public void setDirector(String director) { this.director = director; }
+        public List<Actor> getActorList() { return actorList; }
+        public void setActorList(List<Actor> actorList) { this.actorList = actorList; }
+    }
+    
+    public static class Actor {
+        private String name;
+        private String character;
+        private String profilePath;
+        
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public String getCharacter() { return character; }
+        public void setCharacter(String character) { this.character = character; }
+        public String getProfilePath() { return profilePath; }
+        public void setProfilePath(String profilePath) { this.profilePath = profilePath; }
+        public String getProfileUrl() {
+            return profilePath != null ? TMDB_IMAGE_BASE + profilePath : null;
+        }
     }
     
     public static class TmdbData {
@@ -503,6 +666,28 @@ public class ScrapingAggregationService {
         public void setFirstAirDate(String firstAirDate) { this.firstAirDate = firstAirDate; }
         public Double getVoteAverage() { return voteAverage; }
         public void setVoteAverage(Double voteAverage) { this.voteAverage = voteAverage; }
+    }
+    
+    public static class TmdbTvDetailData {
+        private Long id;
+        private String name;
+        private String overview;
+        private String posterPath;
+        private Integer numberOfSeasons;
+        private List<TmdbSeasonData> seasons;
+        
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public String getOverview() { return overview; }
+        public void setOverview(String overview) { this.overview = overview; }
+        public String getPosterPath() { return posterPath; }
+        public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
+        public Integer getNumberOfSeasons() { return numberOfSeasons; }
+        public void setNumberOfSeasons(Integer numberOfSeasons) { this.numberOfSeasons = numberOfSeasons; }
+        public List<TmdbSeasonData> getSeasons() { return seasons; }
+        public void setSeasons(List<TmdbSeasonData> seasons) { this.seasons = seasons; }
     }
     
     public static class TmdbSeasonData {

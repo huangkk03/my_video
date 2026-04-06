@@ -18,4 +18,5 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     List<Video> findBySeriesIdOrderBySeasonIdAscEpisodeNumberAsc(Long seriesId);
     List<Video> findBySeasonIdOrderByEpisodeNumberAsc(Long seasonId);
     Page<Video> findBySeriesIdIsNullOrderByCreatedAtDesc(Pageable pageable);
+    List<Video> findBySeriesIdAndSeasonIdAndEpisodeNumber(Long seriesId, Long seasonId, Integer episodeNumber);
 }

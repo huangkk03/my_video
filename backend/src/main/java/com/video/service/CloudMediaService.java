@@ -1,5 +1,6 @@
 package com.video.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.video.entity.ImportTask;
 import com.video.entity.Season;
 import com.video.entity.Series;
@@ -35,6 +36,7 @@ import java.util.regex.Pattern;
 public class CloudMediaService {
 
     private static final long SCRAPE_TIMEOUT_SECONDS = 30L;
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     
     private final CloudStorageService cloudStorageService;
     private final VideoService videoService;
@@ -345,6 +347,20 @@ public class CloudMediaService {
                 video.setReleaseYear(Integer.parseInt(metadataResult.getReleaseDate().substring(0, 4)));
             } catch (Exception ignored) {
                 log.warn("Failed to parse release year for video: {}, releaseDate: {}", videoUuid, metadataResult.getReleaseDate());
+            }
+        }
+        if (metadataResult.getActors() != null && !metadataResult.getActors().isEmpty()) {
+            video.setActors(metadataResult.getActors());
+        }
+        if (metadataResult.getDirector() != null && !metadataResult.getDirector().isEmpty()) {
+            video.setDirector(metadataResult.getDirector());
+        }
+        if (metadataResult.getActorList() != null && !metadataResult.getActorList().isEmpty()) {
+            try {
+                String actorListJson = OBJECT_MAPPER.writeValueAsString(metadataResult.getActorList());
+                video.setActorListJson(actorListJson);
+            } catch (Exception e) {
+                log.warn("Failed to serialize actor list for video: {}", videoUuid, e);
             }
         }
         video.setScrapingStatus("success");

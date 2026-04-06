@@ -197,7 +197,7 @@ public class TranscodeService {
         long durationMs = getVideoDurationFromUrl(sourceUrl);
         video.setDuration(durationMs);
 
-        List<String> command = new ArrayList<>(Arrays.asList(
+        List<String> hlsCommand = new ArrayList<>(Arrays.asList(
             FFMPEG_COMMAND,
             "-reconnect", "1",
             "-reconnect_streamed", "1",
@@ -212,22 +212,18 @@ public class TranscodeService {
             "-hls_time", "10",
             "-hls_list_size", "0",
             "-http_seekable", "1",
-            hlsPath.toString(),
-            "-ss", "00:00:05",
-            "-vframes", "1",
-            "-vf", "scale=320:-1",
-            thumbnailPath.toString()
+            hlsPath.toString()
         ));
 
-        task.setFfmpegCommand(String.join(" ", command));
+        task.setFfmpegCommand(String.join(" ", hlsCommand));
         transcodeTaskRepository.save(task);
 
         log.info("Executing FFmpeg stream transcode from URL: {}",
                  sourceUrl.replaceAll("sign=[^&]+", "sign=HIDDEN"));
 
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.redirectErrorStream(true);
-        Process process = processBuilder.start();
+        ProcessBuilder pb = new ProcessBuilder(hlsCommand);
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             String line;
@@ -250,6 +246,19 @@ public class TranscodeService {
         if (exitCode != 0) {
             throw new RuntimeException("FFmpeg exited with code: " + exitCode);
         }
+
+        String[] thumbCmd = {
+            FFMPEG_COMMAND,
+            "-i", hlsPath.toString(),
+            "-ss", "00:00:05",
+            "-vframes", "1",
+            "-vf", "scale=320:-1",
+            thumbnailPath.toString()
+        };
+        ProcessBuilder thumbPb = new ProcessBuilder(thumbCmd);
+        thumbPb.redirectErrorStream(true);
+        Process thumbProcess = thumbPb.start();
+        thumbProcess.waitFor();
 
         video.setHlsPath(hlsPath.toString());
         if (Files.exists(thumbnailPath)) {
