@@ -1,0 +1,28 @@
+# Data directories (use local mounts instead of Docker volumes)
+data/
+alist/data.db
+alist/data.db-shm
+alist/data.db-wal
+alist/log/
+!alist/.gitkeep
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+target/*.jar
+*.class
+
+# Docker
+.dockerignore

@@ -7,7 +7,7 @@ services:
       - MYSQL_ROOT_PASSWORD=rootpass
       - MYSQL_DATABASE=video_platform
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
@@ -23,6 +23,8 @@ services:
     image: redis:7-alpine
     container_name: video-redis
     restart: unless-stopped
+    volumes:
+      - ./data/redis:/data
     ports:
       - "6379:6379"
     networks:
@@ -38,7 +40,7 @@ services:
     container_name: video-api
     restart: unless-stopped
     volumes:
-      - video_data:/data/videos
+      - ./data/videos:/data/videos
     ports:
       - "8080:8080"
     networks:
@@ -61,7 +63,7 @@ services:
     container_name: video-ui
     restart: unless-stopped
     volumes:
-      - video_data:/data/videos:ro
+      - ./data/videos:/data/videos:ro
     ports:
       - "80:80"
     networks:
@@ -87,9 +89,6 @@ services:
     networks:
       - video-network
 
-volumes:
-  mysql_data:
-  video_data:
 networks:
   video-network:
     driver: bridge
