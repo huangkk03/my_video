@@ -1,57 +1,139 @@
 <template>
-  <div class="p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-gray-800">媒体库管理</h1>
-      <div class="flex items-center gap-4">
-        <div class="flex gap-2">
-          <button 
-            @click="activeTab = 'videos'"
-            :class="[
-              'px-4 py-2 rounded-lg font-medium transition-colors',
-              activeTab === 'videos' 
-                ? 'bg-primary text-white' 
-                : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
-            ]"
-          >
-            视频列表
-          </button>
-          <button 
-            @click="activeTab = 'series'"
-            :class="[
-              'px-4 py-2 rounded-lg font-medium transition-colors',
-              activeTab === 'series' 
-                ? 'bg-primary text-white' 
-                : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
-            ]"
-          >
-            系列管理
-          </button>
+  <div class="p-6 flex gap-6 h-full">
+    <!-- Folder Tree Sidebar -->
+    <div class="w-64 flex-shrink-0 bg-white rounded-xl shadow-sm p-4 overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-semibold text-gray-800">文件夹</h2>
+        <button
+          @click="showCreateFolderModal = true"
+          class="p-1 text-primary hover:bg-primary/10 rounded"
+          title="创建文件夹"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- All Videos option -->
+      <div
+        @click="selectFolder(null)"
+        :class="[
+          'px-3 py-2 rounded-lg cursor-pointer flex items-center justify-between mb-1',
+          selectedFolderId === null ? 'bg-primary/10 text-primary' : 'hover:bg-gray-100'
+        ]"
+      >
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+          </svg>
+          全部视频
+        </span>
+      </div>
+
+      <!-- Ungrouped option -->
+      <div
+        @click="selectFolder('ungrouped')"
+        :class="[
+          'px-3 py-2 rounded-lg cursor-pointer flex items-center justify-between mb-1',
+          selectedFolderId === 'ungrouped' ? 'bg-primary/10 text-primary' : 'hover:bg-gray-100'
+        ]"
+      >
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+          </svg>
+          未分类
+        </span>
+        <span class="text-xs bg-gray-200 px-2 py-0.5 rounded">{{ ungroupedCount }}</span>
+      </div>
+
+      <div class="border-t my-2"></div>
+
+      <!-- Folder tree -->
+      <div v-for="folder in folderTree" :key="folder.id" class="folder-item">
+        <div
+          @click="selectFolder(folder.id)"
+          :class="[
+            'px-3 py-2 rounded-lg cursor-pointer flex items-center justify-between',
+            selectedFolderId === folder.id ? 'bg-primary/10 text-primary' : 'hover:bg-gray-100'
+          ]"
+        >
+          <span class="flex items-center gap-2 truncate">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+            </svg>
+            <span class="truncate">{{ folder.name }}</span>
+          </span>
+          <div class="flex items-center gap-1">
+            <span class="text-xs bg-gray-200 px-2 py-0.5 rounded">{{ folder.videoCount }}</span>
+            <button
+              @click.stop="deleteFolderConfirm(folder)"
+              class="p-1 text-gray-400 hover:text-red-500 rounded"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Video List Tab -->
-    <div v-if="activeTab === 'videos'" class="space-y-6">
-      <div class="flex items-center gap-4">
-        <input 
-          v-model="searchQuery" 
-          type="text" 
-          placeholder="搜索视频..." 
-          class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-        <select 
-          v-model="statusFilter" 
-          class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <option value="">全部状态</option>
-          <option value="pending">待处理</option>
-          <option value="transcoding">转码中</option>
-          <option value="completed">已完成</option>
-          <option value="failed">失败</option>
-        </select>
+    <!-- Main Content -->
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-semibold text-gray-800">媒体库管理</h1>
+        <div class="flex items-center gap-4">
+          <div class="flex gap-2">
+            <button
+              @click="activeTab = 'videos'"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                activeTab === 'videos'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+              ]"
+            >
+              视频列表
+            </button>
+            <button
+              @click="activeTab = 'series'"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                activeTab === 'series'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+              ]"
+            >
+              系列管理
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-white rounded-xl shadow-sm p-4 border">
+      <!-- Video List Tab -->
+      <div v-if="activeTab === 'videos'" class="space-y-6">
+        <div class="flex items-center gap-4">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="搜索视频..."
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <select
+            v-model="statusFilter"
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">全部状态</option>
+            <option value="pending">待处理</option>
+            <option value="transcoding">转码中</option>
+            <option value="completed">已完成</option>
+            <option value="failed">失败</option>
+          </select>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-4 border">
         <div class="flex flex-wrap items-center gap-3">
           <span class="text-sm text-gray-600">已选 {{ selectedVideoUuids.length }} 项</span>
           <select
@@ -85,6 +167,23 @@
           >
             {{ assigningBatch ? '归档中...' : '批量归档到系列/季度' }}
           </button>
+          <select
+            v-model="batchMoveFolderId"
+            :disabled="selectedVideoUuids.length === 0"
+            class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+          >
+            <option :value="null">移动到文件夹...</option>
+            <option v-for="f in folderTree" :key="f.id" :value="f.id">
+              {{ f.name }}
+            </option>
+          </select>
+          <button
+            @click="executeMoveToFolder"
+            :disabled="movingToFolder || selectedVideoUuids.length === 0 || batchMoveFolderId === null"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-opacity-90 disabled:opacity-50"
+          >
+            {{ movingToFolder ? '移动中...' : '确认移动' }}
+          </button>
           <button
             @click="clearBatchSelection"
             :disabled="selectedVideoUuids.length === 0"
@@ -95,136 +194,136 @@
         </div>
       </div>
 
-    <div
-      class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-colors mb-6"
-      :class="{ 'border-primary bg-primary/5': isDragging }"
-      @dragover.prevent="isDragging = true"
-      @dragleave.prevent="isDragging = false"
-      @drop.prevent="handleDrop"
-    >
-      <input
-        ref="fileInput"
-        type="file"
-        accept="video/*"
-        class="hidden"
-        @change="handleFileSelect"
-      />
-      
-      <div v-if="!selectedFile" class="space-y-4">
-        <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-        </svg>
-        <div>
-          <p class="text-gray-600 mb-2">拖拽视频文件到此处，或</p>
-          <button 
-            @click="triggerUpload"
-            class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all"
-          >
-            选择文件
-          </button>
-        </div>
-        <p class="text-sm text-gray-400">支持 MKV, MP4, AVI, MOV 格式</p>
-      </div>
-
-      <div v-else class="space-y-4">
-        <div class="flex items-center justify-center gap-3">
-          <svg class="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2l8 4-8 4V8z"/>
+      <div
+        class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-colors mb-6"
+        :class="{ 'border-primary bg-primary/5': isDragging }"
+        @dragover.prevent="isDragging = true"
+        @dragleave.prevent="isDragging = false"
+        @drop.prevent="handleDrop"
+      >
+        <input
+          ref="fileInput"
+          type="file"
+          accept="video/*"
+          class="hidden"
+          @change="handleFileSelect"
+        />
+        
+          <div v-if="!selectedFile" class="space-y-4">
+          <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
           </svg>
-          <div class="text-left">
-            <p class="font-medium text-gray-800">{{ selectedFile.name }}</p>
-            <p class="text-sm text-gray-500">{{ formatSize(selectedFile.size) }}</p>
+          <div>
+            <p class="text-gray-600 mb-2">拖拽视频文件到此处，或</p>
+            <button 
+              @click="triggerUpload"
+              class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all"
+            >
+              选择文件
+            </button>
           </div>
-          <button @click="clearFile" class="ml-4 text-gray-400 hover:text-red-500">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          <p class="text-sm text-gray-400">支持 MKV, MP4, AVI, MOV 格式</p>
+        </div>
+
+        <div v-else class="space-y-4">
+          <div class="flex items-center justify-center gap-3">
+            <svg class="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v12h16V6H4zm2 2l8 4-8 4V8z"/>
             </svg>
-          </button>
-        </div>
+            <div class="text-left">
+              <p class="font-medium text-gray-800">{{ selectedFile.name }}</p>
+              <p class="text-sm text-gray-500">{{ formatSize(selectedFile.size) }}</p>
+            </div>
+            <button @click="clearFile" class="ml-4 text-gray-400 hover:text-red-500">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
 
-        <div v-if="uploadProgress > 0 && uploadProgress < 100" class="w-full bg-gray-200 rounded-full h-2 max-w-md mx-auto">
-          <div 
-            class="bg-primary h-2 rounded-full transition-all"
-            :style="{ width: uploadProgress + '%' }"
-          />
-        </div>
+          <div v-if="uploadProgress > 0 && uploadProgress < 100" class="w-full bg-gray-200 rounded-full h-2 max-w-md mx-auto">
+            <div 
+              class="bg-primary h-2 rounded-full transition-all"
+              :style="{ width: uploadProgress + '%' }"
+            />
+          </div>
 
-        <div v-if="uploading" class="text-gray-500">
-          上传中... {{ uploadProgress }}%
-        </div>
+          <div v-if="uploading" class="text-gray-500">
+            上传中... {{ uploadProgress }}%
+          </div>
 
-        <div v-if="uploadResult" :class="uploadResult.success ? 'text-green-600' : 'text-red-500'" class="font-medium">
-          {{ uploadResult.message }}
-        </div>
+          <div v-if="uploadResult" :class="uploadResult.success ? 'text-green-600' : 'text-red-500'" class="font-medium">
+            {{ uploadResult.message }}
+          </div>
 
-        <div class="space-y-3 max-w-md mx-auto">
-          <input
-            v-model="videoTitle"
-            type="text"
-            placeholder="输入视频标题（可选）"
-            class="w-full px-4 py-2 bg-white border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          <div class="space-y-3 max-w-md mx-auto">
+            <input
+              v-model="videoTitle"
+              type="text"
+              placeholder="输入视频标题（可选）"
+              class="w-full px-4 py-2 bg-white border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
 
-          <button
-            @click="upload"
-            :disabled="uploading"
-            class="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {{ uploading ? '上传中...' : '开始上传' }}
-          </button>
+            <button
+              @click="upload"
+              :disabled="uploading"
+              class="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {{ uploading ? '上传中...' : '开始上传' }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div v-if="activeTasks.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
-      <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-        <h2 class="font-medium text-gray-800">云盘导入任务</h2>
-      </div>
-      <table class="w-full">
-        <tbody class="divide-y divide-gray-200">
-          <tr v-for="task in activeTasks" :key="task.taskId" class="hover:bg-gray-50">
-            <td class="px-6 py-4">
-              <div class="font-medium text-gray-800">{{ task.sourceName }}</div>
-              <div class="text-xs text-gray-500 mt-1">{{ task.message || '处理中...' }}</div>
-            </td>
-            <td class="px-6 py-4 w-1/3">
-              <div class="flex items-center gap-3">
-                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-blue-500 transition-all" :style="{ width: (task.progress || 0) + '%' }"></div>
+      
+      <div v-if="activeTasks.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+          <h2 class="font-medium text-gray-800">云盘导入任务</h2>
+        </div>
+        <table class="w-full">
+          <tbody class="divide-y divide-gray-200">
+            <tr v-for="task in activeTasks" :key="task.taskId" class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-800">{{ task.sourceName }}</div>
+                <div class="text-xs text-gray-500 mt-1">{{ task.message || '处理中...' }}</div>
+              </td>
+              <td class="px-6 py-4 w-1/3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-blue-500 transition-all" :style="{ width: (task.progress || 0) + '%' }"></div>
+                  </div>
+                  <span class="text-xs text-gray-500 w-10">{{ task.progress || 0 }}%</span>
                 </div>
-                <span class="text-xs text-gray-500 w-10">{{ task.progress || 0 }}%</span>
-              </div>
-            </td>
-            <td class="px-6 py-4 text-right">
-              <div class="flex items-center justify-end gap-2">
-                <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">
-                  {{ getTaskStatusText(task.status) }}
-                </span>
-                <button 
-                  @click="cancelTask(task.taskId)"
-                  class="text-xs text-red-500 hover:text-red-700 hover:underline"
-                >
-                  取消
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <div v-if="loading && videos.length === 0" class="bg-white rounded-xl shadow-sm overflow-hidden">
-      <div class="p-8 text-center text-gray-500">加载中...</div>
-    </div>
-    
-    <div v-else-if="videos.length === 0" class="bg-white rounded-xl shadow-sm p-8 text-center">
-      <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
-      </svg>
-      <p class="text-gray-500">暂无视频</p>
-    </div>
-    
-    <div v-else class="bg-white rounded-xl shadow-sm overflow-hidden">
+              </td>
+              <td class="px-6 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                  <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">
+                    {{ getTaskStatusText(task.status) }}
+                  </span>
+                  <button 
+                    @click="cancelTask(task.taskId)"
+                    class="text-xs text-red-500 hover:text-red-700 hover:underline"
+                  >
+                    取消
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div v-if="loading && videos.length === 0" class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-8 text-center text-gray-500">加载中...</div>
+      </div>
+      
+      <div v-else-if="videos.length === 0" class="bg-white rounded-xl shadow-sm p-8 text-center">
+        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+        </svg>
+        <p class="text-gray-500">暂无视频</p>
+      </div>
+      
+      <div v-else class="bg-white rounded-xl shadow-sm overflow-hidden">
       <table class="w-full">
         <thead class="bg-gray-50">
           <tr>
@@ -309,7 +408,7 @@
           加载更多
         </button>
       </div>
-    </div>
+      </div>
     </div>
 
     <!-- 编辑视频对话框 -->
@@ -580,6 +679,40 @@
         </div>
       </div>
     </div>
+
+    <!-- Create Folder Modal -->
+    <div v-if="showCreateFolderModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="showCreateFolderModal = false">
+      <div class="bg-white rounded-xl p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">创建文件夹</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">文件夹名称</label>
+            <input
+              v-model="newFolderName"
+              type="text"
+              placeholder="输入文件夹名称"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              @keyup.enter="createFolder"
+            />
+          </div>
+        </div>
+        <div class="flex justify-end gap-3 mt-6">
+          <button
+            @click="showCreateFolderModal = false"
+            class="px-4 py-2 text-gray-600 hover:text-gray-800"
+          >
+            取消
+          </button>
+          <button
+            @click="createFolder"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90"
+          >
+            创建
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -588,6 +721,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { videoApi, type Video } from '../../api/video'
 import { seriesApi, type Series, type Season } from '../../api/series'
 import { categoryApi, type Category } from '../../api/category'
+import { folderApi, type FolderTreeNode } from '../../api/folder'
 
 interface ImportTask {
   taskId: string
@@ -650,6 +784,14 @@ const editVideoForm = ref({
   title: '',
   releaseYear: null as number | null
 })
+
+const folderTree = ref<FolderTreeNode[]>([])
+const selectedFolderId = ref<number | 'ungrouped' | null>(null)
+const ungroupedCount = ref(0)
+const showCreateFolderModal = ref(false)
+const newFolderName = ref('')
+const batchMoveFolderId = ref<number | null>(null)
+const movingToFolder = ref(false)
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -750,7 +892,14 @@ async function cancelTask(taskId: string) {
 async function fetchVideos() {
   loading.value = true
   try {
-    const res = await videoApi.getList(page.value, size)
+    let res
+    if (selectedFolderId.value === 'ungrouped') {
+      res = await folderApi.getUngroupedVideos(page.value, size)
+    } else if (selectedFolderId.value !== null) {
+      res = await folderApi.getVideos(selectedFolderId.value, page.value, size)
+    } else {
+      res = await videoApi.getList(page.value, size)
+    }
     if (page.value === 0) {
       videos.value = res.content
     } else {
@@ -837,6 +986,89 @@ async function saveVideoEdit() {
   } catch (e) {
     console.error('Failed to update video:', e)
     alert('保存失败')
+  }
+}
+
+async function fetchFolderTree() {
+  try {
+    folderTree.value = await folderApi.getTree()
+  } catch (e) {
+    console.error('Failed to fetch folder tree:', e)
+  }
+}
+
+async function fetchUngroupedCount() {
+  try {
+    const res = await folderApi.getUngroupedCount()
+    ungroupedCount.value = res.count
+  } catch (e) {
+    console.error('Failed to fetch ungrouped count:', e)
+  }
+}
+
+async function selectFolder(folderId: number | 'ungrouped' | null) {
+  selectedFolderId.value = folderId
+  page.value = 0
+  videos.value = []
+  await fetchVideos()
+}
+
+async function createFolder() {
+  if (!newFolderName.value.trim()) {
+    alert('文件夹名称不能为空')
+    return
+  }
+  try {
+    await folderApi.create(newFolderName.value.trim())
+    showCreateFolderModal.value = false
+    newFolderName.value = ''
+    await fetchFolderTree()
+    await fetchUngroupedCount()
+  } catch (e) {
+    console.error('Failed to create folder:', e)
+    alert('创建文件夹失败')
+  }
+}
+
+async function deleteFolderConfirm(folder: FolderTreeNode) {
+  if (!confirm(`确定要删除文件夹 "${folder.name}" 吗？\n注意：文件夹内的视频将移至未分类。`)) return
+  try {
+    await folderApi.delete(folder.id)
+    if (selectedFolderId.value === folder.id) {
+      selectedFolderId.value = null
+    }
+    await fetchFolderTree()
+    await fetchUngroupedCount()
+    await fetchVideos()
+  } catch (e) {
+    console.error('Failed to delete folder:', e)
+    alert('删除文件夹失败')
+  }
+}
+
+async function executeMoveToFolder() {
+  if (selectedVideoUuids.value.length === 0) {
+    alert('请先选择视频')
+    return
+  }
+  if (batchMoveFolderId.value === null) {
+    alert('请选择目标文件夹')
+    return
+  }
+  movingToFolder.value = true
+  try {
+    const res = await folderApi.batchMoveToFolder(selectedVideoUuids.value, batchMoveFolderId.value)
+    alert(`已移动 ${res.movedCount} 个视频`)
+    clearBatchSelection()
+    batchMoveFolderId.value = null
+    await fetchFolderTree()
+    await fetchUngroupedCount()
+    await fetchVideos()
+  } catch (e) {
+    console.error('Failed to move videos:', e)
+    alert('移动视频失败')
+  } finally {
+    movingToFolder.value = false
   }
 }
 
@@ -1235,6 +1467,8 @@ onMounted(() => {
   fetchActiveTasks()
   fetchSeries()
   fetchCategories()
+  fetchFolderTree()
+  fetchUngroupedCount()
   taskTimer = window.setInterval(fetchActiveTasks, 5000)
 })
 

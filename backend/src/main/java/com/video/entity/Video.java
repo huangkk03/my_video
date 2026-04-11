@@ -111,6 +111,9 @@ public class Video {
     @Column(name = "episode_number")
     private Integer episodeNumber;
     
+    @Column(name = "folder_id")
+    private Long folderId;
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
