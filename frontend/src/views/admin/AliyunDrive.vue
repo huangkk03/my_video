@@ -136,9 +136,37 @@
     </div>
     
     <div v-else-if="files.length > 0" class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <!-- 批量操作栏 -->
+      <div v-if="selectedFiles.size > 0" class="px-6 py-4 bg-blue-50 border-b border-blue-200 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <span class="text-sm text-gray-600">已选择 {{ selectedFiles.size }} 项</span>
+          <button 
+            @click="openBatchModal"
+            :disabled="batchDownloading"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 text-sm"
+          >
+            {{ batchDownloading ? '添加中...' : '批量下载并转码' }}
+          </button>
+          <button 
+            @click="clearSelection"
+            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+          >
+            清空选择
+          </button>
+        </div>
+      </div>
       <table class="w-full">
         <thead class="bg-gray-50">
           <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-12">
+              <input 
+                type="checkbox" 
+                :checked="allSelected"
+                :disabled="!hasVideoFiles"
+                @change="toggleSelectAll" 
+                class="rounded border-gray-300"
+              />
+            </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">文件名</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">大小</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">类型</th>
@@ -147,6 +175,16 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
           <tr v-for="file in files" :key="file.path" class="hover:bg-gray-50">
+            <td class="px-6 py-4">
+              <input 
+                type="checkbox" 
+                :checked="selectedFiles.has(file.path)"
+                :disabled="file.isFolder"
+                @change="toggleFileSelection(file.path, $event)"
+                @click.stop
+                class="rounded border-gray-300"
+              />
+            </td>
             <td class="px-6 py-4">
               <div class="flex items-center gap-3 cursor-pointer" @click="file.isFolder ? loadFiles(file.path) : null">
                 <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center">
@@ -187,11 +225,49 @@
       </svg>
       <p class="text-gray-500">未找到相关文件</p>
     </div>
+
+    <!-- 批量下载弹窗 -->
+    <div v-if="showBatchModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="closeBatchModal">
+      <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">批量下载设置</h3>
+        <p class="text-sm text-gray-600 mb-4">已选择 {{ selectedFiles.size }} 个文件</p>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">保存到文件夹：</label>
+          <select 
+            v-model="targetFolderId"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option :value="null">-- 不指定（使用根目录）--</option>
+            <option v-for="folder in folders" :key="folder.id" :value="folder.id">
+              {{ folder.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <button 
+            @click="closeBatchModal"
+            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+          >
+            取消
+          </button>
+          <button 
+            @click="confirmBatchDownload"
+            :disabled="batchDownloading"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm disabled:opacity-50"
+          >
+            {{ batchDownloading ? '添加中...' : '确认下载' }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import type { Folder } from '../../api/folder'
 
 interface CloudFile {
   name: string
@@ -222,7 +298,116 @@ const downloading = ref(false)
 const downloadingName = ref('')
 let taskTimer: number | null = null
 
+// 批量下载相关状态
+const selectedFiles = ref<Set<string>>(new Set())
+const showBatchModal = ref(false)
+const targetFolderId = ref<number | null>(null)
+const folders = ref<Folder[]>([])
+const batchDownloading = ref(false)
+
 const videoExtensions = ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm']
+
+// 计算属性
+const selectedFileList = computed(() => {
+  return files.value.filter(f => selectedFiles.value.has(f.path))
+})
+
+const allSelected = computed(() => {
+  const videoFiles = files.value.filter(f => !f.isFolder)
+  return videoFiles.length > 0 && videoFiles.every(f => selectedFiles.value.has(f.path))
+})
+
+const hasVideoFiles = computed(() => {
+  return files.value.some(f => !f.isFolder)
+})
+
+// 选择相关方法
+function toggleFileSelection(path: string, event: Event) {
+  const checked = (event.target as HTMLInputElement).checked
+  if (checked) {
+    selectedFiles.value.add(path)
+  } else {
+    selectedFiles.value.delete(path)
+  }
+}
+
+function toggleSelectAll(event: Event) {
+  const checked = (event.target as HTMLInputElement).checked
+  if (checked) {
+    files.value
+      .filter(f => !f.isFolder)
+      .forEach(f => selectedFiles.value.add(f.path))
+  } else {
+    selectedFiles.value.clear()
+  }
+}
+
+function clearSelection() {
+  selectedFiles.value.clear()
+}
+
+async function fetchFolders() {
+  try {
+    const res = await fetch('/api/folders')
+    if (res.ok) {
+      folders.value = await res.json()
+    }
+  } catch (e) {
+    console.error('Failed to fetch folders:', e)
+  }
+}
+
+function openBatchModal() {
+  showBatchModal.value = true
+  targetFolderId.value = null
+  fetchFolders()
+}
+
+function closeBatchModal() {
+  showBatchModal.value = false
+}
+
+async function addToDownloadQueue(file: CloudFile, folderId: number | null) {
+  const params = new URLSearchParams()
+  params.append('sourceUrl', file.path)
+  params.append('sourceName', file.name)
+  params.append('sourceSize', String(file.size || 0))
+  if (folderId !== null) {
+    params.append('folderId', String(folderId))
+  }
+
+  const res = await fetch('/api/download-queue/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString()
+  })
+  return res.json()
+}
+
+async function confirmBatchDownload() {
+  if (selectedFiles.value.size === 0) return
+
+  const filesToDownload = selectedFileList.value
+  if (filesToDownload.length === 0) return
+
+  batchDownloading.value = true
+  closeBatchModal()
+
+  let successCount = 0
+  for (const file of filesToDownload) {
+    try {
+      await addToDownloadQueue(file, targetFolderId.value)
+      successCount++
+    } catch (e) {
+      console.error('Failed to add to queue:', file.name, e)
+    }
+  }
+
+  batchDownloading.value = false
+  clearSelection()
+  alert(`已添加 ${successCount} 个文件到下载队列`)
+  fetchActiveTasks()
+}
 
 function getTaskStatusText(status: string): string {
   switch (status) {

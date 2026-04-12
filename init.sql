@@ -211,6 +211,7 @@ CREATE TABLE IF NOT EXISTS download_queue (
     priority INT DEFAULT 0 COMMENT '优先级 (数字越小优先级越高)',
     retry_count INT DEFAULT 0 COMMENT '重试次数',
     video_uuid VARCHAR(36) COMMENT '关联的视频 UUID',
+    folder_id BIGINT COMMENT '目标文件夹ID',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     started_at TIMESTAMP NULL,
     completed_at TIMESTAMP NULL,

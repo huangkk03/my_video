@@ -41,13 +41,14 @@ public class DownloadQueueService {
     @Value("${video.download.retry-max:3}")
     private int maxRetries;
 
-    public DownloadQueue addToQueue(String sourceUrl, String sourceName, Long sourceSize, int priority) {
+    public DownloadQueue addToQueue(String sourceUrl, String sourceName, Long sourceSize, int priority, Long folderId) {
         DownloadQueue queue = new DownloadQueue();
         queue.setTaskId(UUID.randomUUID().toString());
         queue.setSourceUrl(sourceUrl);
         queue.setSourceName(sourceName);
         queue.setSourceSize(sourceSize);
         queue.setPriority(priority);
+        queue.setFolderId(folderId);
         queue.setStatus("pending");
         return downloadQueueRepository.save(queue);
     }
@@ -156,7 +157,7 @@ public class DownloadQueueService {
             task.setStatus("transcoding");
             downloadQueueRepository.save(task);
 
-            transcodeService.startTranscode(targetPath.toString());
+            transcodeService.startTranscode(targetPath.toString(), task.getFolderId());
 
             task.setStatus("completed");
             task.setCompletedAt(LocalDateTime.now());

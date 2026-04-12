@@ -45,6 +45,9 @@ public class DownloadQueue {
     @Column(name = "video_uuid", length = 36)
     private String videoUuid;
 
+    @Column(name = "folder_id")
+    private Long folderId;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

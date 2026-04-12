@@ -389,6 +389,11 @@ public class TranscodeService {
     
     @Async("transcodeExecutor")
     public void startTranscode(String filePath) {
+        startTranscode(filePath, null);
+    }
+
+    @Async("transcodeExecutor")
+    public void startTranscode(String filePath, Long folderId) {
         try {
             Path path = Paths.get(filePath);
             String fileName = path.getFileName().toString();
@@ -400,6 +405,9 @@ public class TranscodeService {
             video.setOriginalPath(filePath);
             video.setStatus("transcoding");
             video.setCreatedAt(LocalDateTime.now());
+            if (folderId != null) {
+                video.setFolderId(folderId);
+            }
             video = videoRepository.save(video);
             
             transcodeVideo(video.getUuid()).get();

@@ -65,9 +65,10 @@ public class DownloadQueueController {
             @RequestParam String sourceUrl,
             @RequestParam String sourceName,
             @RequestParam(required = false, defaultValue = "0") Long sourceSize,
-            @RequestParam(required = false, defaultValue = "0") int priority) {
+            @RequestParam(required = false, defaultValue = "0") int priority,
+            @RequestParam(required = false) Long folderId) {
         try {
-            DownloadQueue task = downloadQueueService.addToQueue(sourceUrl, sourceName, sourceSize, priority);
+            DownloadQueue task = downloadQueueService.addToQueue(sourceUrl, sourceName, sourceSize, priority, folderId);
             Map<String, Object> result = new HashMap<>();
             result.put("success", true);
             result.put("taskId", task.getTaskId());
