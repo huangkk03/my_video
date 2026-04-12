@@ -240,7 +240,8 @@ const displayedVideos = computed(() => {
   if (selectedSeasonId.value === null) {
     return videos.value
   }
-  return videos.value.filter(v => v.seasonId === selectedSeasonId.value)
+  const targetSeasonId = Number(selectedSeasonId.value)
+  return videos.value.filter(v => Number(v.seasonId) === targetSeasonId)
 })
 
 const currentSeasonVideos = computed(() => {
@@ -248,7 +249,7 @@ const currentSeasonVideos = computed(() => {
 })
 
 function getSeasonVideoCount(seasonId: number): number {
-  return videos.value.filter(v => v.seasonId === seasonId).length
+  return videos.value.filter(v => Number(v.seasonId) === Number(seasonId)).length
 }
 
 function getSeasonName(seasonId: number | null): string {
