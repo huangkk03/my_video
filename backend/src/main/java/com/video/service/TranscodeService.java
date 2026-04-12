@@ -38,7 +38,7 @@ public class TranscodeService {
     private final VideoRepository videoRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
     
-    @Async
+    @Async("transcodeExecutor")
     public CompletableFuture<Void> transcodeVideo(String videoUuid) {
         log.info("Starting transcode task for video: {}", videoUuid);
         
@@ -387,7 +387,7 @@ public class TranscodeService {
         return Paths.get(VIDEO_STORAGE_PATH, uuid).toString();
     }
     
-    @Async
+    @Async("transcodeExecutor")
     public void startTranscode(String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -409,7 +409,7 @@ public class TranscodeService {
         }
     }
 
-    @Async
+    @Async("transcodeExecutor")
     public CompletableFuture<Void> transcodeVideoFromUrl(String videoUuid, String sourceUrl) {
         log.info("Starting stream transcode for video: {} from URL", videoUuid);
 

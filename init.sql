@@ -185,6 +185,47 @@ INSERT INTO category (name, slug, description, sort_order) VALUES
 ('纪录片', 'documentary', '纪录片分类', 4),
 ('综艺', 'variety', '综艺分类', 5);
 
+-- Folder table
+CREATE TABLE IF NOT EXISTS folder (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    parent_id BIGINT DEFAULT NULL,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_parent_id (parent_id),
+    INDEX idx_sort_order (sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Download queue table
+CREATE TABLE IF NOT EXISTS download_queue (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    task_id VARCHAR(36) NOT NULL UNIQUE COMMENT '任务唯一标识',
+    source_url VARCHAR(2000) NOT NULL COMMENT '源文件 URL (AList raw URL)',
+    source_name VARCHAR(500) NOT NULL COMMENT '源文件名',
+    source_size BIGINT DEFAULT 0 COMMENT '源文件大小',
+    save_path VARCHAR(1000) COMMENT '本地保存路径',
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT '状态: pending, downloading, transcoding, completed, failed',
+    progress INT DEFAULT 0 COMMENT '下载进度 0-100',
+    error_message TEXT COMMENT '错误信息',
+    priority INT DEFAULT 0 COMMENT '优先级 (数字越小优先级越高)',
+    retry_count INT DEFAULT 0 COMMENT '重试次数',
+    video_uuid VARCHAR(36) COMMENT '关联的视频 UUID',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    started_at TIMESTAMP NULL,
+    completed_at TIMESTAMP NULL,
+    INDEX idx_status (status),
+    INDEX idx_priority (priority),
+    INDEX idx_created_at (created_at),
+    INDEX idx_video_uuid (video_uuid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Insert default admin (password: admin123)
 INSERT INTO user (username, password, nickname, role) VALUES 
 ('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '管理员', 'admin');
+
+-- Insert queue system config
+INSERT INTO system_config (config_key, config_value, description) VALUES
+('transcode_thread_count', '1', '转码并发线程数'),
+('transcode_queue_enabled', 'true', '是否启用转码队列模式'),
+('download_thread_count', '1', '下载并发线程数');

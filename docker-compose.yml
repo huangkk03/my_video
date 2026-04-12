@@ -46,8 +46,10 @@ services:
     networks:
       - video-network
     depends_on:
-      - video-db
-      - video-redis
+      video-db:
+        condition: service_healthy
+      video-redis:
+        condition: service_healthy
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
@@ -70,25 +72,6 @@ services:
       - video-network
     depends_on:
       - video-api
-
-  video-alist:
-    image: xhofe/alist:latest
-    container_name: video-alist
-    hostname: alist
-    restart: unless-stopped
-    environment:
-      - PUID=0
-      - PGID=0
-      - UMASK=022
-      - TZ=Asia/Shanghai
-    volumes:
-      - ./alist:/opt/alist/data
-      - //192.168.4.119/move:/nas
-    ports:
-      - "5244:5244"
-    networks:
-      - video-network
-
 networks:
   video-network:
     driver: bridge

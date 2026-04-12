@@ -3381,3 +3381,580 @@ failed get objs
 [33mWARN[0m[2026-04-11 14:41:42] not enable search                            
 [GIN] 2026/04/11 - 15:01:33 | 200 |  264.237073ms |      172.18.0.5 | POST     "/api/auth/login"
 [GIN] 2026/04/11 - 15:01:33 | 200 |   40.246312ms |      172.18.0.5 | GET      "/api/me"
+[33mWARN[0m[2026-04-11 21:16:06] not enable search                            
+[36mINFO[0m[2026-04-11 21:16:15] closing db                                   
+[33mWARN[0m[2026-04-11 21:17:05] not enable search                            
+[36mINFO[0m[2026-04-11 21:17:09] closing db                                   
+[33mWARN[0m[2026-04-11 21:21:46] not enable search                            
+[36mINFO[0m[2026-04-11 21:25:04] closing db                                   
+[33mWARN[0m[2026-04-11 21:28:10] not enable search                            
+[36mINFO[0m[2026-04-11 21:30:55] closing db                                   
+[33mWARN[0m[2026-04-11 21:31:03] not enable search                            
+[GIN] 2026/04/11 - 21:37:37 | 200 |  227.728965ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:37:37 | 200 |   50.129137ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/11 - 21:37:37 | 200 |   22.625913ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:37:37 | 200 |   59.583651ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 21:37:39 | 200 |   19.918151ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:37:39 | 200 |    74.05098ms |      172.19.0.5 | POST     "/api/fs/list"
+[36mINFO[0m[2026-04-11 21:39:50] closing db                                   
+[33mWARN[0m[2026-04-11 21:40:26] not enable search                            
+[GIN] 2026/04/11 - 21:41:10 | 200 |   39.229087ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:41:10 | 200 |   59.634148ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/11 - 21:41:10 | 200 |    17.29189ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:41:10 | 200 |   61.573791ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 21:41:12 | 200 |   19.946951ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:41:12 | 200 |   62.686117ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 21:41:14 | 200 |   28.466943ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 21:41:14 | 200 |   62.088103ms |      172.19.0.5 | GET      "/api/me"
+[36mINFO[0m[2026-04-11 21:49:50] closing db                                   
+[33mWARN[0m[2026-04-11 21:50:02] not enable search                            
+[36mINFO[0m[2026-04-11 22:01:04] closing db                                   
+[33mWARN[0m[2026-04-11 22:01:25] not enable search                            
+[GIN] 2026/04/11 - 22:28:20 | 200 |  188.613013ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 22:28:20 | 200 |   48.865339ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/11 - 22:28:20 | 200 |   16.381748ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 22:28:20 | 200 |   59.723371ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 22:30:09 | 200 |   19.105807ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 22:30:09 | 200 |   55.050473ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/11 - 22:30:09 | 200 |   16.168545ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 22:30:09 | 200 |   56.614007ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 22:30:10 | 200 |   14.639012ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/11 - 22:30:10 | 200 |   85.800928ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 22:30:42 | 200 |    3.038765ms |    192.168.4.51 | GET      "/"
+[GIN] 2026/04/11 - 22:30:43 | 200 |   11.519546ms |    192.168.4.51 | GET      "/assets/index-b206f97b.css"
+[GIN] 2026/04/11 - 22:30:43 | 200 |      439.81µs |    192.168.4.51 | GET      "/static/manifest.json"
+[GIN] 2026/04/11 - 22:30:43 | 200 |   81.698342ms |    192.168.4.51 | GET      "/assets/index-0ac33e44.js"
+[GIN] 2026/04/11 - 22:30:43 | 200 |    1.958741ms |    192.168.4.51 | GET      "/assets/entry-b68756c5.js"
+[GIN] 2026/04/11 - 22:30:43 | 200 |   11.066436ms |    192.168.4.51 | GET      "/api/public/settings"
+[GIN] 2026/04/11 - 22:30:43 | 200 |     407.409µs |    192.168.4.51 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/11 - 22:30:44 | 200 |     2.32015ms |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/11 - 22:30:44 | 200 |    1.348429ms |    192.168.4.51 | GET      "/assets/index-904bdd79.js"
+[GIN] 2026/04/11 - 22:30:44 | 200 |    1.955742ms |    192.168.4.51 | GET      "/assets/useTitle-98cd4016.js"
+[GIN] 2026/04/11 - 22:30:44 | 200 |    4.003186ms |    192.168.4.51 | GET      "/assets/webauthn-json.browser-ponyfill-f2f06d6e.js"
+[GIN] 2026/04/11 - 22:30:44 | 200 |    1.310328ms |    192.168.4.51 | GET      "/api/public/settings"
+[GIN] 2026/04/11 - 22:30:48 | 200 |    12.67157ms |    192.168.4.51 | POST     "/api/auth/login/hash"
+[GIN] 2026/04/11 - 22:30:48 | 200 |   78.932083ms |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    3.666078ms |    192.168.4.51 | GET      "/assets/Layout-8a0a2c68.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    5.680121ms |    192.168.4.51 | GET      "/assets/index-06a2e1d1.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    7.404758ms |    192.168.4.51 | GET      "/assets/FolderTree-3887d06d.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |      75.202µs |    192.168.4.51 | GET      "/assets/index-62f37b04.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    6.367436ms |    192.168.4.51 | GET      "/assets/index-d1b62002.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    1.371429ms |    192.168.4.51 | GET      "/assets/storage-class-1ac53f89.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |   68.977571ms |    192.168.4.51 | GET      "/api/label/list"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    2.426052ms |    192.168.4.51 | GET      "/images/new_icon.png"
+[GIN] 2026/04/11 - 22:30:49 | 200 |   37.792906ms |    192.168.4.51 | POST     "/api/fs/list"
+[GIN] 2026/04/11 - 22:30:49 | 200 |   41.877193ms |    192.168.4.51 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/04/11 - 22:30:49 | 200 |      47.001µs |    192.168.4.51 | GET      "/assets/Paginator-7e0484cf.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |     117.502µs |    192.168.4.51 | GET      "/assets/style-f5d5f2e6.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    2.295749ms |    192.168.4.51 | GET      "/assets/style-a6d16836.css"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    7.167053ms |    192.168.4.51 | GET      "/assets/video_box-fa1e5e08.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |   10.933633ms |    192.168.4.51 | GET      "/assets/Folder-732f0c1c.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |    1.594934ms |    192.168.4.51 | GET      "/assets/Folder-6ee8584f.css"
+[GIN] 2026/04/11 - 22:30:49 | 200 |     129.503µs |    192.168.4.51 | GET      "/assets/List-2c510900.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |     236.405µs |    192.168.4.51 | GET      "/assets/helper-18247784.js"
+[GIN] 2026/04/11 - 22:30:49 | 200 |     657.715µs |    192.168.4.51 | GET      "/assets/color-a58de010.js"
+[GIN] 2026/04/11 - 22:30:51 | 200 |  103.797913ms |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/11 - 22:30:51 | 200 |     564.312µs |    192.168.4.51 | GET      "/assets/index-2a7c71fa.js"
+[GIN] 2026/04/11 - 22:30:51 | 200 |      933.72µs |    192.168.4.51 | GET      "/assets/Profile-5a1c61a3.js"
+[GIN] 2026/04/11 - 22:30:51 | 200 |   65.868305ms |    192.168.4.51 | GET      "/api/me/sshkey/list"
+[GIN] 2026/04/11 - 22:30:53 | 200 |      90.402µs |    192.168.4.51 | GET      "/assets/DeletePopover-2fb0138c.js"
+[GIN] 2026/04/11 - 22:30:53 | 200 |     409.508µs |    192.168.4.51 | GET      "/assets/Storages-82415e4f.js"
+[GIN] 2026/04/11 - 22:31:12 | 200 |      60.701µs |    192.168.4.51 | GET      "/assets/ResponsiveGrid-31af9f08.js"
+[GIN] 2026/04/11 - 22:31:12 | 200 |      56.602µs |    192.168.4.51 | GET      "/assets/item_type-32dc6fdf.js"
+[GIN] 2026/04/11 - 22:31:12 | 200 |    2.273048ms |    192.168.4.51 | GET      "/assets/AddOrEdit-8aefb31c.js"
+[GIN] 2026/04/11 - 22:31:15 | 200 | 22.495795337s |    192.168.4.51 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/11 - 22:31:16 | 200 |     594.812µs |    192.168.4.51 | GET      "/@manage/storages/add"
+[GIN] 2026/04/11 - 22:31:17 | 200 |    1.010021ms |    192.168.4.51 | GET      "/api/public/settings"
+[GIN] 2026/04/11 - 22:31:17 | 200 |      72.202µs |    192.168.4.51 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/11 - 22:31:21 | 200 | 27.638103989s |    192.168.4.51 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/11 - 22:31:26 | 200 |  8.627721345s |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/11 - 22:31:26 | 200 | 13.952564526s |    192.168.4.51 | GET      "/api/admin/driver/list"
+Error #01: write tcp 172.19.0.4:5244->192.168.4.51:53235: write: broken pipe
+[GIN] 2026/04/11 - 22:31:26 | 200 |   45.685562ms |    192.168.4.51 | GET      "/api/admin/driver/list"
+[31mERRO[0m[2026-04-12 07:01:20] failed init storage but storage is already created: failed init storage: response error: {Network Name Not Found} The specified share name cannot be found on the remote server. 
+[GIN] 2026/04/12 - 07:01:20 | 200 |  512.200707ms |    192.168.4.51 | POST     "/api/admin/storage/create"
+[GIN] 2026/04/12 - 07:01:20 | 200 |   69.380926ms |    192.168.4.51 | GET      "/api/admin/storage/get?id=10"
+[GIN] 2026/04/12 - 07:01:21 | 200 |   48.414635ms |    192.168.4.51 | GET      "/api/admin/driver/info?driver=SMB"
+[GIN] 2026/04/12 - 07:01:25 | 200 |   33.368682ms |    192.168.4.51 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/12 - 07:01:25 | 200 |  113.242754ms |    192.168.4.51 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/12 - 07:01:52 | 200 |   99.804137ms |    192.168.4.51 | GET      "/api/admin/storage/get?id=10"
+[GIN] 2026/04/12 - 07:01:52 | 200 |   41.112362ms |    192.168.4.51 | GET      "/api/admin/driver/info?driver=SMB"
+[31mERRO[0m[2026-04-12 07:02:01] failed init storage: response error: {Network Name Not Found} The specified share name cannot be found on the remote server. 
+[GIN] 2026/04/12 - 07:02:01 | 200 |   86.458423ms |    192.168.4.51 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-04-12 07:02:10] failed init storage: response error: {Network Name Not Found} The specified share name cannot be found on the remote server. 
+[GIN] 2026/04/12 - 07:02:10 | 200 |  166.179188ms |    192.168.4.51 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-04-12 07:02:39] failed init storage: response error: {Network Name Not Found} The specified share name cannot be found on the remote server. 
+[GIN] 2026/04/12 - 07:02:39 | 200 |  155.048924ms |    192.168.4.51 | POST     "/api/admin/storage/update"
+[31mERRO[0m[2026-04-12 07:03:50] failed init storage: response error: {Network Name Not Found} The specified share name cannot be found on the remote server. 
+[GIN] 2026/04/12 - 07:03:50 | 200 |  510.843174ms |    192.168.4.51 | POST     "/api/admin/storage/update"
+[GIN] 2026/04/12 - 07:04:12 | 200 |  106.260088ms |    192.168.4.51 | POST     "/api/admin/storage/update"
+[GIN] 2026/04/12 - 07:04:12 | 200 |   87.719741ms |    192.168.4.51 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/12 - 07:04:12 | 200 |   88.613458ms |    192.168.4.51 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/12 - 07:04:29 | 200 |    36.62949ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:04:29 | 200 |   65.702238ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:04:32 | 200 |   41.302979ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:04:32 | 200 |   52.421888ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:04:32 | 200 |     9.54178ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:04:32 | 200 |   33.308628ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:04:34 | 200 |   31.847101ms |      172.19.0.5 | POST     "/api/auth/login"
+[31mERRO[0m[2026-04-12 07:04:34] fs/list: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-04-12 07:04:34] failed list /NAS_Videos: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/04/12 - 07:04:34 | 200 |   84.816901ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:10 | 200 |   20.028883ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:10 | 200 |   32.517322ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:11 | 200 |    16.20191ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:11 | 200 |   44.692454ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:12 | 200 |   25.391885ms |      172.19.0.5 | POST     "/api/auth/login"
+[31mERRO[0m[2026-04-12 07:05:12] fs/list: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-04-12 07:05:12] failed list /NAS_Videos: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/04/12 - 07:05:12 | 200 |  113.329567ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:15 | 200 |   45.172565ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:15 | 200 |   67.203787ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:15 | 200 |   27.004917ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:15 | 200 |   52.477905ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:17 | 200 |   23.630253ms |      172.19.0.5 | POST     "/api/auth/login"
+[31mERRO[0m[2026-04-12 07:05:17] fs/list: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-04-12 07:05:17] failed list /NAS_Videos: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/04/12 - 07:05:17 | 200 |   93.606594ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:21 | 200 |   13.724363ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:21 | 200 |   33.077234ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:21 | 200 |   13.922068ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:22 | 200 |   63.904726ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:22 | 200 |     20.8445ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:23 | 200 |   77.892695ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:25 | 200 |   51.917798ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:25 | 200 |   66.405376ms |      172.19.0.5 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:25 | 200 |   29.013257ms |      172.19.0.5 | POST     "/api/auth/login"
+[GIN] 2026/04/12 - 07:05:25 | 200 |  111.759146ms |      172.19.0.5 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:31 | 200 |     196.704µs |    192.168.4.51 | GET      "/"
+[GIN] 2026/04/12 - 07:05:32 | 200 |   63.064214ms |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:32 | 200 |    5.519207ms |    192.168.4.51 | GET      "/api/public/settings"
+[GIN] 2026/04/12 - 07:05:32 | 200 |    1.245024ms |    192.168.4.51 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/12 - 07:05:32 | 200 |    35.36138ms |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:32 | 200 |    34.32636ms |    192.168.4.51 | GET      "/api/label/list"
+[GIN] 2026/04/12 - 07:05:32 | 200 |   17.573838ms |    192.168.4.51 | GET      "/api/public/offline_download_tools"
+[GIN] 2026/04/12 - 07:05:32 | 200 |   37.612524ms |    192.168.4.51 | POST     "/api/fs/list"
+[31mERRO[0m[2026-04-12 07:05:34] fs/list: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771 
+[31mERRO[0m[2026-04-12 07:05:34] failed list /NAS_Videos: open \: leading '\' is not allowed in this operation
+failed to list objs
+github.com/alist-org/alist/v3/internal/op.List.func1
+	/home/runner/work/alist/alist/internal/op/fs.go:135
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall.func2
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:193
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).doCall
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:195
+github.com/alist-org/alist/v3/pkg/singleflight.(*Group[...]).Do
+	/home/runner/work/alist/alist/pkg/singleflight/singleflight.go:108
+github.com/alist-org/alist/v3/internal/op.List
+	/home/runner/work/alist/alist/internal/op/fs.go:132
+github.com/alist-org/alist/v3/internal/fs.list
+	/home/runner/work/alist/alist/internal/fs/list.go:26
+github.com/alist-org/alist/v3/internal/fs.List
+	/home/runner/work/alist/alist/internal/fs/fs.go:26
+github.com/alist-org/alist/v3/server/handles.FsList
+	/home/runner/work/alist/alist/server/handles/fsread.go:124
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.Auth
+	/home/runner/work/alist/alist/server/middlewares/auth.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.StoragesLoaded
+	/home/runner/work/alist/alist/server/middlewares/check.go:14
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/alist-org/alist/v3/server/middlewares.SessionRefresh
+	/home/runner/work/alist/alist/server/middlewares/session_refresh.go:11
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/recovery.go:102
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.LoggerWithConfig.func1
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/logger.go:249
+github.com/gin-gonic/gin.(*Context).Next
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633
+github.com/gin-gonic/gin.(*Engine).ServeHTTP
+	/home/runner/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589
+net/http.serverHandler.ServeHTTP
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:3311
+net/http.(*conn).serve
+	/opt/hostedtoolcache/go/1.26.1/x64/src/net/http/server.go:2073
+runtime.goexit
+	/opt/hostedtoolcache/go/1.26.1/x64/src/runtime/asm_amd64.s:1771
+failed get objs 
+[GIN] 2026/04/12 - 07:05:34 | 200 |  131.777838ms |    192.168.4.51 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:37 | 200 |   37.423322ms |    192.168.4.51 | POST     "/api/fs/list"
+[GIN] 2026/04/12 - 07:05:38 | 200 |   65.283259ms |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:05:41 | 200 |      67.101µs |    192.168.4.51 | GET      "/assets/Metas-3d43d367.js"
+[GIN] 2026/04/12 - 07:05:41 | 200 |        44.4µs |    192.168.4.51 | GET      "/assets/Wether-2b2bf57f.js"
+[GIN] 2026/04/12 - 07:05:44 | 200 |  5.604748316s |    192.168.4.51 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/12 - 07:06:15 | 200 | 36.205177269s |    192.168.4.51 | GET      "/api/admin/storage/list"
+[GIN] 2026/04/12 - 07:06:15 | 200 |      93.201µs |    192.168.4.51 | GET      "/images/tag-gray.png"
+[GIN] 2026/04/12 - 07:06:15 | 200 |      44.201µs |    192.168.4.51 | GET      "/assets/Common-69a0fb8a.js"
+[GIN] 2026/04/12 - 07:06:15 | 200 |     182.704µs |    192.168.4.51 | GET      "/assets/SettingItem-e66b06f6.js"
+[GIN] 2026/04/12 - 07:06:15 | 200 |      47.001µs |    192.168.4.51 | GET      "/assets/S3-0309c7f4.js"
+[GIN] 2026/04/12 - 07:11:22 | 200 |         5m37s |    192.168.4.51 | GET      "/api/admin/driver/names"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     195.304µs |    192.168.4.51 | GET      "/"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     404.008µs |    192.168.4.51 | GET      "/assets/index-b206f97b.css"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     253.906µs |    192.168.4.51 | GET      "/static/manifest.json"
+[GIN] 2026/04/12 - 07:12:20 | 200 |   66.689401ms |    192.168.4.51 | GET      "/assets/index-0ac33e44.js"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     515.811µs |    192.168.4.51 | GET      "/assets/entry-b68756c5.js"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     151.903µs |    192.168.4.51 | GET      "/api/public/settings"
+[GIN] 2026/04/12 - 07:12:20 | 200 |      41.201µs |    192.168.4.51 | GET      "/api/public/archive_extensions"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     118.202µs |    192.168.4.51 | GET      "/api/me"
+[GIN] 2026/04/12 - 07:12:20 | 200 |      54.702µs |    192.168.4.51 | GET      "/assets/useTitle-98cd4016.js"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     232.805µs |    192.168.4.51 | GET      "/assets/index-904bdd79.js"
+[GIN] 2026/04/12 - 07:12:20 | 200 |     130.702µs |    192.168.4.51 | GET      "/assets/webauthn-json.browser-ponyfill-f2f06d6e.js"
+[GIN] 2026/04/12 - 07:12:20 | 200 |    1.224925ms |    192.168.4.51 | GET      "/api/public/settings"
+[GIN] 2026/04/12 - 07:12:23 | 200 |         6m42s |    192.168.4.51 | GET      "/api/admin/meta/list"
+[36mINFO[0m[2026-04-12 07:13:25] closing db                                   
