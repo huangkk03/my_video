@@ -1,7 +1,7 @@
 <template>
   <div 
     class="flex-shrink-0 cursor-pointer group"
-    @click="$emit('click', season.id)"
+    @click="$emit('click', id)"
   >
     <div class="w-28 aspect-[2/3] rounded-lg overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl group-hover:ring-2 group-hover:ring-white">
       <img 
