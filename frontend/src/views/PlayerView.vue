@@ -43,18 +43,18 @@
         </div>
       </div>
 
-      <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+      <div v-if="video.currentPosition > 0" class="mt-4 p-4 bg-gray-50 rounded-lg">
         <div class="flex items-center justify-between text-sm">
           <div class="text-gray-600">
             <span class="font-medium">播放进度:</span>
             <span class="ml-2 text-primary">{{ formatDuration(video.currentPosition) }} / {{ formatDuration(video.duration) }}</span>
           </div>
-          <div v-if="video.currentPosition > 0" class="text-gray-500">
+          <div class="text-gray-500">
             已观看 {{ progressPercent }}%
           </div>
         </div>
         <div class="mt-2 h-1 bg-gray-200 rounded-full overflow-hidden">
-          <div 
+          <div
             class="h-full bg-primary transition-all"
             :style="{ width: progressPercent + '%' }"
           />
@@ -170,6 +170,8 @@ async function initPlayer() {
     theme: '#00AEEC',
     url: streamUrl,
     type: 'm3u8',
+    fullscreen: true,
+    autoOrientation: true,
     customType: {
       m3u8: function(videoEl, url) {
         if (Hls.isSupported()) {
