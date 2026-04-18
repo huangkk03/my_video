@@ -51,32 +51,19 @@
       <div class="border-t my-2"></div>
 
       <!-- Folder tree -->
-      <div v-for="folder in folderTree" :key="folder.id" class="folder-item">
-        <div
-          @click="selectFolder(folder.id)"
-          :class="[
-            'px-3 py-2 rounded-lg cursor-pointer flex items-center justify-between',
-            selectedFolderId === folder.id ? 'bg-primary/10 text-primary' : 'hover:bg-gray-100'
-          ]"
-        >
-          <span class="flex items-center gap-2 truncate">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-            </svg>
-            <span class="truncate">{{ folder.name }}</span>
-          </span>
-          <div class="flex items-center gap-1">
-            <span class="text-xs bg-gray-200 px-2 py-0.5 rounded">{{ folder.videoCount }}</span>
-            <button
-              @click.stop="deleteFolderConfirm(folder)"
-              class="p-1 text-gray-400 hover:text-red-500 rounded"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
-            </button>
-          </div>
-        </div>
+      <div class="folder-tree">
+        <FolderTreeItem
+          v-for="folder in folderTree"
+          :key="folder.id"
+          :folder="folder"
+          :selectedId="selectedFolderId"
+          :indent="0"
+          :expandedIds="expandedFolderIds"
+          @select="selectFolder"
+          @toggle="toggleFolderExpand"
+          @addSubfolder="openCreateSubfolderModal"
+          @delete="deleteFolderConfirm"
+        />
       </div>
     </div>
 
@@ -173,8 +160,8 @@
             class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
           >
             <option :value="null">移动到文件夹...</option>
-            <option v-for="f in folderTree" :key="f.id" :value="f.id">
-              {{ f.name }}
+            <option v-for="f in flatFolderOptions" :key="f.id" :value="f.id">
+              {{ '　'.repeat(f.level) }}{{ f.name }}
             </option>
           </select>
           <button
@@ -681,9 +668,11 @@
     </div>
 
     <!-- Create Folder Modal -->
-    <div v-if="showCreateFolderModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="showCreateFolderModal = false">
+    <div v-if="showCreateFolderModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="closeCreateFolderModal">
       <div class="bg-white rounded-xl p-6 w-full max-w-md">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">创建文件夹</h3>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+          {{ newFolderParentId !== null ? '创建子文件夹' : '创建文件夹' }}
+        </h3>
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">文件夹名称</label>
@@ -695,10 +684,22 @@
               @keyup.enter="createFolder"
             />
           </div>
+          <div v-if="newFolderParentId === null">
+            <label class="block text-sm font-medium text-gray-700 mb-1">父文件夹（可选）</label>
+            <select
+              v-model="newFolderParentId"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option :value="null">-- 无（作为顶级文件夹）--</option>
+              <option v-for="folder in flatFolderOptions" :key="folder.id" :value="folder.id">
+                {{ '　'.repeat(folder.level) }}{{ folder.name }}
+              </option>
+            </select>
+          </div>
         </div>
         <div class="flex justify-end gap-3 mt-6">
           <button
-            @click="showCreateFolderModal = false"
+            @click="closeCreateFolderModal"
             class="px-4 py-2 text-gray-600 hover:text-gray-800"
           >
             取消
@@ -722,6 +723,7 @@ import { videoApi, type Video } from '../../api/video'
 import { seriesApi, type Series, type Season } from '../../api/series'
 import { categoryApi, type Category } from '../../api/category'
 import { folderApi, type FolderTreeNode } from '../../api/folder'
+import FolderTreeItem from '../../components/FolderTreeItem.vue'
 
 interface ImportTask {
   taskId: string
@@ -790,8 +792,10 @@ const selectedFolderId = ref<number | 'ungrouped' | null>(null)
 const ungroupedCount = ref(0)
 const showCreateFolderModal = ref(false)
 const newFolderName = ref('')
+const newFolderParentId = ref<number | null>(null)
 const batchMoveFolderId = ref<number | null>(null)
 const movingToFolder = ref(false)
+const expandedFolderIds = ref<Set<number>>(new Set())
 
 const filteredVideos = computed(() => {
   let result = videos.value
@@ -1019,9 +1023,10 @@ async function createFolder() {
     return
   }
   try {
-    await folderApi.create(newFolderName.value.trim())
+    await folderApi.create(newFolderName.value.trim(), newFolderParentId.value || undefined)
     showCreateFolderModal.value = false
     newFolderName.value = ''
+    newFolderParentId.value = null
     await fetchFolderTree()
     await fetchUngroupedCount()
   } catch (e) {
@@ -1029,6 +1034,50 @@ async function createFolder() {
     alert('创建文件夹失败')
   }
 }
+
+function toggleFolderExpand(folderId: number, event: Event) {
+  event.stopPropagation()
+  if (expandedFolderIds.value.has(folderId)) {
+    expandedFolderIds.value.delete(folderId)
+  } else {
+    expandedFolderIds.value.add(folderId)
+  }
+}
+
+function isFolderExpanded(folderId: number): boolean {
+  return expandedFolderIds.value.has(folderId)
+}
+
+function openCreateSubfolderModal(parentId: number, event: Event) {
+  event.stopPropagation()
+  newFolderParentId.value = parentId
+  showCreateFolderModal.value = true
+}
+
+function closeCreateFolderModal() {
+  showCreateFolderModal.value = false
+  newFolderName.value = ''
+  newFolderParentId.value = null
+}
+
+interface FlatFolderOption {
+  id: number
+  name: string
+  level: number
+}
+
+function flattenFolderTree(folders: FolderTreeNode[], level = 0): FlatFolderOption[] {
+  const result: FlatFolderOption[] = []
+  for (const folder of folders) {
+    result.push({ id: folder.id, name: folder.name, level })
+    if (folder.children && folder.children.length > 0) {
+      result.push(...flattenFolderTree(folder.children, level + 1))
+    }
+  }
+  return result
+}
+
+const flatFolderOptions = computed(() => flattenFolderTree(folderTree.value))
 
 async function deleteFolderConfirm(folder: FolderTreeNode) {
   if (!confirm(`确定要删除文件夹 "${folder.name}" 吗？\n注意：文件夹内的视频将移至未分类。`)) return
