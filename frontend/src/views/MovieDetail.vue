@@ -113,8 +113,8 @@
             <span>{{ movie.endTime }}</span>
           </div>
 
-          <!-- 技术信息区 -->
-          <div v-if="movie.videoInfo || movie.audioInfo || movie.subtitleInfo" class="bg-gray-800/60 rounded-lg p-4 my-4 space-y-2">
+          <!-- 技术信息区 + 字幕管理 -->
+          <div class="bg-gray-800/60 rounded-lg p-4 my-4 space-y-2">
             <div v-if="movie.videoInfo" class="flex items-center gap-2 text-sm text-gray-300">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
@@ -127,11 +127,72 @@
               </svg>
               {{ movie.audioInfo }}
             </div>
-            <div v-if="movie.subtitleInfo" class="flex items-center gap-2 text-sm text-gray-300">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
-              </svg>
-              {{ movie.subtitleInfo }}
+
+            <!-- 字幕管理区域 -->
+            <div class="mt-3 pt-3 border-t border-gray-700">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2 text-sm text-gray-300">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                  </svg>
+                  <span>字幕</span>
+                </div>
+                <button
+                  @click="searchAllSubtitles"
+                  :disabled="subtitleLoading"
+                  class="text-xs px-2 py-1 rounded bg-primary/80 hover:bg-primary text-white disabled:opacity-50 transition-colors"
+                >
+                  <span v-if="subtitleLoading" class="flex items-center gap-1">
+                    <span class="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></span>
+                    搜索中
+                  </span>
+                  <span v-else>搜索字幕</span>
+                </button>
+              </div>
+
+              <!-- 字幕列表 -->
+              <div class="space-y-1">
+                <div
+                  v-for="sub in subtitles"
+                  :key="sub.language"
+                  class="flex items-center justify-between text-sm py-1"
+                >
+                  <div class="flex items-center gap-2">
+                    <span v-if="sub.status === 'downloaded'" class="text-green-400">✓</span>
+                    <span v-else-if="sub.status === 'searching'" class="text-yellow-400">◐</span>
+                    <span v-else-if="sub.status === 'not_found'" class="text-gray-500">○</span>
+                    <span v-else-if="sub.status === 'failed'" class="text-red-400">✗</span>
+                    <span v-else class="text-gray-500">○</span>
+                    <span class="text-gray-300">{{ sub.label }}</span>
+                    <span :class="getStatusColor(sub.status)" class="text-xs">({{ getStatusText(sub.status) }})</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button
+                      v-if="sub.status === 'downloaded'"
+                      @click="searchSubtitle(sub.language)"
+                      :disabled="subtitleSearchLoading === sub.language"
+                      class="text-xs px-2 py-0.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-300 disabled:opacity-50"
+                    >
+                      {{ subtitleSearchLoading === sub.language ? '...' : '刷新' }}
+                    </button>
+                    <button
+                      v-if="sub.status === 'downloaded'"
+                      @click="deleteSubtitle(sub.language)"
+                      class="text-xs px-2 py-0.5 rounded bg-red-900/50 hover:bg-red-800 text-red-300"
+                    >
+                      删除
+                    </button>
+                    <button
+                      v-else-if="sub.status === 'pending' || sub.status === 'not_found' || sub.status === 'failed'"
+                      @click="searchSubtitle(sub.language)"
+                      :disabled="subtitleSearchLoading === sub.language"
+                      class="text-xs px-2 py-0.5 rounded bg-primary/80 hover:bg-primary text-white disabled:opacity-50"
+                    >
+                      {{ subtitleSearchLoading === sub.language ? '...' : '搜索' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -204,6 +265,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { videoApi, type Video } from '../api/video'
+import type { Subtitle } from '../api/video'
 
 const router = useRouter()
 const route = useRoute()
@@ -259,6 +321,10 @@ const movie = ref<Movie>({
 })
 
 const loading = ref(true)
+const subtitles = ref<Subtitle[]>([])
+const subtitleLoading = ref(false)
+const subtitleSearchLoading = ref<string | null>(null)
+let subtitlePollingTimer: ReturnType<typeof setInterval> | null = null
 
 function goBack() {
   router.back()
@@ -308,6 +374,93 @@ function parseActors(actorListJson: string | null): Array<{ id: number; name: st
   }
 }
 
+async function fetchSubtitles() {
+  if (!movie.value.uuid) return
+  try {
+    const response = await videoApi.getSubtitles(movie.value.uuid)
+    subtitles.value = response.subtitles
+  } catch (e) {
+    console.error('Failed to fetch subtitles:', e)
+  }
+}
+
+async function searchAllSubtitles() {
+  if (!movie.value.uuid) return
+  subtitleLoading.value = true
+  try {
+    await videoApi.searchSubtitles(movie.value.uuid)
+    startSubtitlePolling()
+  } catch (e) {
+    console.error('Failed to search subtitles:', e)
+  } finally {
+    subtitleLoading.value = false
+  }
+}
+
+async function searchSubtitle(language: string) {
+  if (!movie.value.uuid) return
+  subtitleSearchLoading.value = language
+  try {
+    await videoApi.searchSubtitle(movie.value.uuid, language)
+    startSubtitlePolling()
+  } catch (e) {
+    console.error('Failed to search subtitle:', e)
+  } finally {
+    subtitleSearchLoading.value = null
+  }
+}
+
+async function deleteSubtitle(language: string) {
+  if (!movie.value.uuid) return
+  try {
+    await videoApi.deleteSubtitle(movie.value.uuid, language)
+    await fetchSubtitles()
+  } catch (e) {
+    console.error('Failed to delete subtitle:', e)
+  }
+}
+
+function startSubtitlePolling() {
+  if (subtitlePollingTimer) return
+  subtitlePollingTimer = setInterval(async () => {
+    await fetchSubtitles()
+    const allDone = subtitles.value.every(
+      s => s.status === 'downloaded' || s.status === 'not_found' || s.status === 'failed'
+    )
+    if (allDone && subtitles.value.length > 0) {
+      stopSubtitlePolling()
+    }
+  }, 3000)
+}
+
+function stopSubtitlePolling() {
+  if (subtitlePollingTimer) {
+    clearInterval(subtitlePollingTimer)
+    subtitlePollingTimer = null
+  }
+}
+
+function getStatusText(status: string): string {
+  switch (status) {
+    case 'pending': return '未搜索'
+    case 'searching': return '搜索中...'
+    case 'downloaded': return '已就绪'
+    case 'not_found': return '未找到'
+    case 'failed': return '失败'
+    default: return status
+  }
+}
+
+function getStatusColor(status: string): string {
+  switch (status) {
+    case 'downloaded': return 'text-green-400'
+    case 'searching': return 'text-yellow-400'
+    case 'not_found': return 'text-gray-400'
+    case 'failed': return 'text-red-400'
+    default: return 'text-gray-400'
+  }
+}
+
 async function fetchVideo() {
   const uuid = route.params.id as string
   if (!uuid) {
@@ -318,7 +471,7 @@ async function fetchVideo() {
   try {
     loading.value = true
     const video: Video = await videoApi.getByUuid(uuid)
-    
+
     movie.value = {
       uuid: video.uuid,
       title: video.title || '',
@@ -343,6 +496,8 @@ async function fetchVideo() {
       director: (video as any).director || '',
       cast: parseActors((video as any).actorListJson || null),
     }
+
+    await fetchSubtitles()
   } catch (e) {
     console.error('Failed to fetch video:', e)
     movie.value.uuid = ''

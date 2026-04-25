@@ -40,6 +40,28 @@ export interface VideoUploadResponse {
   message: string
 }
 
+export interface Subtitle {
+  language: string
+  label: string
+  status: 'pending' | 'searching' | 'downloaded' | 'failed' | 'not_found'
+  fileName?: string
+  fileSize?: number
+  hasFile: boolean
+}
+
+export interface SubtitlesResponse {
+  videoUuid: string
+  subtitles: Subtitle[]
+  total: number
+  hasSubtitles: boolean
+}
+
+export interface SubtitleStatusResponse {
+  videoUuid: string
+  hasSubtitles: boolean
+  languages: Subtitle[]
+}
+
 export const videoApi = {
   upload(file: File, title?: string): Promise<VideoUploadResponse> {
     const formData = new FormData()
@@ -66,6 +88,30 @@ export const videoApi = {
 
   delete(uuid: string): Promise<void> {
     return api.delete(`/videos/${uuid}`).then(res => res.data)
+  },
+
+  getSubtitles(uuid: string): Promise<SubtitlesResponse> {
+    return api.get(`/videos/${uuid}/subtitles`).then(res => res.data)
+  },
+
+  searchSubtitles(uuid: string): Promise<{ status: string; message: string }> {
+    return api.post(`/videos/${uuid}/subtitles/search`).then(res => res.data)
+  },
+
+  searchSubtitle(uuid: string, language: string): Promise<{ status: string; message: string }> {
+    return api.post(`/videos/${uuid}/subtitles/${language}/search`).then(res => res.data)
+  },
+
+  deleteSubtitle(uuid: string, language: string): Promise<{ status: string; message: string }> {
+    return api.delete(`/videos/${uuid}/subtitles/${language}`).then(res => res.data)
+  },
+
+  getSubtitleStatus(uuid: string): Promise<SubtitleStatusResponse> {
+    return api.get(`/videos/${uuid}/subtitles/status`).then(res => res.data)
+  },
+
+  getSubtitleUrl(uuid: string, lang: string): string {
+    return `/api/subtitles/${uuid}/${lang}.vtt`
   },
 }
 

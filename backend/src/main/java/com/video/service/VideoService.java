@@ -141,6 +141,9 @@ public class VideoService {
                 if (result.getDirector() != null && !result.getDirector().isEmpty()) {
                     video.setDirector(result.getDirector());
                 }
+                if (result.getTmdb() != null && result.getTmdb().getImdbId() != null) {
+                    video.setImdbId(result.getTmdb().getImdbId());
+                }
                 if (result.getActorList() != null && !result.getActorList().isEmpty()) {
                     try {
                         String actorListJson = OBJECT_MAPPER.writeValueAsString(result.getActorList());

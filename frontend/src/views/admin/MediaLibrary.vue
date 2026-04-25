@@ -413,6 +413,13 @@
                   重新转码
                 </button>
                 <button
+                  v-if="video.status === 'completed'"
+                  @click="searchSubtitles(video.uuid)"
+                  class="text-purple-600 hover:text-purple-800 text-sm"
+                >
+                  字幕
+                </button>
+                <button
                   @click="deleteVideo(video.uuid)"
                   class="text-red-600 hover:text-red-800 text-sm"
                 >
@@ -1039,6 +1046,21 @@ async function rescrapVideo(uuid: string) {
     alert('已触发重新刮削')
   } catch (e) {
     console.error('Failed to rescrap:', e)
+  }
+}
+
+async function searchSubtitles(uuid: string) {
+  try {
+    const res = await fetch(`/api/videos/${uuid}/subtitles/search`, { method: 'POST' })
+    const data = await res.json()
+    if (data.status === 'searching') {
+      alert('已开始搜索字幕，请稍后在播放页面查看')
+    } else {
+      alert(data.message || '搜索字幕失败')
+    }
+  } catch (e) {
+    console.error('Failed to search subtitles:', e)
+    alert('搜索字幕失败')
   }
 }
 

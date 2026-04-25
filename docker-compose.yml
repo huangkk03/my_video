@@ -41,6 +41,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./data/videos:/data/videos
+      - ./data/subtitles:/data/subtitles
     ports:
       - "8080:8080"
     networks:
@@ -58,7 +59,7 @@ services:
       - HTTP_PROXY_PORT=${HTTP_PROXY_PORT}
       - HTTPS_PROXY_HOST=${HTTPS_PROXY_HOST}
       - HTTPS_PROXY_PORT=${HTTPS_PROXY_PORT}
-      - NON_PROXY=${NON_PROXY}
+      - JAVA_TOOL_OPTIONS=-Dhttp.nonProxyHosts="*.opensubtitles.com|opensubtitles.com" -Dhttps.nonProxyHosts="*.opensubtitles.com|opensubtitles.com"
 
   video-ui:
     build: ./frontend
@@ -66,6 +67,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./data/videos:/data/videos:ro
+      - ./data/subtitles:/data/subtitles:ro
     ports:
       - "80:80"
     networks:

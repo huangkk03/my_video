@@ -18,15 +18,62 @@
     <div v-else>
       <h1 class="text-2xl font-semibold text-gray-800 mb-4">{{ video.title }}</h1>
 
-      <div 
-        class="relative bg-black rounded-xl overflow-hidden group" 
+      <div
+        class="relative bg-black rounded-xl overflow-hidden group"
         style="aspect-ratio: 16/9;"
         @mousemove="handleMouseMove"
         @mouseleave="hideControls"
       >
         <div ref="playerRef" class="w-full h-full"></div>
-        
-        <div 
+
+        <div class="absolute top-4 right-4 z-20">
+          <div class="relative">
+            <button
+              @click.stop="subtitleMenuVisible = !subtitleMenuVisible"
+              class="flex items-center gap-1 px-3 py-2 rounded-lg bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-colors text-white"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+              </svg>
+              <span>字幕</span>
+              <span v-if="currentSubtitle" class="text-xs">({{ currentSubtitle.label }})</span>
+            </button>
+            <div
+              v-if="subtitleMenuVisible"
+              class="absolute top-full right-0 mt-2 bg-gray-900 rounded-lg shadow-lg py-1 min-w-40 z-50"
+            >
+              <button
+                @click="selectSubtitle(null)"
+                class="w-full px-4 py-2 text-left hover:bg-white/20 transition-colors text-white"
+                :class="!currentSubtitle ? 'text-primary' : ''"
+              >
+                关闭字幕
+              </button>
+              <button
+                v-for="sub in subtitles"
+                :key="sub.language"
+                @click="selectSubtitle(sub)"
+                class="w-full px-4 py-2 text-left hover:bg-white/20 transition-colors flex items-center justify-between text-white"
+                :class="currentSubtitle?.language === sub.language ? 'text-primary' : ''"
+              >
+                <span>{{ sub.label }}</span>
+                <span v-if="sub.hasFile" class="text-xs text-green-400">✓</span>
+                <span v-else-if="sub.status === 'searching'" class="text-xs text-yellow-400">搜索中...</span>
+              </button>
+              <div class="border-t border-white/20 my-1"></div>
+              <button
+                @click="searchSubtitles"
+                :disabled="isSearchingSubtitles"
+                class="w-full px-4 py-2 text-left hover:bg-white/20 transition-colors text-blue-400"
+                :class="isSearchingSubtitles ? 'opacity-50 cursor-not-allowed' : ''"
+              >
+                {{ isSearchingSubtitles ? '搜索中...' : '搜索字幕' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
           ref="controlsRef"
           class="absolute bottom-0 left-0 right-0 p-4 bg-white/10 backdrop-blur-md transition-opacity duration-300"
           :class="controlsVisible ? 'opacity-100' : 'opacity-0'"
@@ -69,7 +116,7 @@ import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import ArtPlayer from 'artplayer'
 import Hls from 'hls.js'
-import { videoApi, type Video } from '../api/video'
+import { videoApi, type Video, type Subtitle, type SubtitlesResponse } from '../api/video'
 
 const route = useRoute()
 const playerRef = ref<HTMLElement>()
@@ -79,12 +126,18 @@ const loading = ref(true)
 const controlsVisible = ref(true)
 const isRetranscoding = ref(false)
 const retranscodeProgress = ref(0)
+const subtitles = ref<Subtitle[]>([])
+const currentSubtitle = ref<Subtitle | null>(null)
+const subtitleMenuVisible = ref(false)
+const isSearchingSubtitles = ref(false)
+const subtitleAutoLoaded = ref(false)
 let art: ArtPlayer | null = null
 let hlsInstance: Hls | null = null
 let hideTimer: ReturnType<typeof setTimeout> | null = null
 let pendingPlayPromise: Promise<void> | null = null
 let isPlayerInitializing = false
 let retranscodePollingTimer: ReturnType<typeof setInterval> | null = null
+let subtitlePollingTimer: ReturnType<typeof setInterval> | null = null
 let recoverAttemptCount = 0
 const MAX_RECOVER_ATTEMPTS = 3
 
@@ -158,6 +211,74 @@ async function fetchVideo() {
     console.error('Failed to fetch video:', e)
   } finally {
     loading.value = false
+  }
+}
+
+async function loadSubtitles() {
+  if (!video.value) return
+  try {
+    const response: SubtitlesResponse = await videoApi.getSubtitles(video.value.uuid)
+    const previousSubtitles = subtitles.value.map(s => `${s.language}-${s.status}`).join(',')
+    subtitles.value = response.subtitles
+    if (subtitles.value.length > 0) {
+      const downloadedSub = subtitles.value.find(s => s.hasFile && s.status === 'downloaded')
+      if (downloadedSub && art) {
+        currentSubtitle.value = downloadedSub
+        const subtitleUrl = videoApi.getSubtitleUrl(video.value.uuid, downloadedSub.language)
+        art.subtitle.url = subtitleUrl
+        art.subtitle.show = true
+        if (!subtitleAutoLoaded.value) {
+          subtitleAutoLoaded.value = true
+          showNotification('字幕已自动加载')
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Failed to load subtitles:', e)
+  }
+}
+
+function startSubtitlePolling() {
+  if (subtitlePollingTimer) {
+    clearInterval(subtitlePollingTimer)
+  }
+  subtitlePollingTimer = setInterval(async () => {
+    await loadSubtitles()
+  }, 5000)
+}
+
+function stopSubtitlePolling() {
+  if (subtitlePollingTimer) {
+    clearInterval(subtitlePollingTimer)
+    subtitlePollingTimer = null
+  }
+}
+
+async function searchSubtitles() {
+  if (!video.value) return
+  isSearchingSubtitles.value = true
+  try {
+    await videoApi.searchSubtitles(video.value.uuid)
+    showNotification('正在搜索字幕，请稍候...')
+    setTimeout(async () => {
+      await loadSubtitles()
+      isSearchingSubtitles.value = false
+    }, 3000)
+  } catch (e) {
+    console.error('Failed to search subtitles:', e)
+    isSearchingSubtitles.value = false
+  }
+}
+
+function selectSubtitle(sub: Subtitle | null) {
+  currentSubtitle.value = sub
+  subtitleMenuVisible.value = false
+  if (art && sub) {
+    const subtitleUrl = videoApi.getSubtitleUrl(video.value!.uuid, sub.language)
+    art.subtitle.url = subtitleUrl
+    art.subtitle.show = true
+  } else if (art) {
+    art.subtitle.show = false
   }
 }
 
@@ -378,9 +499,11 @@ function clearRetranscodePolling() {
   }
 }
 
-watch(() => video.value, (newVideo) => {
+watch(() => video.value, async (newVideo) => {
   if (newVideo?.status === 'completed') {
-    initPlayer()
+    await initPlayer()
+    loadSubtitles()
+    startSubtitlePolling()
   }
 })
 
@@ -400,5 +523,6 @@ onUnmounted(() => {
   }
   recoverAttemptCount = 0
   clearRetranscodePolling()
+  stopSubtitlePolling()
 })
 </script>

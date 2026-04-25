@@ -39,6 +39,7 @@ public class TranscodeService {
     
     private final VideoRepository videoRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
+    private final SubtitleService subtitleService;
     
     @Async("transcodeExecutor")
     public CompletableFuture<Void> transcodeVideo(String videoUuid) {
@@ -84,8 +85,10 @@ public class TranscodeService {
             
             video.setStatus("completed");
             videoRepository.save(video);
-            
+
             log.info("Transcode completed for video: {}", videoUuid);
+
+            subtitleService.triggerSubtitleSearch(videoUuid);
             
         } catch (Exception e) {
             log.error("Transcode failed for video: {}", videoUuid, e);

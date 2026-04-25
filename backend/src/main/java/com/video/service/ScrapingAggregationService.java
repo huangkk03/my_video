@@ -89,7 +89,7 @@ public class ScrapingAggregationService {
             log.warn("TMDB API key not configured");
             return null;
         }
-        
+
         log.info("Searching TMDB Movie for query: {}", query);
         try {
             String encodedQuery = URLEncoder.encode(query, "UTF-8");
@@ -107,15 +107,25 @@ public class ScrapingAggregationService {
             JsonNode results = root.path("results");
             if (results.isArray() && results.size() > 0) {
                 JsonNode movie = results.get(0);
+                Long tmdbId = movie.path("id").asLong();
+
                 TmdbData data = new TmdbData();
-                data.setId(movie.path("id").asLong());
+                data.setId(tmdbId);
                 data.setTitle(movie.path("title").asText(null));
                 data.setOverview(movie.path("overview").asText(null));
                 data.setPosterPath(movie.path("poster_path").asText(null));
                 data.setReleaseDate(movie.path("release_date").asText(null));
                 data.setVoteAverage(movie.hasNonNull("vote_average") ? movie.path("vote_average").asDouble() : null);
 
-                log.info("Successfully parsed TMDB Movie data: id={}, title={}", data.getId(), data.getTitle());
+                String movieDetailsUrl = String.format("%s/movie/%d?api_key=%s", TMDB_BASE, tmdbId, apiKey);
+                log.info("Fetching TMDB Movie details from URL: {}", movieDetailsUrl.replace(apiKey, "HIDDEN_API_KEY"));
+                String movieDetailsResponse = fetch(movieDetailsUrl);
+                if (movieDetailsResponse != null && !movieDetailsResponse.isEmpty()) {
+                    JsonNode movieDetails = OBJECT_MAPPER.readTree(movieDetailsResponse);
+                    data.setImdbId(movieDetails.path("imdb_id").asText(null));
+                }
+
+                log.info("Successfully parsed TMDB Movie data: id={}, imdbId={}, title={}", data.getId(), data.getImdbId(), data.getTitle());
                 return data;
             } else {
                 log.warn("TMDB Movie search returned no results in JSON for query: {}", query);
@@ -612,7 +622,8 @@ public class ScrapingAggregationService {
         private String posterPath;
         private String releaseDate;
         private Double voteAverage;
-        
+        private String imdbId;
+
         public Long getId() { return id; }
         public void setId(Long id) { this.id = id; }
         public String getTitle() { return title; }
@@ -625,6 +636,8 @@ public class ScrapingAggregationService {
         public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
         public Double getVoteAverage() { return voteAverage; }
         public void setVoteAverage(Double voteAverage) { this.voteAverage = voteAverage; }
+        public String getImdbId() { return imdbId; }
+        public void setImdbId(String imdbId) { this.imdbId = imdbId; }
     }
     
     public static class DoubanData {
