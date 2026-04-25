@@ -184,7 +184,7 @@ function onSeriesClick(id: string) {
 async function fetchVideos() {
   try {
     loadingVideos.value = true
-    const res = await videoApi.getList(0, 50)
+    const res = await videoApi.getList(0, 1000)
     videos.value = res.content || []
   } catch (e) {
     console.error('Failed to fetch videos:', e)
@@ -196,7 +196,7 @@ async function fetchVideos() {
 async function fetchSeries() {
   try {
     loadingSeries.value = true
-    const res = await seriesApi.getPage(0, 50)
+    const res = await seriesApi.getPage(0, 1000)
     seriesList.value = res.content || []
   } catch (e) {
     console.error('Failed to fetch series:', e)

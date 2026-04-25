@@ -160,4 +160,23 @@ public class CloudStorageController {
             return ResponseEntity.status(500).body(error);
         }
     }
+
+    @DeleteMapping("/tasks/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable String taskId) {
+        try {
+            boolean success = cloudMediaService.deleteTask(taskId);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", success);
+            if (!success) {
+                result.put("message", "Task not found");
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Delete task failed: {}", taskId, e);
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
 }

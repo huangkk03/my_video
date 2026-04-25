@@ -171,20 +171,28 @@ public class VideoController {
             }
             
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            if (remainingPath.endsWith(".m3u8")) {
+                headers.setContentType(MediaType.parseMediaType("application/vnd.apple.mpegurl"));
+            } else if (remainingPath.endsWith(".ts")) {
+                headers.setContentType(MediaType.parseMediaType("video/MP2T"));
+            } else if (remainingPath.endsWith(".vtt")) {
+                headers.setContentType(MediaType.parseMediaType("text/vtt"));
+            } else {
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            }
             headers.setContentLength(resource.contentLength());
             headers.set("Access-Control-Allow-Origin", "*");
-            
+
             return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);
-                
+
         } catch (Exception e) {
             log.error("Failed to stream HLS segment: {}", request.getRequestURI(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     @GetMapping("/{uuid}/index{segment:\\d+\\.ts}")
     public ResponseEntity<Resource> streamIndexSegment(
             @PathVariable String uuid,
@@ -200,20 +208,20 @@ public class VideoController {
             }
             
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentType(MediaType.parseMediaType("video/MP2T"));
             headers.setContentLength(resource.contentLength());
             headers.set("Access-Control-Allow-Origin", "*");
-            
+
             return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);
-                
+
         } catch (Exception e) {
             log.error("Failed to stream index segment: {}/index{}", uuid, segment, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
     @PutMapping("/{uuid}/progress")
     public ResponseEntity<Void> updateProgress(
             @PathVariable String uuid,
@@ -313,7 +321,23 @@ public class VideoController {
             return ResponseEntity.status(500).body(error);
         }
     }
-    
+
+    @PostMapping("/{uuid}/retranscode")
+    public ResponseEntity<?> retranscodeVideo(@PathVariable String uuid) {
+        try {
+            transcodeService.retranscode(uuid);
+            Map<String, Object> result = new HashMap<>();
+            result.put("status", "retranscode initiated");
+            result.put("message", "视频已开始重新转码");
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Retranscode failed: {}", uuid, e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+
     @PutMapping("/{uuid}/assign")
     public ResponseEntity<?> assignToSeason(
             @PathVariable String uuid,

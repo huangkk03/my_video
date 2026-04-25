@@ -11,7 +11,7 @@
       <span class="flex items-center gap-2 truncate">
         <button
           v-if="folder.children && folder.children.length > 0"
-          @click.stop="$emit('toggle', folder.id)"
+          @click.stop="handleToggle"
           class="p-0.5 hover:bg-gray-200 rounded"
         >
           <svg
@@ -31,7 +31,7 @@
       <div class="flex items-center gap-1">
         <span class="text-xs bg-gray-200 px-2 py-0.5 rounded">{{ folder.videoCount }}</span>
         <button
-          @click.stop="$emit('addSubfolder', folder.id)"
+          @click.stop="handleAddSubfolder"
           class="p-1 text-gray-400 hover:text-primary rounded opacity-0 group-hover:opacity-100"
           title="添加子文件夹"
         >
@@ -40,7 +40,7 @@
           </svg>
         </button>
         <button
-          @click.stop="$emit('delete', folder)"
+          @click.stop="handleDelete"
           class="p-1 text-gray-400 hover:text-red-500 rounded opacity-0 group-hover:opacity-100"
           title="删除文件夹"
         >
@@ -78,7 +78,7 @@ const props = defineProps<{
   expandedIds: Set<number>
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   select: [id: number]
   toggle: [id: number]
   addSubfolder: [id: number]
@@ -86,4 +86,19 @@ defineEmits<{
 }>()
 
 const isExpanded = computed(() => props.expandedIds.has(props.folder.id))
+
+function handleToggle(e: Event) {
+  e.stopPropagation()
+  emit('toggle', props.folder.id)
+}
+
+function handleAddSubfolder(e: Event) {
+  e.stopPropagation()
+  emit('addSubfolder', props.folder.id)
+}
+
+function handleDelete(e: Event) {
+  e.stopPropagation()
+  emit('delete', props.folder)
+}
 </script>

@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -34,6 +35,7 @@ public class TranscodeService {
     private static final String VIDEO_STORAGE_PATH = "/data/videos";
     private static final String FFMPEG_COMMAND = "ffmpeg";
     private static final String FFPROBE_COMMAND = "ffprobe";
+    private static final long MAX_TRANSCODE_HOURS = 8;
     
     private final VideoRepository videoRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
@@ -41,14 +43,26 @@ public class TranscodeService {
     @Async("transcodeExecutor")
     public CompletableFuture<Void> transcodeVideo(String videoUuid) {
         log.info("Starting transcode task for video: {}", videoUuid);
-        
+
         Video video = videoRepository.findByUuid(videoUuid).orElse(null);
         if (video == null) {
             log.error("Video not found: {}", videoUuid);
             return CompletableFuture.completedFuture(null);
         }
-        
-        TranscodeTask task = transcodeTaskRepository.findByVideoUuid(videoUuid).orElse(null);
+
+        TranscodeTask existingTask = transcodeTaskRepository.findByVideoUuid(videoUuid).orElse(null);
+        if (existingTask != null) {
+            if ("processing".equals(existingTask.getStatus())) {
+                log.warn("Transcode already in progress for video: {}, skipping", videoUuid);
+                return CompletableFuture.completedFuture(null);
+            }
+            if ("completed".equals(existingTask.getStatus()) && "completed".equals(video.getStatus())) {
+                log.info("Transcode already completed for video: {}, skipping", videoUuid);
+                return CompletableFuture.completedFuture(null);
+            }
+        }
+
+        TranscodeTask task = existingTask;
         if (task == null) {
             task = createTranscodeTask(video);
         }
@@ -105,15 +119,25 @@ public class TranscodeService {
         
         String[] command = {
             FFMPEG_COMMAND,
+            "-fflags", "+genpts",
+            "-async", "1",
             "-i", originalPath.toString(),
             "-codec:v", "libx264",
-            "-preset", "fast",
+            "-pix_fmt", "yuv420p",
+            "-profile:v", "high",
+            "-level", "4.1",
+            "-preset", "veryfast",
             "-crf", "23",
-            "-codec:a", "aac",
-            "-b:a", "128k",
+            "-c:a", "aac",
+            "-ac", "2",
+            "-b:a", "192k",
+            "-ar", "48000",
+            "-movflags", "+faststart",
+            "-vsync", "cfr",
             "-f", "hls",
-            "-hls_time", "10",
+            "-hls_time", "6",
             "-hls_list_size", "0",
+            "-hls_flags", "delete_segments+independent_segments",
             hlsPath.toString()
         };
         
@@ -136,19 +160,25 @@ public class TranscodeService {
                 if (System.currentTimeMillis() - lastProgressUpdate > 2000) {
                     lastProgressUpdate = System.currentTimeMillis();
                     int progress = parseProgress(line, durationMs);
-                    if (progress > 0 && progress < 100) {
+                    if (progress >= 0) {
                         task.setProgress(progress);
                         transcodeTaskRepository.save(task);
                     }
                 }
             }
         }
-        
-        int exitCode = process.waitFor();
+
+        boolean finished = process.waitFor(MAX_TRANSCODE_HOURS, TimeUnit.HOURS);
+        if (!finished) {
+            log.error("FFmpeg transcode timed out after {} hours for video: {}", MAX_TRANSCODE_HOURS, video.getUuid());
+            process.destroyForcibly();
+            throw new RuntimeException("FFmpeg transcode timed out after " + MAX_TRANSCODE_HOURS + " hours");
+        }
+        int exitCode = process.exitValue();
         if (exitCode != 0) {
             throw new RuntimeException("FFmpeg exited with code: " + exitCode);
         }
-        
+
         video.setHlsPath(hlsPath.toString());
         
         if (durationMs > 0) {
@@ -202,15 +232,25 @@ public class TranscodeService {
             "-reconnect", "1",
             "-reconnect_streamed", "1",
             "-reconnect_delay_max", "5",
+            "-fflags", "+genpts",
+            "-async", "1",
             "-i", sourceUrl,
             "-codec:v", "libx264",
-            "-preset", "fast",
+            "-pix_fmt", "yuv420p",
+            "-profile:v", "high",
+            "-level", "4.1",
+            "-preset", "veryfast",
             "-crf", "23",
-            "-codec:a", "aac",
-            "-b:a", "128k",
+            "-c:a", "aac",
+            "-ac", "2",
+            "-b:a", "192k",
+            "-ar", "48000",
+            "-movflags", "+faststart",
+            "-vsync", "cfr",
             "-f", "hls",
-            "-hls_time", "10",
+            "-hls_time", "6",
             "-hls_list_size", "0",
+            "-hls_flags", "delete_segments+independent_segments",
             "-http_seekable", "1",
             hlsPath.toString()
         ));
@@ -234,7 +274,7 @@ public class TranscodeService {
                 if (System.currentTimeMillis() - lastProgressUpdate > 2000) {
                     lastProgressUpdate = System.currentTimeMillis();
                     int progress = parseProgress(line, durationMs);
-                    if (progress > 0 && progress < 100) {
+                    if (progress >= 0) {
                         task.setProgress(progress);
                         transcodeTaskRepository.save(task);
                     }
@@ -242,7 +282,13 @@ public class TranscodeService {
             }
         }
 
-        int exitCode = process.waitFor();
+        boolean finished = process.waitFor(MAX_TRANSCODE_HOURS, TimeUnit.HOURS);
+        if (!finished) {
+            log.error("FFmpeg stream transcode timed out after {} hours for video: {}", MAX_TRANSCODE_HOURS, video.getUuid());
+            process.destroyForcibly();
+            throw new RuntimeException("FFmpeg transcode timed out after " + MAX_TRANSCODE_HOURS + " hours");
+        }
+        int exitCode = process.exitValue();
         if (exitCode != 0) {
             throw new RuntimeException("FFmpeg exited with code: " + exitCode);
         }
@@ -348,7 +394,7 @@ public class TranscodeService {
     
     private int parseProgress(String line, long totalDurationMs) {
         if (totalDurationMs <= 0) return 0;
-        
+
         // Parse time from FFmpeg output like "time=00:05:30.50"
         int timeIndex = line.indexOf("time=");
         if (timeIndex > 0) {
@@ -361,7 +407,8 @@ public class TranscodeService {
                         int minutes = Integer.parseInt(parts[1]);
                         double seconds = Double.parseDouble(parts[2]);
                         long currentMs = (long) ((hours * 3600 + minutes * 60 + seconds) * 1000);
-                        return (int) Math.min(99, (currentMs * 100) / totalDurationMs);
+                        int progress = (int) ((currentMs * 100) / totalDurationMs);
+                        return Math.min(100, Math.max(0, progress));
                     }
                 } catch (Exception e) {
                     // Ignore parse errors
@@ -427,7 +474,19 @@ public class TranscodeService {
             return CompletableFuture.completedFuture(null);
         }
 
-        TranscodeTask task = transcodeTaskRepository.findByVideoUuid(videoUuid).orElse(null);
+        TranscodeTask existingTask = transcodeTaskRepository.findByVideoUuid(videoUuid).orElse(null);
+        if (existingTask != null) {
+            if ("processing".equals(existingTask.getStatus())) {
+                log.warn("Transcode already in progress for video: {}, skipping", videoUuid);
+                return CompletableFuture.completedFuture(null);
+            }
+            if ("completed".equals(existingTask.getStatus()) && "completed".equals(video.getStatus())) {
+                log.info("Transcode already completed for video: {}, skipping", videoUuid);
+                return CompletableFuture.completedFuture(null);
+            }
+        }
+
+        TranscodeTask task = existingTask;
         if (task == null) {
             task = createTranscodeTask(video);
         }
@@ -458,5 +517,47 @@ public class TranscodeService {
         }
 
         return CompletableFuture.completedFuture(null);
+    }
+
+    public void retranscode(String videoUuid) {
+        Video video = videoRepository.findByUuid(videoUuid).orElse(null);
+        if (video == null) {
+            throw new RuntimeException("Video not found: " + videoUuid);
+        }
+
+        Path videoDir = Paths.get(VIDEO_STORAGE_PATH, videoUuid);
+        try {
+            if (Files.exists(videoDir)) {
+                Files.walk(videoDir)
+                    .sorted((a, b) -> b.compareTo(a))
+                    .forEach(path -> {
+                        try {
+                            Files.deleteIfExists(path);
+                        } catch (Exception e) {
+                            log.warn("Failed to delete: {}", path);
+                        }
+                    });
+                log.info("Deleted old HLS files for video: {}", videoUuid);
+            }
+        } catch (Exception e) {
+            log.error("Failed to clean up old files for video: {}", videoUuid, e);
+        }
+
+        TranscodeTask task = transcodeTaskRepository.findByVideoUuid(videoUuid).orElse(null);
+        if (task != null) {
+            task.setStatus("queued");
+            task.setProgress(0);
+            task.setErrorMessage(null);
+            task.setStartedAt(null);
+            task.setCompletedAt(null);
+            transcodeTaskRepository.save(task);
+        }
+
+        video.setStatus("pending");
+        video.setHlsPath(null);
+        videoRepository.save(video);
+
+        transcodeVideo(videoUuid);
+        log.info("Triggered retranscode for video: {}", videoUuid);
     }
 }

@@ -1,18 +1,29 @@
 <template>
-  <div class="p-6 flex gap-6 h-full">
+  <div class="p-6 flex gap-6 h-screen overflow-hidden">
     <!-- Folder Tree Sidebar -->
     <div class="w-64 flex-shrink-0 bg-white rounded-xl shadow-sm p-4 overflow-y-auto">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="font-semibold text-gray-800">文件夹</h2>
-        <button
-          @click="showCreateFolderModal = true"
-          class="p-1 text-primary hover:bg-primary/10 rounded"
-          title="创建文件夹"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
-        </button>
+        <h2 class="font-semibold text-gray-800 whitespace-nowrap">文件夹</h2>
+        <div class="flex items-center gap-1">
+          <button
+            @click="showShareSearchModal = true"
+            class="p-1 text-primary hover:bg-primary/10 rounded"
+            title="搜索网盘资源"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+          <button
+            @click="showCreateFolderModal = true"
+            class="p-1 text-primary hover:bg-primary/10 rounded"
+            title="创建文件夹"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- All Videos option -->
@@ -68,9 +79,9 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 min-w-0">
+    <div class="flex-1 min-w-0 overflow-y-auto">
       <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-semibold text-gray-800">媒体库管理</h1>
+        <h1 class="text-2xl font-semibold text-gray-800 whitespace-nowrap">媒体库管理</h1>
         <div class="flex items-center gap-4">
           <div class="flex gap-2">
             <button
@@ -179,6 +190,7 @@
             清空选择
           </button>
         </div>
+        </div>
       </div>
 
       <div
@@ -286,7 +298,15 @@
                   <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">
                     {{ getTaskStatusText(task.status) }}
                   </span>
-                  <button 
+                  <button
+                    v-if="task.status === 'failed'"
+                    @click="deleteTask(task.taskId)"
+                    class="text-xs text-red-500 hover:text-red-700 hover:underline"
+                  >
+                    删除
+                  </button>
+                  <button
+                    v-else-if="task.status !== 'completed'"
                     @click="cancelTask(task.taskId)"
                     class="text-xs text-red-500 hover:text-red-700 hover:underline"
                   >
@@ -347,6 +367,9 @@
                 </div>
                 <span class="text-xs text-gray-500">{{ getProgress(video.uuid) }}%</span>
               </div>
+              <div v-if="video.status === 'failed'" class="text-red-600 text-xs">
+                {{ progressErrorMap[video.uuid] || '转码失败' }}
+              </div>
               <span :class="getStatusClass(video.status)" class="px-2 py-1 text-xs rounded">
                 {{ getStatusText(video.status) }}
               </span>
@@ -368,15 +391,29 @@
                 >
                   播放
                 </router-link>
-                <button 
-                  @click="rescrapVideo(video.uuid)" 
+                <button
+                  @click="rescrapVideo(video.uuid)"
                   class="text-blue-600 hover:text-blue-800 text-sm"
                   :disabled="video.status !== 'completed'"
                 >
                   重新刮削
                 </button>
-                <button 
-                  @click="deleteVideo(video.uuid)" 
+                <button
+                  v-if="retranscodeProgressMap[video.uuid] !== undefined"
+                  class="text-orange-600 text-sm"
+                  disabled
+                >
+                  转码中 {{ retranscodeProgressMap[video.uuid] }}%
+                </button>
+                <button
+                  v-else-if="video.status === 'completed'"
+                  @click="retranscodeVideo(video.uuid)"
+                  class="text-orange-600 hover:text-orange-800 text-sm"
+                >
+                  重新转码
+                </button>
+                <button
+                  @click="deleteVideo(video.uuid)"
                   class="text-red-600 hover:text-red-800 text-sm"
                 >
                   删除
@@ -713,6 +750,22 @@
         </div>
       </div>
     </div>
+
+    <!-- Share Search Modal -->
+    <div v-if="showShareSearchModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="showShareSearchModal = false">
+      <div class="bg-white rounded-xl p-6 w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">搜索网盘资源</h3>
+          <button @click="showShareSearchModal = false" class="p-1 text-gray-400 hover:text-gray-600">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          <ShareSearchPanel />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -724,6 +777,7 @@ import { seriesApi, type Series, type Season } from '../../api/series'
 import { categoryApi, type Category } from '../../api/category'
 import { folderApi, type FolderTreeNode } from '../../api/folder'
 import FolderTreeItem from '../../components/FolderTreeItem.vue'
+import ShareSearchPanel from '../../components/ShareSearchPanel.vue'
 
 interface ImportTask {
   taskId: string
@@ -742,6 +796,8 @@ const hasMore = ref(true)
 const searchQuery = ref('')
 const statusFilter = ref('')
 const progressMap = ref<Record<string, number>>({})
+const progressErrorMap = ref<Record<string, string>>({})
+const retranscodeProgressMap = ref<Record<string, number>>({})
 const fileInput = ref<HTMLInputElement | null>(null)
 const uploading = ref(false)
 const isDragging = ref(false)
@@ -791,6 +847,7 @@ const folderTree = ref<FolderTreeNode[]>([])
 const selectedFolderId = ref<number | 'ungrouped' | null>(null)
 const ungroupedCount = ref(0)
 const showCreateFolderModal = ref(false)
+const showShareSearchModal = ref(false)
 const newFolderName = ref('')
 const newFolderParentId = ref<number | null>(null)
 const batchMoveFolderId = ref<number | null>(null)
@@ -866,6 +923,7 @@ function getTaskStatusText(status: string): string {
 }
 
 let taskTimer: number | null = null
+let videoProgressTimer: number | null = null
 
 async function fetchActiveTasks() {
   try {
@@ -875,6 +933,14 @@ async function fetchActiveTasks() {
     }
   } catch (e) {
     console.error('Failed to fetch tasks:', e)
+  }
+}
+
+function pollVideoProgress() {
+  for (const video of videos.value) {
+    if (video.status === 'transcoding') {
+      fetchProgress(video.uuid)
+    }
   }
 }
 
@@ -890,6 +956,21 @@ async function cancelTask(taskId: string) {
     }
   } catch (e) {
     alert('取消失败')
+  }
+}
+
+async function deleteTask(taskId: string) {
+  if (!confirm('确定要删除此任务吗？')) return
+  try {
+    const res = await fetch(`/api/cloud/tasks/${taskId}`, { method: 'DELETE' })
+    const data = await res.json()
+    if (data.success) {
+      fetchActiveTasks()
+    } else {
+      alert(data.message || '删除失败')
+    }
+  } catch (e) {
+    alert('删除失败')
   }
 }
 
@@ -928,6 +1009,9 @@ async function fetchProgress(uuid: string) {
     const res = await fetch(`/api/videos/${uuid}/transcode-progress`)
     const data = await res.json()
     progressMap.value[uuid] = data.progress || 0
+    if (data.errorMessage) {
+      progressErrorMap.value[uuid] = data.errorMessage
+    }
   } catch (e) {
     console.error('Failed to fetch progress:', e)
   }
@@ -955,6 +1039,59 @@ async function rescrapVideo(uuid: string) {
     alert('已触发重新刮削')
   } catch (e) {
     console.error('Failed to rescrap:', e)
+  }
+}
+
+async function retranscodeVideo(uuid: string) {
+  if (!confirm('确定要重新转码吗？这将删除现有文件并重新生成，可能需要较长时间。')) return
+  try {
+    const res = await fetch(`/api/videos/${uuid}/retranscode`, { method: 'POST' })
+    const data = await res.json()
+    if (data.status === 'retranscode initiated') {
+      retranscodeProgressMap.value[uuid] = 0
+      startRetranscodePolling(uuid)
+    }
+  } catch (e) {
+    console.error('Failed to retranscode:', e)
+    alert('重新转码失败')
+  }
+}
+
+const retranscodePollingTimers: Record<string, ReturnType<typeof setInterval>> = {}
+
+function startRetranscodePolling(uuid: string) {
+  if (retranscodePollingTimers[uuid]) {
+    clearInterval(retranscodePollingTimers[uuid])
+  }
+  retranscodePollingTimers[uuid] = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/videos/${uuid}/transcode-progress`)
+      const data = await res.json()
+      if (data.progress !== undefined) {
+        retranscodeProgressMap.value[uuid] = data.progress
+      }
+      if (data.status === 'completed') {
+        clearRetranscodePolling(uuid)
+        delete retranscodeProgressMap.value[uuid]
+        delete retranscodePollingTimers[uuid]
+        fetchVideos()
+        alert('重新转码完成')
+      } else if (data.status === 'failed') {
+        clearRetranscodePolling(uuid)
+        delete retranscodeProgressMap.value[uuid]
+        delete retranscodePollingTimers[uuid]
+        alert('重新转码失败: ' + (data.errorMessage || '未知错误'))
+      }
+    } catch (e) {
+      console.error('Polling error:', e)
+    }
+  }, 5000)
+}
+
+function clearRetranscodePolling(uuid: string) {
+  if (retranscodePollingTimers[uuid]) {
+    clearInterval(retranscodePollingTimers[uuid])
+    delete retranscodePollingTimers[uuid]
   }
 }
 
@@ -1035,21 +1172,21 @@ async function createFolder() {
   }
 }
 
-function toggleFolderExpand(folderId: number, event: Event) {
-  event.stopPropagation()
-  if (expandedFolderIds.value.has(folderId)) {
-    expandedFolderIds.value.delete(folderId)
+function toggleFolderExpand(folderId: number) {
+  const newSet = new Set(expandedFolderIds.value)
+  if (newSet.has(folderId)) {
+    newSet.delete(folderId)
   } else {
-    expandedFolderIds.value.add(folderId)
+    newSet.add(folderId)
   }
+  expandedFolderIds.value = newSet
 }
 
 function isFolderExpanded(folderId: number): boolean {
   return expandedFolderIds.value.has(folderId)
 }
 
-function openCreateSubfolderModal(parentId: number, event: Event) {
-  event.stopPropagation()
+function openCreateSubfolderModal(parentId: number) {
   newFolderParentId.value = parentId
   showCreateFolderModal.value = true
 }
@@ -1519,12 +1656,17 @@ onMounted(() => {
   fetchFolderTree()
   fetchUngroupedCount()
   taskTimer = window.setInterval(fetchActiveTasks, 5000)
+  videoProgressTimer = window.setInterval(pollVideoProgress, 5000)
 })
 
 onUnmounted(() => {
   if (taskTimer) {
     clearInterval(taskTimer)
   }
+  if (videoProgressTimer) {
+    clearInterval(videoProgressTimer)
+  }
+  Object.values(retranscodePollingTimers).forEach(timer => clearInterval(timer))
 })
 
 watch(batchSeriesId, () => {

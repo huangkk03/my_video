@@ -77,8 +77,16 @@ const controlsRef = ref<HTMLElement>()
 const video = ref<Video | null>(null)
 const loading = ref(true)
 const controlsVisible = ref(true)
+const isRetranscoding = ref(false)
+const retranscodeProgress = ref(0)
 let art: ArtPlayer | null = null
+let hlsInstance: Hls | null = null
 let hideTimer: ReturnType<typeof setTimeout> | null = null
+let pendingPlayPromise: Promise<void> | null = null
+let isPlayerInitializing = false
+let retranscodePollingTimer: ReturnType<typeof setInterval> | null = null
+let recoverAttemptCount = 0
+const MAX_RECOVER_ATTEMPTS = 3
 
 const statusClass = computed(() => {
   switch (video.value?.status) {
@@ -90,6 +98,9 @@ const statusClass = computed(() => {
 })
 
 const statusText = computed(() => {
+  if (isRetranscoding.value) {
+    return `重新转码中 ${retranscodeProgress.value}%`
+  }
   switch (video.value?.status) {
     case 'transcoding': return '转码中...'
     case 'completed': return '已完成'
@@ -151,54 +162,145 @@ async function fetchVideo() {
 }
 
 async function initPlayer() {
-  await nextTick()
-
-  if (!playerRef.value || !video.value || video.value.status !== 'completed') return
-
-  const uuid = video.value.uuid
-  const streamUrl = videoApi.getStreamUrl(uuid)
-
-  if (art) {
-    art.destroy()
-    art = null
+  if (isPlayerInitializing) {
+    console.log('Player is initializing, skipping...')
+    return
   }
+  isPlayerInitializing = true
+  recoverAttemptCount = 0
 
-  art = new ArtPlayer({
-    container: playerRef.value,
-    autoplay: true,
-    muted: false,
-    theme: '#00AEEC',
-    url: streamUrl,
-    type: 'm3u8',
-    fullscreen: true,
-    autoOrientation: true,
-    customType: {
-      m3u8: function(videoEl, url) {
-        if (Hls.isSupported()) {
-          const hls = new Hls()
-          hls.loadSource(url)
-          hls.attachMedia(videoEl)
-        } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-          videoEl.src = url
-        }
-      }
-    },
-  })
+  try {
+    await nextTick()
 
-  let lastSaveTime = 0
-  art.on('timeupdate', (apt) => {
-    const now = Date.now()
-    if (now - lastSaveTime >= 5000) {
-      lastSaveTime = now
-      saveProgress(apt.currentTime)
+    if (!playerRef.value || !video.value || video.value.status !== 'completed') {
+      return
     }
-  })
 
-  if (video.value.currentPosition && video.value.currentPosition > 0) {
-    art.seek = video.value.currentPosition / 1000
+    const uuid = video.value.uuid
+    const streamUrl = videoApi.getStreamUrl(uuid)
+
+    if (pendingPlayPromise) {
+      try {
+        await pendingPlayPromise.catch(() => {})
+      } catch (e) {}
+      pendingPlayPromise = null
+    }
+
+    if (art) {
+      art.destroy()
+      art = null
+    }
+
+    art = new ArtPlayer({
+      container: playerRef.value,
+      autoplay: false,
+      muted: false,
+      theme: '#00AEEC',
+      url: streamUrl,
+      type: 'm3u8',
+      fullscreen: true,
+      autoOrientation: true,
+      customType: {
+        m3u8: function(videoEl, url) {
+          if (Hls.isSupported()) {
+            const hls = new Hls({
+              enableWorker: true,
+              lowLatencyMode: false,
+              preloadNext: true,
+              maxBufferLength: 30,
+              maxMaxBufferLength: 60,
+              maxBufferSize: 50 * 1000 * 1000,
+              maxBufferHole: 0.5,
+              fragLoadingTimeOut: 20000,
+              manifestLoadingTimeOut: 10000,
+            })
+            hlsInstance = hls
+            hls.loadSource(url)
+            hls.attachMedia(videoEl)
+            hls.on(Hls.Events.ERROR, (event, data) => {
+              if (data.fatal) {
+                console.error('HLS fatal error:', data)
+
+                if (data.details === Hls.ErrorDetails.BUFFER_APPEND_ERROR) {
+                  if (data.sourceBufferName === 'audio') {
+                    console.log('Audio buffer append error, attempting recovery...')
+                    if (recoverAttemptCount < MAX_RECOVER_ATTEMPTS) {
+                      recoverAttemptCount++
+                      hlsInstance?.recoverMediaError()
+                      return
+                    }
+                  } else {
+                    if (recoverAttemptCount < MAX_RECOVER_ATTEMPTS) {
+                      recoverAttemptCount++
+                      console.log(`Attempting to recover media error (${recoverAttemptCount}/${MAX_RECOVER_ATTEMPTS})`)
+                      hlsInstance?.recoverMediaError()
+                      return
+                    }
+                  }
+                  console.error('Max recover attempts reached, reloading player...')
+                  showNotification('播放器出错，正在重新加载...')
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
+                  return
+                }
+
+                if (data.details === Hls.ErrorDetails.BUFFER_ADD_CODEC_ERROR) {
+                  showNotification('当前视频编码格式暂不支持，正在尝试兼容性转码...')
+                  if (video.value) {
+                    triggerRetranscode(video.value.uuid)
+                  }
+                  return
+                }
+
+                if (data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR ||
+                    data.details === Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT ||
+                    data.details === Hls.ErrorDetails.LEVEL_LOAD_ERROR ||
+                    data.details === Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT) {
+                  showNotification('视频加载失败，正在重试...')
+                  hlsInstance?.startLoad()
+                  return
+                }
+
+                console.error('Unhandled fatal HLS error, reloading player...')
+                showNotification('播放器出错，正在重新加载...')
+                setTimeout(() => {
+                  window.location.reload()
+                }, 2000)
+              }
+            })
+
+          } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+            videoEl.src = url
+          }
+        }
+      },
+    })
+
+    art.on('ready', () => {
+      pendingPlayPromise = art!.play().catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.error('Play error:', err)
+        }
+      })
+      if (video.value?.currentPosition && video.value.currentPosition > 0) {
+        art!.seek = video.value.currentPosition / 1000
+      }
+    })
+
+    let lastSaveTime = 0
+    art.on('timeupdate', (apt) => {
+      const now = Date.now()
+      if (now - lastSaveTime >= 5000) {
+        lastSaveTime = now
+        saveProgress(apt.currentTime)
+      }
+    })
+
+    handleMouseMove()
+  } finally {
+    isPlayerInitializing = false
   }
-
-  handleMouseMove()
 }
 
 async function saveProgress(time: number) {
@@ -211,6 +313,68 @@ async function saveProgress(time: number) {
     }
   } catch (e) {
     console.error('Failed to save progress:', e)
+  }
+}
+
+function showNotification(message: string) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('视频提示', { body: message })
+  } else if ('Notification' in window && Notification.permission !== 'denied') {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        new Notification('视频提示', { body: message })
+      } else {
+        console.log(message)
+      }
+    })
+  } else {
+    console.log(message)
+  }
+}
+
+async function triggerRetranscode(uuid: string) {
+  try {
+    const res = await fetch(`/api/videos/${uuid}/retranscode`, { method: 'POST' })
+    const data = await res.json()
+    if (data.status === 'retranscode initiated') {
+      isRetranscoding.value = true
+      retranscodeProgress.value = 0
+      startRetranscodePolling(uuid)
+    }
+  } catch (e) {
+    console.error('Failed to trigger retranscode:', e)
+  }
+}
+
+function startRetranscodePolling(uuid: string) {
+  if (retranscodePollingTimer) {
+    clearInterval(retranscodePollingTimer)
+  }
+  retranscodePollingTimer = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/videos/${uuid}/transcode-progress`)
+      const data = await res.json()
+      if (data.progress !== undefined) {
+        retranscodeProgress.value = data.progress
+      }
+      if (data.status === 'completed') {
+        clearRetranscodePolling()
+        isRetranscoding.value = false
+        fetchVideo()
+      } else if (data.status === 'failed') {
+        clearRetranscodePolling()
+        isRetranscoding.value = false
+      }
+    } catch (e) {
+      console.error('Polling error:', e)
+    }
+  }, 5000)
+}
+
+function clearRetranscodePolling() {
+  if (retranscodePollingTimer) {
+    clearInterval(retranscodePollingTimer)
+    retranscodePollingTimer = null
   }
 }
 
@@ -230,5 +394,11 @@ onUnmounted(() => {
     art.destroy()
     art = null
   }
+  if (hlsInstance) {
+    hlsInstance.destroy()
+    hlsInstance = null
+  }
+  recoverAttemptCount = 0
+  clearRetranscodePolling()
 })
 </script>

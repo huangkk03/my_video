@@ -1,8 +1,10 @@
 package com.video.service;
 
 import com.video.entity.DownloadQueue;
+import com.video.entity.TranscodeTask;
 import com.video.entity.Video;
 import com.video.repository.DownloadQueueRepository;
+import com.video.repository.TranscodeTaskRepository;
 import com.video.repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,7 @@ public class DownloadQueueService {
 
     private final DownloadQueueRepository downloadQueueRepository;
     private final VideoRepository videoRepository;
+    private final TranscodeTaskRepository transcodeTaskRepository;
     private final TranscodeService transcodeService;
     private final CloudStorageService cloudStorageService;
 
@@ -157,7 +160,21 @@ public class DownloadQueueService {
             task.setStatus("transcoding");
             downloadQueueRepository.save(task);
 
-            transcodeService.startTranscode(targetPath.toString(), task.getFolderId());
+            try {
+                transcodeService.startTranscode(targetPath.toString(), task.getFolderId());
+                // Wait for transcode to complete by checking video status
+                String videoUuid = findVideoUuidByPath(targetPath.toString());
+                if (videoUuid != null) {
+                    waitForTranscodeCompletion(videoUuid, task);
+                }
+            } catch (Exception e) {
+                log.error("Transcode failed for task: {}", task.getTaskId(), e);
+                task.setStatus("failed");
+                task.setErrorMessage("Transcode failed: " + e.getMessage());
+                task.setCompletedAt(LocalDateTime.now());
+                downloadQueueRepository.save(task);
+                return;
+            }
 
             task.setStatus("completed");
             task.setCompletedAt(LocalDateTime.now());
@@ -206,5 +223,108 @@ public class DownloadQueueService {
 
     public long getQueueSize() {
         return downloadQueueRepository.countByStatusIn(Arrays.asList("pending", "downloading", "transcoding"));
+    }
+
+    private String findVideoUuidByPath(String filePath) {
+        List<Video> videos = videoRepository.findAll();
+        for (Video video : videos) {
+            if (filePath.equals(video.getOriginalPath())) {
+                return video.getUuid();
+            }
+        }
+        return null;
+    }
+
+    private void waitForTranscodeCompletion(String videoUuid, DownloadQueue task) throws Exception {
+        int maxWaitSeconds = 28800; // 8 hours max wait for large files
+        int waitedSeconds = 0;
+        int checkIntervalSeconds = 10;
+        int lastProgress = -1;
+        int progressFrozenSeconds = 0;
+        int maxProgressFrozenSeconds = 600; // 10 minutes of no progress = potentially stuck
+
+        log.info("Starting to wait for transcode completion for video: {}", videoUuid);
+
+        while (waitedSeconds < maxWaitSeconds) {
+            Thread.sleep(checkIntervalSeconds * 1000);
+            waitedSeconds += checkIntervalSeconds;
+
+            Optional<Video> videoOpt = videoRepository.findByUuid(videoUuid);
+            if (!videoOpt.isPresent()) {
+                throw new RuntimeException("Video not found: " + videoUuid);
+            }
+
+            Video video = videoOpt.get();
+
+            // Get progress from TranscodeTask
+            Optional<com.video.entity.TranscodeTask> transcodeTaskOpt =
+                transcodeTaskRepository.findByVideoUuid(videoUuid);
+            int currentProgress = 0;
+            if (transcodeTaskOpt.isPresent()) {
+                com.video.entity.TranscodeTask transcodeTask = transcodeTaskOpt.get();
+                currentProgress = transcodeTask.getProgress() != null ? transcodeTask.getProgress() : 0;
+                task.setProgress(currentProgress);
+
+                if ("failed".equals(transcodeTask.getStatus())) {
+                    task.setErrorMessage("Transcode failed: " +
+                        (transcodeTask.getErrorMessage() != null ? transcodeTask.getErrorMessage() : "unknown error"));
+                    downloadQueueRepository.save(task);
+                    throw new RuntimeException(task.getErrorMessage());
+                }
+
+                if ("completed".equals(transcodeTask.getStatus())) {
+                    log.info("Transcode completed for video: {}", videoUuid);
+                    return;
+                }
+            }
+
+            if ("completed".equals(video.getStatus())) {
+                log.info("Transcode completed for video: {}", videoUuid);
+                return;
+            } else if ("failed".equals(video.getStatus())) {
+                throw new RuntimeException("Transcode failed for video: " + videoUuid);
+            }
+
+            // Track if progress is frozen
+            if (currentProgress == lastProgress) {
+                progressFrozenSeconds += checkIntervalSeconds;
+                if (progressFrozenSeconds >= maxProgressFrozenSeconds) {
+                    log.warn("Transcode progress frozen at {}% for {}s for video: {}. Continuing to wait as process may still be running.",
+                        currentProgress, progressFrozenSeconds, videoUuid);
+                    progressFrozenSeconds = 0; // Reset to avoid repeated warnings
+                }
+            } else {
+                progressFrozenSeconds = 0;
+                lastProgress = currentProgress;
+            }
+
+            // Check if HLS output file exists and is being written
+            String hlsPath = video.getHlsPath();
+            if (hlsPath != null && !hlsPath.isEmpty()) {
+                java.nio.file.Path path = java.nio.file.Paths.get(hlsPath);
+                if (java.nio.file.Files.exists(path)) {
+                    long fileSize = java.nio.file.Files.size(path);
+                    log.debug("Transcode file size: {} bytes for video: {}", fileSize, videoUuid);
+                }
+            }
+
+            log.info("Waiting for transcode... {}s (progress: {}%, frozen: {}s)", waitedSeconds, currentProgress, progressFrozenSeconds);
+        }
+
+        // Final check - if video is still transcoding but we've hit max wait, check if process might still be running
+        Optional<Video> finalVideoOpt = videoRepository.findByUuid(videoUuid);
+        if (finalVideoOpt.isPresent()) {
+            Video finalVideo = finalVideoOpt.get();
+            if ("transcoding".equals(finalVideo.getStatus())) {
+                log.warn("Transcode hit max wait time ({}s) but video status is still 'transcoding'. " +
+                    "This may be a large file taking longer than expected. Will continue without failing.",
+                    maxWaitSeconds);
+                // Instead of throwing, we return and let the transcode continue in background
+                // The video will be marked complete when FFmpeg finishes
+                return;
+            }
+        }
+
+        throw new RuntimeException("Transcode timed out after " + maxWaitSeconds + " seconds");
     }
 }
