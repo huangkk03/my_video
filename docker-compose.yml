@@ -42,6 +42,7 @@ services:
     volumes:
       - ./data/videos:/data/videos
       - ./data/subtitles:/data/subtitles
+      - ./data/downloads:/data/downloads
     ports:
       - "8080:8080"
     networks:

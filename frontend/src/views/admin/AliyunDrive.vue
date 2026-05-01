@@ -424,7 +424,11 @@ async function fetchActiveTasks() {
   try {
     const res = await fetch('/api/cloud/tasks/active')
     if (res.ok) {
-      activeTasks.value = await res.json()
+      const tasks = await res.json()
+      // Filter out completed, failed, and cancelled tasks locally
+      activeTasks.value = tasks.filter((t: any) =>
+        t.status !== 'completed' && t.status !== 'failed' && t.status !== 'cancelled'
+      )
     }
   } catch (e) {
     console.error('Failed to fetch tasks:', e)

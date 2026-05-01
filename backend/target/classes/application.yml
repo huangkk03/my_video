@@ -7,7 +7,7 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
   datasource:
-    url: jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://video-db:3306/video_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=utf8mb4
     username: root
     password: rootpass
     driver-class-name: com.mysql.cj.jdbc.Driver

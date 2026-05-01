@@ -150,6 +150,7 @@ public class OpenSubtitlesProvider {
             String fileName = fileNameFromApi != null ? fileNameFromApi : "subtitle_" + fileId + ".srt";
             Path outputPath = Paths.get(outputDir, fileName);
 
+            Files.createDirectories(outputPath.getParent());
             executeCurlDownload(downloadLink, outputPath.toString());
             log.info("Downloaded to {}", outputPath);
 

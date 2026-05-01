@@ -12,5 +12,6 @@ public interface ImportTaskRepository extends JpaRepository<ImportTask, Long> {
     Optional<ImportTask> findByTaskId(String taskId);
     Optional<ImportTask> findByVideoUuid(String videoUuid);
     List<ImportTask> findByStatusNotOrderByCreatedAtDesc(String status);
+    List<ImportTask> findByStatusNotInOrderByCreatedAtDesc(List<String> statuses);
     List<ImportTask> findAllByOrderByCreatedAtDesc();
 }

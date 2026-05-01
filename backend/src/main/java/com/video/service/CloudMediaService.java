@@ -1,19 +1,25 @@
 package com.video.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.video.entity.DownloadQueue;
 import com.video.entity.ImportTask;
 import com.video.entity.Season;
 import com.video.entity.Series;
 import com.video.entity.TranscodeTask;
 import com.video.entity.Video;
+import com.video.repository.DownloadQueueRepository;
 import com.video.repository.ImportTaskRepository;
 import com.video.repository.SeasonRepository;
 import com.video.repository.SeriesRepository;
 import com.video.repository.TranscodeTaskRepository;
 import com.video.repository.VideoRepository;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,13 +49,17 @@ public class CloudMediaService {
     
     private final CloudStorageService cloudStorageService;
     private final VideoService videoService;
-    private final TranscodeService transcodeService;
+    private final ApplicationContext applicationContext;
     private final ScrapingAggregationService scrapingAggregationService;
     private final ImportTaskRepository importTaskRepository;
     private final SeriesRepository seriesRepository;
     private final SeasonRepository seasonRepository;
     private final TranscodeTaskRepository transcodeTaskRepository;
     private final VideoRepository videoRepository;
+    private final DownloadQueueRepository downloadQueueRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
     
     @Value("${video.storage-path:/data/videos}")
     private String videoStoragePath;
@@ -386,7 +397,9 @@ public class CloudMediaService {
     }
     
     public List<ImportTask> getActiveTasks() {
-        return importTaskRepository.findByStatusNotOrderByCreatedAtDesc("completed");
+        return importTaskRepository.findByStatusNotInOrderByCreatedAtDesc(
+            Arrays.asList("completed", "failed", "cancelled")
+        );
     }
     
     public ImportTask getTask(String taskId) {
@@ -432,7 +445,7 @@ public class CloudMediaService {
         video.setCreatedAt(LocalDateTime.now());
         video = videoRepository.save(video);
 
-        transcodeService.transcodeVideoFromUrl(uuid, sourceUrl);
+        applicationContext.getBean(TranscodeService.class).transcodeVideoFromUrl(uuid, sourceUrl);
 
         return uuid;
     }
@@ -444,8 +457,11 @@ public class CloudMediaService {
         int lastProgress = -1;
         int progressFrozenSeconds = 0;
         int maxProgressFrozenSeconds = 600; // 10 minutes of no progress = potentially stuck
+        int noTaskMaxSeconds = 120; // If no transcode task exists after 120s, something is wrong
 
         log.info("Starting to wait for transcode completion for video: {}", videoUuid);
+
+        boolean transcodeTaskNeverExisted = false;
 
         while (waitedSeconds < maxWaitSeconds) {
             Thread.sleep(checkIntervalSeconds * 1000);
@@ -462,29 +478,65 @@ public class CloudMediaService {
             Optional<TranscodeTask> transcodeTaskOpt =
                 transcodeTaskRepository.findByVideoUuid(videoUuid);
             int currentProgress = 0;
+            boolean hasTranscodeTask = false;
             if (transcodeTaskOpt.isPresent()) {
+                hasTranscodeTask = true;
                 TranscodeTask transcodeTask = transcodeTaskOpt.get();
-                currentProgress = transcodeTask.getProgress() != null ? transcodeTask.getProgress() : 0;
-                task.setProgress(currentProgress);
-                task.setMessage("Transcoding: " + currentProgress + "%");
-                importTaskRepository.save(task);
 
-                if ("failed".equals(transcodeTask.getStatus())) {
-                    String errorMsg = transcodeTask.getErrorMessage() != null ?
-                        transcodeTask.getErrorMessage() : "unknown error";
-                    throw new RuntimeException("Transcode failed: " + errorMsg);
+                // Use native SQL query to bypass JPA first-level cache and get latest values
+                Integer dbProgress = getProgressFromDatabase(videoUuid);
+                Integer dbDownloadProgress = getDownloadProgressFromDatabase(videoUuid);
+                String dbStatus = getStatusFromDatabase(videoUuid);
+                String dbDownloadStatus = getDownloadStatusFromDatabase(videoUuid);
+
+                // Handle download progress (0-50%) vs transcode progress (50-100%)
+                if ("downloading".equals(dbDownloadStatus)) {
+                    currentProgress = dbDownloadProgress != null ? dbDownloadProgress : 0;
+                    task.setMessage("Downloading: " + currentProgress + "%");
+                } else {
+                    currentProgress = dbProgress != null ? dbProgress : 0;
+                    task.setMessage("Transcoding: " + currentProgress + "%");
                 }
 
-                if ("completed".equals(transcodeTask.getStatus())) {
+                task.setProgress(Math.min(currentProgress, 99)); // Keep below 100 until actually complete
+                importTaskRepository.save(task);
+
+                if ("failed".equals(dbStatus) || "failed".equals(dbDownloadStatus)) {
+                    String errorMsg = getErrorMessageFromDatabase(videoUuid);
+                    throw new RuntimeException("Transcode/Download failed: " + errorMsg);
+                }
+
+                if ("completed".equals(dbStatus)) {
                     log.info("Transcode completed for video: {}", videoUuid);
                     return;
                 }
+            } else {
+                // No transcode task exists - check if download queue has a task
+                Optional<DownloadQueue> downloadQueueOpt = downloadQueueRepository.findByVideoUuid(videoUuid);
+                if (downloadQueueOpt.isPresent()) {
+                    DownloadQueue dq = downloadQueueOpt.get();
+                    if ("downloading".equals(dq.getStatus())) {
+                        currentProgress = dq.getProgress() != null ? dq.getProgress() : 0;
+                        task.setMessage("Downloading (queued): " + currentProgress + "%");
+                        task.setProgress(Math.min(currentProgress / 2, 49)); // Scale to 0-49%
+                        importTaskRepository.save(task);
+                    }
+                }
+
+                // Track how long no task has existed
+                if (!hasTranscodeTask && waitedSeconds > noTaskMaxSeconds && !"pending".equals(video.getStatus())) {
+                    log.error("No transcode task found after {} seconds for video: {}. Video status: {}",
+                        waitedSeconds, videoUuid, video.getStatus());
+                    transcodeTaskNeverExisted = true;
+                    break;
+                }
             }
 
-            if ("completed".equals(video.getStatus())) {
+            String videoDbStatus = getStatusFromDatabase(videoUuid);
+            if ("completed".equals(videoDbStatus)) {
                 log.info("Transcode completed for video: {}", videoUuid);
                 return;
-            } else if ("failed".equals(video.getStatus())) {
+            } else if ("failed".equals(videoDbStatus)) {
                 throw new RuntimeException("Transcode failed for video: " + videoUuid);
             }
 
@@ -512,6 +564,11 @@ public class CloudMediaService {
             }
 
             log.info("Waiting for transcode... {}s (progress: {}%, frozen: {}s)", waitedSeconds, currentProgress, progressFrozenSeconds);
+        }
+
+        // If transcode task never existed, throw specific error
+        if (transcodeTaskNeverExisted) {
+            throw new RuntimeException("Download/Transcode task was never created for video: " + videoUuid + ". Please try again.");
         }
 
         // Final check - if video is still transcoding but we've hit max wait, check if process might still be running
@@ -656,5 +713,67 @@ public class CloudMediaService {
         }
         
         return null;
+    }
+
+    private Integer getProgressFromDatabase(String videoUuid) {
+        try {
+            Query q = entityManager.createNativeQuery(
+                "SELECT progress FROM transcode_tasks WHERE video_uuid = :uuid");
+            q.setParameter("uuid", videoUuid);
+            Object result = q.getSingleResult();
+            return result != null ? ((Number) result).intValue() : 0;
+        } catch (Exception e) {
+            log.debug("Failed to get progress from database: {}", e.getMessage());
+            return 0;
+        }
+    }
+
+    private Integer getDownloadProgressFromDatabase(String videoUuid) {
+        try {
+            Query q = entityManager.createNativeQuery(
+                "SELECT download_progress FROM transcode_tasks WHERE video_uuid = :uuid");
+            q.setParameter("uuid", videoUuid);
+            Object result = q.getSingleResult();
+            return result != null ? ((Number) result).intValue() : 0;
+        } catch (Exception e) {
+            log.debug("Failed to get download progress from database: {}", e.getMessage());
+            return 0;
+        }
+    }
+
+    private String getStatusFromDatabase(String videoUuid) {
+        try {
+            Query q = entityManager.createNativeQuery(
+                "SELECT status FROM transcode_tasks WHERE video_uuid = :uuid");
+            q.setParameter("uuid", videoUuid);
+            return (String) q.getSingleResult();
+        } catch (Exception e) {
+            log.debug("Failed to get status from database: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    private String getDownloadStatusFromDatabase(String videoUuid) {
+        try {
+            Query q = entityManager.createNativeQuery(
+                "SELECT download_status FROM transcode_tasks WHERE video_uuid = :uuid");
+            q.setParameter("uuid", videoUuid);
+            return (String) q.getSingleResult();
+        } catch (Exception e) {
+            log.debug("Failed to get download status from database: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    private String getErrorMessageFromDatabase(String videoUuid) {
+        try {
+            Query q = entityManager.createNativeQuery(
+                "SELECT error_message FROM transcode_tasks WHERE video_uuid = :uuid");
+            q.setParameter("uuid", videoUuid);
+            return (String) q.getSingleResult();
+        } catch (Exception e) {
+            log.debug("Failed to get error message from database: {}", e.getMessage());
+            return "unknown error";
+        }
     }
 }

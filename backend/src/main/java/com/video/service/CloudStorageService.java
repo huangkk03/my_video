@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
@@ -137,6 +139,7 @@ public class CloudStorageService {
     }
     
     @Autowired
+    @Lazy
     private TranscodeService transcodeService;
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -389,5 +392,72 @@ public class CloudStorageService {
         try (InputStream in = url.openStream()) {
             Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    public long downloadFileWithProgress(String fileUrl, Path targetPath, long existingBytes,
+            java.util.function.Consumer<Long> progressCallback, long timeoutMillis) throws Exception {
+        Files.createDirectories(targetPath.getParent());
+
+        List<String> command = new ArrayList<>();
+        command.add("curl");
+        command.add("-L");
+        command.add("-C");
+        command.add(String.valueOf(existingBytes));
+        command.add("-o");
+        command.add(targetPath.toString());
+        command.add("--max-time");
+        command.add(String.valueOf(timeoutMillis / 1000));
+        command.add("--noproxy");
+        command.add("*");
+        command.add(fileUrl);
+
+        log.info("Starting download: {}", fileUrl);
+        log.debug("Download command: {}", String.join(" ", command));
+
+        ProcessBuilder pb = new ProcessBuilder(command);
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+
+        long totalBytes = existingBytes;
+        long lastUpdateTime = System.currentTimeMillis();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("Content-Length:")) {
+                    try {
+                        long contentLength = Long.parseLong(line.replace("Content-Length:", "").trim());
+                        if (totalBytes == existingBytes) {
+                            totalBytes = existingBytes + contentLength;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new RuntimeException("curl download failed with exit code: " + exitCode);
+        }
+
+        long downloadedBytes = Files.size(targetPath);
+        log.info("Download complete: {} bytes (was {} bytes before)", downloadedBytes, existingBytes);
+
+        return downloadedBytes;
+    }
+
+    public long getFileSizeFromUrl(String fileUrl) throws Exception {
+        URL url = new URL(fileUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("HEAD");
+        conn.setConnectTimeout(10000);
+        conn.setReadTimeout(10000);
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            return conn.getContentLengthLong();
+        }
+        return 0;
     }
 }
